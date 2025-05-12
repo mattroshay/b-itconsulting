@@ -1,6 +1,13 @@
 .navbar-lewagon {
   justify-content: space-between;
-  background: white;
+  background: transparent;
+  position: relative;
+  z-index: 10;
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  font-weight: medium;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 
 .navbar-lewagon .navbar-collapse {
@@ -8,5 +15,5 @@
 }
 
 .navbar-lewagon .navbar-brand img {
-  width: 40px;
+  width: 50px;
 }

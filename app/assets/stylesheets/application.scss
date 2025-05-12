@@ -29,13 +29,15 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100%;
+  width: 100vh;
+  height: 100vh;
   position: relative;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: left;
+  z-index: 1;
 }
 
 .overlay {
@@ -70,4 +72,10 @@ h3 {
 
 p {
   font-family: 'Satoshi', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  padding-top: 20px;
 }
