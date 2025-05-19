@@ -13,6 +13,6 @@ Rails.application.routes.draw do
   get "/about", to: "pages#about"
   get "/competences", to: "pages#competences"
   get "/contact", to: "pages#contact"
-  get "/home", to: "pages#home"
+  # get "/home", to: "pages#home"
 
 end
