@@ -25,27 +25,6 @@
   font-style: normal;
 }
 
-.hero-section {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 100vh;
-  height: 100vh;
-  position: relative;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: left;
-  z-index: 1;
-}
-
-.overlay {
-  background-color: rgba(0, 0, 0, 0.35);
-  padding: 2rem;
-  
-}
-
 h1 {
   font-family: "Playfair Display", serif;
   font-size: 40px;
