@@ -1,12 +1,13 @@
 .navbar {
   justify-content: space-between;
   background: transparent;
-  // frosted glass look //
+
+  // frosted glass look
   // background: rgba(255, 255, 255, 0.1);
   // backdrop-filter: blur(1px);
   // -webkit-backdrop-filter: blur(1px);
-  // padding: 1rem;
-  // end frosted glass look //
+  // end frosted glass look
+
   position: absolute;
   top: 0;
   left: 0;
@@ -31,8 +32,20 @@
 
 .nav-link {
   color: black;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-#nav-link-homepage {
-  color: white;
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.nav-link.active {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* For homepage-specific white link (if needed) */
+.homepage .nav-link {
+  color: white !important;
 }
