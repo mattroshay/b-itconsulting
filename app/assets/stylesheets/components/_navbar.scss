@@ -1,6 +1,12 @@
-.navbar-lewagon {
+.navbar {
   justify-content: space-between;
   background: transparent;
+  // frosted glass look //
+  // background: rgba(255, 255, 255, 0.1);
+  // backdrop-filter: blur(1px);
+  // -webkit-backdrop-filter: blur(1px);
+  // padding: 1rem;
+  // end frosted glass look //
   position: absolute;
   top: 0;
   left: 0;
@@ -15,14 +21,18 @@
   letter-spacing: 0;
 }
 
-.navbar-lewagon .navbar-collapse {
+.navbar .navbar-collapse {
   flex-grow: 0;
 }
 
-.navbar-lewagon .navbar-brand img {
+.navbar .navbar-brand img {
   width: 60px;
 }
 
 .nav-link {
+  color: black;
+}
+
+#nav-link-homepage {
   color: white;
 }
