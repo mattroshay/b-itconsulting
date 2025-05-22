@@ -3,7 +3,6 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "@popperjs/core"
 import "bootstrap"
-import "@splidejs/splide";
 
 //scrolltop-button
 document.addEventListener("turbo:load", function () {
