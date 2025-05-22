@@ -1,13 +1,13 @@
 <div  class="parallax" style="background-image: url('<%= cl_image_path("d075f135-cbbf-4947-a48e-e2b0f72904e6_hje2vn", fetch_format: :auto) %>');">
   <div class="overlay">
     <div class="content-main">
-      <h1>Benoît Marfany</h1>
-      <h2>Administrateur d’Infrastructure Sécurisée et Chef de Projet</h2>
-      <p>Bonjour,</p>
-      <p>Je suis un administrateur d'infrastructure sécurisée et chef de projet IT, spécialisé dans l'administration et la virtualisation des infrastructures.</p>
-      <p>Depuis plusieurs années, j'accompagne des entreprises dans l'évolution de leur système d'information, apportant compréhension et gestion de leurs projets de développement.</p>
-      <p>Mon objectif est de partager mon savoir-faire en systèmes Windows, cloud et gestion de projets pluridisciplinaires.</p>
-      <h3>Mes résaux sociaux</h3>
+      <h1 class="white">Benoît Marfany</h1>
+      <h2 class="white">Administrateur d’Infrastructure Sécurisée et Chef de Projet</h2>
+      <p class="white">Bonjour,</p>
+      <p class="white">Je suis un administrateur d'infrastructure sécurisée et chef de projet IT, spécialisé dans l'administration et la virtualisation des infrastructures.</p>
+      <p class="white">Depuis plusieurs années, j'accompagne des entreprises dans l'évolution de leur système d'information, apportant compréhension et gestion de leurs projets de développement.</p>
+      <p class="white">Mon objectif est de partager mon savoir-faire en systèmes Windows, cloud et gestion de projets pluridisciplinaires.</p>
+      <h3 class="white">Mes résaux sociaux</h3>
       <a href="https://www.linkedin.com" class="fa-brands fa-linkedin fa-2xl" target="_blank"></a>
       <a href="https://www.instagram.com" class="fa-brands fa-square-instagram fa-2xl" target="_blank" ></a>
     </div>
@@ -25,6 +25,52 @@
     <p>Aujourd’hui, je continue de m’investir pleinement dans mes projets, avec la volonté d’allier expertise technique et gestion de projet pour relever de nouveaux challenges.</p>
   </div>
 </div>
+
+<div class="content-main">
+  <h2>Projets et réalisations marquants</h2>
+  <p>J'ai mené plusieurs projets significatifs qui ont transformé des infrastructures et optimisé leur efficacité. Mon expertise en gestion de projets techniques et en administration des infrastructures sécurisées m'a permis de piloter des initiatives variées et ambitieuses.</p>
+  <p>Un exemple clé est la coordination du déploiement du passeport biométrique en 2008, un projet d’envergure qui a inclus des phases de test, des présentations aux élus locaux et au préfet de région, ainsi que la délivrance officielle du premier passeport biométrique en présence de la ministre de l’Intérieur. J’ai également supervisé en 2023 la création complète du site internet Wyze Academy, en dirigeant des équipes de designers et de développeurs, tout en structurant les tâches via l’outil JIRA. Enfin, durant la crise sanitaire de 2020, j’ai contribué à la mise en place d’un VPN pour l’Agirc-Arrco, en résolvant des problématiques critiques liées aux connexions et à la navigation, garantissant ainsi une transition fluide vers le télétravail.</p>
+  <p>Ces réussites illustrent mon engagement à fournir des solutions fiables et innovantes, tout en répondant aux enjeux stratégiques et techniques de chaque projet.</p>
+</div>
+
+  <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="2000">
+        <img src="<%= cl_image_path("Passeport_BioMétrique_2.jpg_yhreja", fetch_format: :auto) %>" class="carousel-img" alt="Projet Passeport Biométrique">
+        <div class="carousel-text">
+          <h5>Projet Passeport Biométrique</h5>
+          <p>Coordination complète sur la région parisienne, incluant les phases de test, présentation aux élus locaux et au préfet, transfert de données, et délivrance officielle du premier passeport biométrique en présence de la ministre de l’Intérieur.</p>
+        </div>
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+          <img src="<%= cl_image_path("VPN_cubkdx", fetch_format: :auto) %>" class="carousel-img" alt="VPN Agirc-Arrco">
+        <div class="carousel-text">
+          <h5>VPN Agirc-Arrco</h5>
+          <p>Assistance et résolution des problématiques de connexion et navigation lors de la mise en place d’un VPN durant le confinement lié à la Covid-19.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="<%= cl_image_path("website_2_btrsis", fetch_format: :auto) %>" class="carousel-img" alt="VPN Agirc-Arrco">
+        <div class="carousel-text">
+          <h5>Création du site Wyze Academy</h5>
+          <p>Supervision de la conception et du développement du site, gestion des équipes de designers et développeurs, suivi des tâches via JIRA, et mise en ligne du centre de formation Wyze Academy.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 
 <div class="flexbox">
   <div class="content-secondary">
