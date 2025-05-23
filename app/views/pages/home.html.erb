@@ -1,6 +1,6 @@
 <div  class="parallax" style="background-image: url('<%= cl_image_path("d075f135-cbbf-4947-a48e-e2b0f72904e6_hje2vn", fetch_format: :auto) %>');">
   <div class="overlay">
-    <div class="content-main">
+    <div class="content-main" id="hero-section">
       <h1 class="white">Benoît Marfany</h1>
       <h2 class="white">Administrateur d’Infrastructure Sécurisée et Chef de Projet</h2>
       <p class="white">Bonjour,</p>
@@ -26,51 +26,36 @@
   </div>
 </div>
 
-<div class="content-main">
-  <h2>Projets et réalisations marquants</h2>
-  <p>J'ai mené plusieurs projets significatifs qui ont transformé des infrastructures et optimisé leur efficacité. Mon expertise en gestion de projets techniques et en administration des infrastructures sécurisées m'a permis de piloter des initiatives variées et ambitieuses.</p>
-  <p>Un exemple clé est la coordination du déploiement du passeport biométrique en 2008, un projet d’envergure qui a inclus des phases de test, des présentations aux élus locaux et au préfet de région, ainsi que la délivrance officielle du premier passeport biométrique en présence de la ministre de l’Intérieur. J’ai également supervisé en 2023 la création complète du site internet Wyze Academy, en dirigeant des équipes de designers et de développeurs, tout en structurant les tâches via l’outil JIRA. Enfin, durant la crise sanitaire de 2020, j’ai contribué à la mise en place d’un VPN pour l’Agirc-Arrco, en résolvant des problématiques critiques liées aux connexions et à la navigation, garantissant ainsi une transition fluide vers le télétravail.</p>
-  <p>Ces réussites illustrent mon engagement à fournir des solutions fiables et innovantes, tout en répondant aux enjeux stratégiques et techniques de chaque projet.</p>
-</div>
-
-  <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner">
-      <div class="carousel-item active" data-bs-interval="2000">
-        <img src="<%= cl_image_path("Passeport_BioMétrique_2.jpg_yhreja", fetch_format: :auto) %>" class="carousel-img" alt="Projet Passeport Biométrique">
-        <div class="carousel-text">
-          <h3>Projet Passeport Biométrique</h3>
-          <p>Coordination complète sur la région parisienne, incluant les phases de test, présentation aux élus locaux et au préfet, transfert de données, et délivrance officielle du premier passeport biométrique en présence de la ministre de l’Intérieur.</p>
-        </div>
-      </div>
-      <div class="carousel-item" data-bs-interval="2000">
-          <img src="<%= cl_image_path("VPN_cubkdx", fetch_format: :auto) %>" class="carousel-img" alt="VPN Agirc-Arrco">
-        <div class="carousel-text">
-          <h3>VPN Agirc-Arrco</h3>
-          <p>Assistance et résolution des problématiques de connexion et navigation lors de la mise en place d’un VPN durant le confinement lié à la Covid-19.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="<%= cl_image_path("website_2_btrsis", fetch_format: :auto) %>" class="carousel-img" alt="VPN Agirc-Arrco">
-        <div class="carousel-text">
-          <h3>Création du site Wyze Academy</h3>
-          <p>Supervision de la conception et du développement du site, gestion des équipes de designers et développeurs, suivi des tâches via JIRA, et mise en ligne du centre de formation Wyze Academy.</p>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+<div class="secondary-background">
+  <div class="content-main">
+    <h2>Projets et réalisations marquants</h2>
+    <p>J'ai mené plusieurs projets significatifs qui ont transformé des infrastructures et optimisé leur efficacité. Mon expertise en gestion de projets techniques et en administration des infrastructures sécurisées m'a permis de piloter des initiatives variées et ambitieuses.</p>
+    <p>Un exemple clé est la coordination du déploiement du passeport biométrique en 2008, un projet d’envergure qui a inclus des phases de test, des présentations aux élus locaux et au préfet de région, ainsi que la délivrance officielle du premier passeport biométrique en présence de la ministre de l’Intérieur. J’ai également supervisé en 2023 la création complète du site internet Wyze Academy, en dirigeant des équipes de designers et de développeurs, tout en structurant les tâches via l’outil JIRA. Enfin, durant la crise sanitaire de 2020, j’ai contribué à la mise en place d’un VPN pour l’Agirc-Arrco, en résolvant des problématiques critiques liées aux connexions et à la navigation, garantissant ainsi une transition fluide vers le télétravail.</p>
+    <p>Ces réussites illustrent mon engagement à fournir des solutions fiables et innovantes, tout en répondant aux enjeux stratégiques et techniques de chaque projet.</p>
   </div>
+
+  <div class="carousel-container">
+    <div class="carousel-track" id="customCarouselTrack">
+          <% slides = [
+        { image: "Passeport_BioMétrique_2.jpg_yhreja", title: "Projet Passeport Biométrique", text: "Coordination complète sur la région parisienne, incluant les phases de test, présentation aux élus locaux et au préfet, transfert de données, et délivrance officielle du premier passeport biométrique en présence de la ministre de l’Intérieur." },
+        { image: "VPN_cubkdx", title: "VPN Agirc-Arrco", text: "Assistance et résolution des problématiques de connexion et navigation lors de la mise en place d’un VPN durant le confinement lié à la Covid-19." },
+        { image: "website_2_btrsis", title: "Wyze Academy", text: "Supervision de la conception et du développement du site, gestion des équipes de designers et développeurs, suivi des tâches via JIRA, et mise en ligne du centre de formation Wyze Academy." }
+      ] %>
+
+      <% 2.times do %>
+        <% slides.each do |slide| %>
+          <div class="carousel-card">
+            <%= image_tag cl_image_path(slide[:image]), class: "carousel-img", alt: slide[:title] %>
+            <div class="carousel-text">
+              <h3><%= slide[:title] %></h3>
+              <p><%= slide[:text] %></p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
 
 <div class="flexbox">
   <div class="content-secondary">

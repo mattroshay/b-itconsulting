@@ -12,12 +12,16 @@
 }
 
 .content-main {
-  width: 65%;
-  margin: 15% auto;
+  width: 45vw;
+  margin: 5% auto;
 }
 
 .content-secondary {
   width: 580px;
+}
+
+#hero-section {
+  margin-top: 15vh;
 }
 
 .parallax {
@@ -50,12 +54,9 @@
   color: white !important;
 }
 
-.beige-background {
-  background-color: #f9f6f3;
-}
-
 .carousel-img {
-  width: 480px;
+  height: 337px;
+  object-fit: cover;
   margin: 0 auto;
   border-radius: 12px;
 }
@@ -65,4 +66,73 @@
   text-align: left;
   margin-top: 1rem;
   padding: 0 1rem;
+}
+
+.carousel-container {
+  width: 85vw;
+  position: relative;
+  overflow: hidden;
+  margin: 2rem auto;
+  padding: 2rem 0;
+  background: transparent;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 10%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, #f9f6f3, transparent);
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, #f9f6f3, transparent);
+  }
+}
+
+.carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: auto;
+  scroll-snap-type: none;
+  // padding: 0 1rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.carousel-card {
+  flex: 0 0 40%; // ~2.5 cards visible on desktop
+  scroll-snap-align: start;
+  background: transparent;
+  border-radius: 10px;
+  padding: 1rem;
+  min-width: 40%; // ensures proper width
+  max-width: 40%;
+
+  @media (max-width: 768px) {
+    flex: 0 0 80%;
+    min-width: 80%;
+    max-width: 80%;
+  }
+
+  img {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .carousel-text {
+    margin-top: 1rem;
+    text-align: left;
+  }
 }
