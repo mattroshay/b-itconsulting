@@ -3,7 +3,7 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - master  
+      - master
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.2.2  # use your actual Ruby version
+        ruby-version: 3.3.5
 
     - name: Install dependencies
       run: |
