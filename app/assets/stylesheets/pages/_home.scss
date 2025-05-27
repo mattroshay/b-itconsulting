@@ -128,11 +128,27 @@
 
   img {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 12px;
   }
 
   .carousel-text {
     margin-top: 1rem;
     text-align: left;
+  }
+}
+
+.testimonies-container {
+  width: 1200px;
+
+  .testimony-card {
+    width: 580px;
+    height: fit-content;
+  }
+
+  .testimony-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
   }
 }
