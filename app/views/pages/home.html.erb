@@ -38,19 +38,13 @@
 
   <div class="carousel-container">
     <div class="carousel-track" id="customCarouselTrack">
-          <% slides = [
-        { image: "Passeport_BioMétrique_2.jpg_yhreja", title: "Projet Passeport Biométrique", text: "Coordination complète sur la région parisienne, incluant les phases de test, présentation aux élus locaux et au préfet, transfert de données, et délivrance officielle du premier passeport biométrique en présence de la ministre de l’Intérieur." },
-        { image: "VPN_cubkdx", title: "VPN Agirc-Arrco", text: "Assistance et résolution des problématiques de connexion et navigation lors de la mise en place d’un VPN durant le confinement lié à la Covid-19." },
-        { image: "website_2_btrsis", title: "Wyze Academy", text: "Supervision de la conception et du développement du site, gestion des équipes de designers et développeurs, suivi des tâches via JIRA, et mise en ligne du centre de formation Wyze Academy." }
-      ] %>
-
       <% 2.times do %>
-        <% slides.each do |slide| %>
+        <% @projects.each do |project| %>
           <div class="carousel-card">
-            <%= image_tag cl_image_path(slide[:image]), class: "carousel-img", alt: slide[:title] %>
+            <%= image_tag cl_image_path(project[:image]), class: "carousel-img", alt: project[:title] %>
             <div class="carousel-text">
-              <h3><%= slide[:title] %></h3>
-              <p><%= slide[:text] %></p>
+              <h3><%= project[:title] %></h3>
+              <p><%= project[:text] %></p>
             </div>
           </div>
         <% end %>
@@ -69,4 +63,22 @@
     <p>Ces compétences me permettent de relever les défis liés à la mise en place et à la gestion d'infrastructures sécurisées, tout en menant à bien des projets variés et ambitieux. Curieux d’en savoir plus sur mon expertise et mes réalisations ? Cliquez ici sans hésiter, et embarquez dans mon univers professionnel !</p>
   </div>
   <img src="<%= cl_image_path("1685092_960_rib1jb", fetch_format: :auto) %>" alt="buildings" class="img-hp-lg">
+</div>
+
+<div class="secondary-background">
+  <div class="content-main">
+    <h2>Témoignage et recommandations</h2>
+    <p>Plongez dans un univers d'innovations et de solutions sur-mesure grâce aux recommandations éclairées des entreprises, conçues pour répondre à vos besoins et transformer vos ambitions en réussite !</p>
+  </div>
+  <div class="testimonies-container d-flex justify-content-between">
+    <% @testimonies.each do |testimony| %>
+        <div class="testimony-card">
+          <%= image_tag cl_image_path(testimony[:image]), class: "testimony-img", alt: testimony[:title] %>
+          <div class="testimony-text">
+            <h3><%= testimony[:name] %></h3>
+            <p><%= testimony[:testimony] %></p>
+          </div>
+        </div>
+    <% end %>
+  </div>
 </div>
