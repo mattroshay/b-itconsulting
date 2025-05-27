@@ -3,19 +3,20 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - master  # Change if you deploy from a different branch
+      - master  
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.3.5
+        ruby-version: 3.2.2  # use your actual Ruby version
 
     - name: Install dependencies
       run: |
