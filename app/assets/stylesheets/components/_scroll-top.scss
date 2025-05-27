@@ -1,0 +1,39 @@
+/*Scroll to top button*/
+#scrollTop-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  // opacity: 0;
+  transition: ease 0.9s;
+}
+
+#scrollTop {
+  display:none;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  right: 30px;
+  bottom: 30px;
+  text-align: center;
+  position: fixed;
+  border: 0px solid #464a3b;
+  background-color: #246eb9;
+  color: white;
+  cursor: pointer;
+  transition: 0.5s;
+  text-decoration: none;
+  box-shadow: 0px 2px 7px #0000004d;
+  // opacity: 0;
+  transition: ease 1s;
+  // transform: 0.3s;
+}
+#scrollTop:hover{
+  background-color: rgb(123, 123, 255);
+  transition: 0.5s;
+  transform: translateY(-2px);
+}
+#scrollTop:active{
+  background-color: rgb(0, 0, 148);
+}
