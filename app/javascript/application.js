@@ -11,7 +11,7 @@ document.addEventListener("turbo:load", function () {
   if (!scrollTop) return; // safeguard in case the button doesn't exist on the page
 
   window.onscroll = function () {
-    if (document.documentElement.scrollTop > 20) {
+    if (document.documentElement.scrollTop > 100) {
       scrollTop.classList.add("show");
     } else {
       scrollTop.classList.remove("show");
@@ -33,7 +33,7 @@ document.addEventListener("turbo:load", () => {
   const track = document.getElementById("customCarouselTrack");
   if (!track) return;
 
-  let scrollSpeed = 0.3; // fractional value
+  let scrollSpeed = 0.7; // fractional value
   let scrollBuffer = 0;   // keeps sub-pixel precision
   let rafId;
 
