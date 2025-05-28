@@ -11,28 +11,21 @@ document.addEventListener("turbo:load", function () {
   if (!scrollTop) return; // safeguard in case the button doesn't exist on the page
 
   window.onscroll = function () {
-    scrollfunction();
-  };
-
-  function scrollfunction() {
-    if (
-      document.body.scrollTop > 95 ||
-      document.documentElement.scrollTop > 95
-    ) {
-      scrollTop.style.display = "block";
+    if (document.documentElement.scrollTop > 20) {
+      scrollTop.classList.add("show");
     } else {
-      scrollTop.style.display = "none";
+      scrollTop.classList.remove("show");
     }
-  }
+  };
 
   scrollTop.addEventListener("click", function () {
     window.scrollTo({
-      left: 0,
       top: 0,
       behavior: "smooth",
     });
   });
 });
+
 //scrolltop-button end
 
 // carousel auto-scroll
