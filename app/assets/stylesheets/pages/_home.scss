@@ -18,6 +18,7 @@
 
 .content-secondary {
   width: 580px;
+  margin-top: calc(--bloc * 16);
 }
 
 #hero-section {
@@ -54,22 +55,16 @@
   color: white !important;
 }
 
-.carousel-img {
-  height: 337px;
-  object-fit: cover;
-  margin: 0 auto;
-  border-radius: 12px;
-}
-
 .carousel-text {
   width: 480px;
+  height: 336.92;
   text-align: left;
   margin-top: 1rem;
   padding: 0 1rem;
 }
 
 .carousel-container {
-  width: 85vw;
+  // width: 85vw;
   position: relative;
   overflow: hidden;
   margin: 2rem auto;
@@ -127,7 +122,8 @@
   }
 
   img {
-    width: 100%;
+    width: 480px;
+    height: 337px;
     border-radius: 12px;
   }
 
