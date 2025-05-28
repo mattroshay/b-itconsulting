@@ -1,0 +1,21 @@
+<!-- app/views/shared/_custom_grid.html.erb -->
+
+<section class="p-4x bg-gray-50">
+  <!-- Desktop 12 Columns -->
+  <div class="hidden md:grid grid-cols-desktop gap-2x mb-4x">
+    <% 12.times do |i| %>
+      <div class="bg-red-300 h-10x flex items-center justify-center rounded-md text-white font-bold">
+        <%= i + 1 %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Mobile 4 Columns -->
+  <div class="grid grid-cols-mobile gap-2x md:hidden">
+    <% 4.times do |i| %>
+      <div class="bg-red-300 h-10x flex items-center justify-center rounded-md text-white font-bold">
+        <%= i + 1 %>
+      </div>
+    <% end %>
+  </div>
+</section>
