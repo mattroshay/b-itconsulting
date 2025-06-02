@@ -75,5 +75,3 @@ group :test do
 end
 
 gem "cloudinary"
-
-gem "tailwindcss-rails", "~> 4.2"
