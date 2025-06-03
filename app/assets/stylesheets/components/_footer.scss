@@ -1,0 +1,47 @@
+.footer-section {
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  gap: 2rem;
+  padding: 2rem 4rem;
+
+  img {
+    width: 99px;
+  }
+
+  .footer-logo {
+    justify-self: start;
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .footer-address p {
+    margin: 0 0 4px;
+    line-height: 1.3;
+  }
+
+  .footer-social {
+    text-align: center;
+  }
+
+  .footer-social img {
+    width: auto;
+    height: 46px;
+  }
+
+  .footer-note p {
+    font-size: 12px;
+    text-align: center;
+  }
+}
+
+.blue-headers {
+  color: #246eb9;
+}
+
+.margin-top-telephone {
+  margin-top: 32px;
+}
