@@ -1,0 +1,49 @@
+<div class="secondary-background">
+  <div class="footer-section">
+
+    <div class="footer-logo">
+      <%= image_tag("Logo/Vista Logos/logo-transparent-png.png") %>
+    </div>
+
+    <div class="footer-content">
+      <div>
+        <h2 class="blue-headers">Adresse</h2>
+        <div class="footer-address">
+          <p>Benoit MARFANY</p>
+          <p>Le Haillan (Bordeaux - Gironde)</p>
+          <p>Région Nouvelle Aquitaine</p>
+        </div>
+
+        <h2 class="blue-headers margin-top-telephone">Téléphone</h2>
+        <p>07.66.98.16.33</p>
+      </div>
+
+      <div>
+        <h2 class="blue-headers">Pages</h2>
+        <p><%= link_to "Accueil", root_path %></p>
+        <p><%= link_to "À propos de", about_path %></p>
+        <p><%= link_to "Compétences", competences_path %></p>
+        <p><%= link_to "Le numérique en Nouvelle-Aquitaine", "#" %></p>
+      </div>
+
+      <div>
+        <h2 class="blue-headers">Informations</h2>
+        <p><a href="#">Mentions légales</a></p>
+        <p><a href="#">Protections des données</a></p>
+        <p><a href="#">Gestion des cookies</a></p>
+        <p><%= link_to "Contact", contact_path %></p>
+      </div>
+    </div>
+
+    <div class="footer-social">
+      <h3>Suivez moi sur les réseaux sociaux</h3>
+      <a href="https://www.linkedin.com/in/benoit-marfany-60126132"target="_blank"><img src="<%= cl_image_path("LI-In-Bug_jisuer", fetch_format: :auto) %>" alt="linkedin-logo"></a>
+      <a href="https://www.instagram.com/b_itconsulting_gironde/"target="_blank" ><img src="<%= cl_image_path("Instagram_Glyph_Gradient_pqsha4", fetch_format: :auto) %>" alt="linkedin-logo"></a></a>
+    </div>
+
+    <div class="footer-note">
+      <p>Administrateur d'Infrastructure Sécurisée et Chef De Projet / b-itconsulting (Benoit MARFANY). All rights reserved</p>
+    </div>
+
+  </div>
+</div>
