@@ -89,6 +89,10 @@ a {
   margin-top: 100px;
 }
 
+.padding-bottom {
+  padding-bottom: 64px;
+}
+
 .blue {
   color: #246eb9;
 }
@@ -97,12 +101,25 @@ a {
   background-color: #f9f6f3;
 }
 
+.content-main {
+  display: grid;
+  grid-template-columns: 2fr 4fr 2fr;
+  justify-content:space-between;
+  align-items: center;
+  gap: 32px;
+  height: auto;
+  // grid-auto-rows: auto;
+  padding-top: 64px;
+}
+
 .flexbox {
   display: grid;
   grid-template-columns: 1fr 2fr 2fr 1fr;
   justify-content:space-between;
   align-items: center;
   gap: 32px;
+  height: auto;
+  // grid-auto-rows: auto;
   padding-top: 64px;
 }
 
