@@ -11,8 +11,8 @@
   position: fixed;
   border: 0px solid rgba(255, 255, 255, 0.3);
   background: linear-gradient(
-    to top,
-    rgba(36, 110, 185, 0.95),
+    to right,
+    rgba(36, 110, 185, 0.65),
     rgba(255, 255, 255, 0)
   );
   color: white;
@@ -86,4 +86,5 @@
 #scrollTop.show {
   opacity: 1;
   visibility: visible;
+  transition: 0.5s;
 }

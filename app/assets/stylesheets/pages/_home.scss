@@ -24,7 +24,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  height: 125vh;
   width: 100%;
   position: relative;
 }
@@ -49,10 +49,10 @@
 }
 
 .carousel-container {
-  // width: 85vw;
+  width: 85vw;
   position: relative;
   overflow: hidden;
-  margin: 2rem auto;
+  margin: 4rem auto;
   padding: 2rem 0;
   background: transparent;
 
@@ -80,7 +80,7 @@
 
 .carousel-track {
   display: flex;
-  gap: 1.5rem;
+  gap: 16px;
   overflow-x: auto;
   scroll-behavior: auto;
   scroll-snap-type: none;
