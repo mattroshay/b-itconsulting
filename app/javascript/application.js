@@ -33,8 +33,8 @@ document.addEventListener("turbo:load", () => {
   const track = document.getElementById("customCarouselTrack");
   if (!track) return;
 
-  let scrollSpeed = 0.7; // fractional value
-  let scrollBuffer = 0;   // keeps sub-pixel precision
+  let scrollSpeed = 0.5;
+  let scrollBuffer = 0;
   let rafId;
 
   const scroll = () => {
