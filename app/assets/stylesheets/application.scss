@@ -78,6 +78,7 @@ a {
 
 .button {
   background-color: #246eb9;
+  color: white;
   padding: 16px 24px;
   font-family: 'Satoshi Variable', sans-serif;
   font-size: 18px;
@@ -86,8 +87,24 @@ a {
 }
 
 .button-center {
-    margin:0 auto;
-    text-align:center;
+  display: inline-block;
+  margin-top: 8px;
+  justify-self: center;
+  align-self: center;
+}
+
+.center-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.section-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  margin-top: 64px; 
 }
 
 .top-margin {
