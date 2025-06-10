@@ -13,7 +13,7 @@
         <a href="https://www.linkedin.com/in/benoit-marfany-60126132" class="fa-brands fa-linkedin fa-2xl" target="_blank"></a>
         <a href="https://www.instagram.com/b_itconsulting_gironde/" class="fa-brands fa-square-instagram fa-2xl" target="_blank" ></a>
         <p></p>
-        <a href="https://drive.google.com/file/d/1wjZVfahMcNLDTvQSTqLUEQG3igfdV-q_/view?usp=share_link" class="btn btn-primary border-radius button" target="-blank">Voir ma vidéo de présentation</a>
+        <a href="https://drive.google.com/file/d/1wjZVfahMcNLDTvQSTqLUEQG3igfdV-q_/view?usp=share_link" class="button border-radius button-center" target="-blank">Voir ma vidéo de présentation</a>
       </div>
       <div></div>
     </div>
@@ -61,8 +61,8 @@
       <% end %>
     </div>
   </div>
-  <div class="d-flex justify-content-center align-top">
-    <%= link_to "Découvrir mon parcour", about_path, class: "btn btn-primary border-radius button button-center"%>
+  <div class="section-button-wrapper">
+    <%= link_to "Découvrir mon parcours", about_path, class: "border-radius button" %>
   </div>
 </div>
 
@@ -75,7 +75,7 @@
     <p><strong class="blue">Support Utilisateurs :</strong> J’assure une assistance réactive et personnalisée, en plaçant l’humain au cœur de mes solutions pour répondre efficacement aux besoins spécifiques des utilisateurs.</p>
     <p><strong class="blue">Gestion de Projet :</strong> Grâce à une approche structurée et orientée résultats, je pilote les projets avec rigueur et créativité, en anticipant les défis et en alignant les objectifs techniques avec les besoins stratégiques.</p>
     <p>Ces compétences me permettent de relever les défis liés à la mise en place et à la gestion d'infrastructures sécurisées, tout en menant à bien des projets variés et ambitieux. Curieux d’en savoir plus sur mon expertise et mes réalisations ? Cliquez ici sans hésiter, et embarquez dans mon univers professionnel !</p>
-    <%= link_to "Découvrir mes compétences", competences_path, class: "btn btn-primary border-radius button button-center"%>
+    <%= link_to "Découvrir mes compétences", competences_path, class: "border-radius button button-center"%>
   </div>
   <img src="<%= cl_image_path("1685092_960_rib1jb", fetch_format: :auto) %>" alt="buildings" class="img-hp-lg">
   <div></div>
@@ -113,7 +113,7 @@
     <p>Mon approche repose sur une expertise technique solide, une gestion rigoureuse des priorités, et une communication fluide avec les parties prenantes pour garantir des résultats efficaces et durables. Que ce soit pour optimiser vos systèmes, assurer leur fiabilité ou accompagner vos équipes dans des projets stratégiques, je mets un point d’honneur à proposer des solutions adaptées à vos objectifs.</p>
     <p>Je serais ravi d’échanger avec vous sur vos besoins et vos ambitions. N’hésitez pas à remplir le formulaire de contact pour me joindre directement</p>
     <p>Ensemble, construisons des solutions performantes et durables au service de vos clients  !</p>
-    <%= link_to "Contactez-moi", contact_path, class: "btn btn-primary border-radius button button-center"%>
+    <%= link_to "Contactez-moi", contact_path, class: "border-radius button button-center"%>
   </div>
   <img src="<%= cl_image_path("homme-clique-messages-virtuels_218381-12701_apmt6n", fetch_format: :auto) %>" alt="buildings" class="img-hp-lg">
   <div></div>
@@ -128,7 +128,9 @@
       <p>Plongez dans l'incroyable transformation numérique de la Nouvelle-Aquitaine !  Découvrez comment cette région est passée des premières connexions  lentes des années 80 à une puissance numérique florissante et innovante  d'aujourd'hui. Explorez les projets ambitieux qui vont révolutionner  notre quotidien avec l'essor de la 5G, de l'intelligence artificielle et des objets connectés.  Envie de voir comment la Gironde s'impose comme  leader du numérique en France ? Cliquez ici pour une immersion complète  et laissez-vous surprendre par les innovations à venir ! 💡✨</p>
 
       <p>Sur la page du blog, vous pourrez également vous inscrire pour recevoir un mail automatique à chaque nouvelle publication. Retrouvez toutes nos actualités également sur LinkedIn et Instagram !</p>
-      <%= link_to "Découvrez mes articles", about_path, class: "btn btn-primary border-radius button button-center"%>
+      <div class="center-button-wrapper">
+        <%= link_to "Découvrez mes articles", about_path, class: "button border-radius button-center"%>
+      </div>
     </div>
     </div>
   </div>
