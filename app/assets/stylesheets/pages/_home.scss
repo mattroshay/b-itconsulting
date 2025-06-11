@@ -52,8 +52,8 @@
   width: 85vw;
   position: relative;
   overflow: hidden;
-  margin: 4rem auto;
-  padding: 2rem 0;
+  margin: 4rem 0 auto;
+  // padding: 2rem 0;
   background: transparent;
 
   &::before,
@@ -80,7 +80,7 @@
 
 .carousel-track {
   display: flex;
-  gap: 16px;
+  gap: 32px;
   overflow-x: auto;
   scroll-behavior: auto;
   scroll-snap-type: none;
@@ -92,13 +92,13 @@
 }
 
 .carousel-card {
-  flex: 0 0 40%; // ~2.5 cards visible on desktop
+  flex: 0 0 auto;
   scroll-snap-align: start;
   background: transparent;
   border-radius: 10px;
-  padding: 1rem;
-  min-width: 40%; // ensures proper width
-  max-width: 40%;
+  // padding: 1rem;
+  min-width: 300px; // ensures proper width
+  max-width: 580px;
 
   @media (max-width: 768px) {
     flex: 0 0 80%;
@@ -119,17 +119,40 @@
 }
 
 .testimonies-container {
-  width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  // padding: 0 64px;
+  margin: 0 10%;
+  gap: 16px;
 
-  .testimony-card {
-    width: 580px;
-    height: fit-content;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; // Stack cards on small screens
   }
+}
 
-  .testimony-img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
+.testimony-card {
+  // display: flex;
+  // align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  // background-color: #fff;
+  // border-radius: 12px;
+  // box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.testimony-card:last-child:nth-child(odd) {
+  grid-column: span 2;
+  width: 60%;
+}
+
+.testimony-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.testimony-text {
+  flex: 1;
 }
