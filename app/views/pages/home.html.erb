@@ -87,19 +87,18 @@
     <div>
       <h2>Témoignage et recommandations</h2>
       <p>Plongez dans un univers d'innovations et de solutions sur-mesure grâce aux recommandations éclairées des entreprises, conçues pour répondre à vos besoins et transformer vos ambitions en réussite !</p>
-      <div class="testimonies-container d-flex justify-content-between">
-        <% @testimonies.each do |testimony| %>
-            <div class="testimony-card">
-              <%= image_tag cl_image_path(testimony[:image]), class: "testimony-img", alt: testimony[:title] %>
-              <div class="testimony-text">
-                <h3><%= testimony[:name] %></h3>
-                <p><%= testimony[:testimony] %></p>
-              </div>
-            </div>
-        <% end %>
+    </div>
+  </div>
+  <div class="testimonies-container padding-bottom">
+    <% @testimonies.each do |testimony| %>
+      <div class="testimony-card">
+        <%= image_tag cl_image_path(testimony[:image]), class: "testimony-img", alt: testimony[:title] %>
+        <div class="testimony-text">
+          <h3><%= testimony[:name] %></h3>
+           <%= simple_format(testimony[:testimony]) %>
+        </div>
       </div>
-    </div>
-    </div>
+    <% end %>
   </div>
   <div></div>
 </div>

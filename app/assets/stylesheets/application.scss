@@ -69,7 +69,6 @@ p {
 a {
   text-decoration: none;
   color: inherit;
-  padding-top: 20px;
 }
 
 .border-radius {
@@ -104,7 +103,7 @@ a {
   justify-content: center;
   align-items: center;
   height: 200px;
-  margin-top: 64px; 
+  margin-top: -32px;
 }
 
 .top-margin {
@@ -156,3 +155,10 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+// default: Extra small devices (Portrait phone 👉 less than 576px)
+// sm: Small devices (Landscape phone 👉 576px and up)
+// md: Medium devices (Tablet 👉 768px and up)
+// lg: Large devices (Desktops 👉 992px and up)
+// xl: Extra large devices (Large desktops 👉 1200px and up)
+// xxl: Extra extra large devices (Extra large desktops 👉 1400px and up)
