@@ -168,12 +168,12 @@ a {
 }
 
 .social-link {
-  margin-right: 32px; 
-  margin-left: 32px;
+  // margin-right: 16px;
+  margin-left: 0px;
 }
 
 .social-link:not(:last-child) {
-  margin-right: 0px;
+  margin-right: 24px;
 }
 
 // default: Extra small devices (Portrait phone 👉 less than 576px)
