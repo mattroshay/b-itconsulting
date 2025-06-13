@@ -140,7 +140,18 @@ a {
   align-items: center;
   gap: 32px;
   height: auto;
-  // grid-auto-rows: auto;
+  grid-auto-rows: auto;
+  padding-top: 64px;
+}
+
+.flexbox2 {
+  display: grid;
+  grid-template-columns: 1fr 6fr 1fr;
+  justify-content:space-between;
+  align-items: center;
+  gap: 32px;
+  height: auto;
+  grid-auto-rows: auto;
   padding-top: 64px;
 }
 
@@ -154,6 +165,15 @@ a {
   .flexbox {
     grid-template-columns: 1fr;
   }
+}
+
+.social-link {
+  margin-right: 32px; 
+  margin-left: 32px;
+}
+
+.social-link:not(:last-child) {
+  margin-right: 0px;
 }
 
 // default: Extra small devices (Portrait phone 👉 less than 576px)
