@@ -24,9 +24,15 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 125vh;
+  height: 100vh;
   width: 100%;
   position: relative;
+
+  @media (max-width: 768px) {
+  background-attachment: scroll; // fallback for mobile
+  background-size: cover;
+  background-position: center;
+  }
 }
 
 .img-hp-lg {
@@ -49,12 +55,14 @@
 }
 
 .carousel-container {
-  width: 85vw;
+  width: 80vw;
   position: relative;
   overflow: hidden;
-  margin: 4rem 0 auto;
-  // padding: 2rem 0;
+  margin: 4rem auto;
+  padding: 2rem 0;
   background: transparent;
+  display: flex;
+  justify-content: center;
 
   &::before,
   &::after {
@@ -80,14 +88,16 @@
 
 .carousel-track {
   display: flex;
-  gap: 32px;
+  gap: 24px;
   overflow-x: auto;
   scroll-behavior: auto;
   scroll-snap-type: none;
-  // padding: 0 1rem;
+  padding: 0 1rem;
 
+  scrollbar-width: none; // For Firefox
+  -ms-overflow-style: none; // For IE/Edge
   &::-webkit-scrollbar {
-    display: none;
+    display: none;  //for chrome/safari
   }
 }
 
@@ -96,7 +106,7 @@
   scroll-snap-align: start;
   background: transparent;
   border-radius: 10px;
-  // padding: 1rem;
+  // padding: 0rem;
   min-width: 300px; // ensures proper width
   max-width: 580px;
 
