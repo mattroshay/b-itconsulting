@@ -13,30 +13,46 @@
         <li class="nav-item">
           <%= link_to "Accueil", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
         </li>
-        <li class="nav-item">
-          <%= link_to "À propos de", about_path, class: "nav-link #{'active' if current_page?(about_path)}" %>
+
+        <li class="nav-item dropdown">
+          <a href="<%= about_path %>" class="nav-link <%= 'active' if current_page?(about_path) %>">À propos de</a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Mes expériences", about_path(anchor: "Expériences") %></li>
+            <li><%= link_to "Mes formations", about_path(anchor: "Formations") %></li>
+            <li><%= link_to "Mes projets futurs", about_path(anchor: "Projets futurs") %></li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <%= link_to "Compétences", competences_path, class: "nav-link #{'active' if current_page?(competences_path)}" %>
+
+        <li class="nav-item dropdown">
+          <a href="<%= competences_path %>" class="nav-link <%= 'active' if current_page?(competences_path) %>">Compétences</a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Administration des Systèmes et Réseaux", competences_path(anchor: "Administration des Systèmes et Réseaux") %></li>
+            <li><%= link_to "Support Technique et Assistance Utilisateur", competences_path(anchor: "Support Technique et Assistance Utilisateur") %></li>
+            <li><%= link_to "Gestion et Chefferie de Projets", competences_path(anchor: "Gestion et Chefferie de Projets") %></li>
+            <li><%= link_to "Logiciels", competences_path(anchor: "Logiciels") %></li>
+          </ul>
         </li>
+
         <li class="nav-item">
           <%= link_to "Contact", contact_path, class: "nav-link #{'active' if current_page?(contact_path)}" %>
         </li>
-        <li class="nav-item active">
+
+        <li class="nav-item">
           <%= link_to "Le numérique en Nouvelle-Aquitaine", "#", class: "nav-link" %>
         </li>
+
         <% if user_signed_in? %>
           <li class="nav-item">
             <%= link_to "Messages", "#", class: "nav-link" %>
           </li>
           <li class="nav-item dropdown">
-          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
-          </a>
+            <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
+            </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <%= link_to "Action", "#", class: "dropdown-item" %>
               <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+              <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>
             </div>
           </li>
         <% else %>
