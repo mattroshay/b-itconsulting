@@ -1,3 +1,29 @@
-<div class="top-margin">
-  <h1>Pages#about</h1>
+<div class="top-margin"></div>
+<div class="flexbox3">
+  <div></div>
+  <div>
+    <h1 class="text-center">À propos de moi : Expériences, Formations et Projets Futurs</h1>
+    <h2 class="text-center">Expériences</h2>
+    <p class="text-center">Découvrez ici un aperçu de mes expériences professionnelles, ma formation académique et mes ambitions pour l’avenir. Mon objectif est de mettre mes compétences au service de projets innovants et collaboratifs.</p>
+  </div>
+  <div></div>
+</div>
+
+<div class="experience">
+  <div></div>
+  <img src="<%= cl_image_path("Photo_cv_Pascal_Rousse_Large_mzx2aj", fetch_format: :auto) %>" alt="buildings" class="img-hp-lg">
+  <div></div>
+  <div class="experience-card">
+    <% @experiences.each do |experience| %>
+      <div>
+        <div>
+          <h3><%= experience[:company] %></h3>
+           <%= simple_format(experience[:duration]) %>
+           <%= simple_format(experience[:description]) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div></div>
+</div>
 </div>

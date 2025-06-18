@@ -11,7 +11,7 @@ class PagesController < ApplicationController
     @testimonies = [
       { image: "Bertrand_DETRE_bzbwee", name: "Bertrand DETRE", testimony: "Benoît a vite compris et s'est très bien adapté à son nouvel environnement de travail. C'était un vrai plaisir de collaborer avec lui : il a été d'une aide précieuse et a su toujours communiquer avec les dirigeants.
       Je recommande de travailler avec lui : il se montrera investi -en tant que chef de projet digital- et loyal pour votre entreprise."},
-      { image: "Ferrat_sdsrzq", name: "Francois FERRAT", testimony: "Organisé, sens des priorités, gestion de la pression, respect de la hiérarchie, large faculté d'adaptation, certes réactif sans omettre sa proactivité, . . ."},
+      { image: "Ferrat_sdsrzq", name: "Francois FERRAT", testimony: "Organisé, sens des priorités, gestion de la pression, respect de la hiérarchie, large faculté d'adaptation, certes réactif sans omettre sa proactivité."},
       { image: "alexia_k2ueok", name: "Alexia ONG", testimony: "C'est avec un grand plaisir que je recommande chaleureusement Benoît pour toute opportunité professionnelle. Durant notre collaboration chez Computacenter, Benoît a fait preuve d'un grand professionnalisme, d'une expertise technique solide et d'un engagement exemplaire durant sa mission.
       Son analyse et ses conseils techniques ont permis de trouver des solutions aux difficultés rencontrées.
       Il se distingue notamment par son fort esprit d'équipe, qui permet de réussir les objectifs fixés dans une ambiance de travail harmonieuse. Il se rend toujours disponible pour aider ses collègues. Ce qui est fort appréciable.
@@ -24,10 +24,21 @@ class PagesController < ApplicationController
       Son sens des responsabilités lui permet de s’adapter très facilement aux nouveaux environnements de travail et sa maitrise des systèmes informatiques lui permet de proposer des solutions adaptées aux besoins des utilisateurs."}
     ]
   end
+
   def about
+    @experiences = [
+      {company: "DCS EASYWARE", duration: "2019 à ce jour", description: "Administrateur Système Savencia - Septembre 2024:
+        Dans le cadre de ma mission, j'ai assuré le support fonctionnel pour un parc d'environ 13 000 salariés, en travaillant en 100 % télétravail.
+
+        Mes responsabilités comprenaient l'émission d'appels pour la résolution des incidents, la gestion des activités liées à Citrix, Azure, Intune, et le support des systèmes Windows 10, 11 et Windows Server 2019.
+
+        Cette approche m'a permis de garantir une gestion des serveurs tout en maintenant une communication fluide avec les équipes."},
+    ]
   end
+
   def contact
   end
+
   def competences
   end
 end
