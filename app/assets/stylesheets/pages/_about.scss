@@ -1,10 +1,89 @@
-.experience {
+.experience-section {
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr 4fr 1fr;
+  // grid-template-columns: 1fr 4fr 1fr 4fr 1fr;
+  grid-template-columns: 1fr 4fr 5fr 1fr;
   justify-content:space-between;
   align-items: center;
   gap: 0px;
   height: auto;
   grid-auto-rows: auto;
   padding-top: 64px;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2rem;       // space for the vertical timeline line
+  margin: 2rem 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;                // flush at the left edge
+    bottom: 0;
+    width: 5px;             // thickness of the timeline
+    background: #464a3b;
+  }
+
+  details {
+    position: relative;
+    margin-bottom: 2rem;    // gap between entries
+    padding-left: 1.5rem;   // push content away from the line
+
+    summary {
+      list-style: none;     // remove default marker
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background-color: #e5eef9;
+      padding: 8px 1rem 8px 8px;
+      border-bottom: 1px solid black;
+      margin: 0;
+      position: relative;
+
+      // hide default marker in WebKit
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      // connector arm back to the timeline
+      &::before {
+        content: "";
+        position: absolute;
+        left: -3.5rem;       // starts at the vertical line
+        top: 50%;
+        width: 3.5rem;
+        height: 2px;
+        background: #464a3b;
+        transform: translateY(-50%);
+      }
+
+      // toggle indicator
+      &::after {
+        content: "+";        // closed state
+        margin-left: auto;    // push to far right
+        font-weight: bold;
+        transition: transform 0.2s;
+      }
+
+      p {
+        margin-bottom: 0;     // no default bottom margin in header
+      }
+    }
+
+    // when open, change the indicator
+    &[open] summary::after {
+      content: "–";
+    }
+
+    .experience-body {
+      background-color: #f9f6f3;
+      padding: 16px;
+
+      p {
+        margin-bottom: 1rem; // default paragraph spacing in body
+      }
+    }
+  }
 }

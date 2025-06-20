@@ -59,3 +59,21 @@ document.addEventListener("turbo:load", () => {
   track.addEventListener("mouseleave", scroll);
 });
 // carousel auto-scroll end
+
+// only one experience credential open at a time
+
+document.addEventListener("turbo:load", () => {
+  const details = document.querySelectorAll(".timeline details");
+
+  details.forEach((detail) => {
+    detail.addEventListener("toggle", () => {
+      if (detail.open) {
+        details.forEach((other) => {
+          if (other !== detail && other.open) other.open = false;
+        });
+      }
+    });
+  });
+});
+
+// end experience credential

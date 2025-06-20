@@ -27,12 +27,35 @@ class PagesController < ApplicationController
 
   def about
     @experiences = [
-      {company: "DCS EASYWARE", duration: "2019 à ce jour", description: "Administrateur Système Savencia - Septembre 2024:
-        Dans le cadre de ma mission, j'ai assuré le support fonctionnel pour un parc d'environ 13 000 salariés, en travaillant en 100 % télétravail.
+      {company: "DCS EASYWARE", duration: "2019 à ce jour", url: "https://www.dcsit-group.com", description: "<u><strong>Administrateur Système Savencia - Septembre 2024:</strong></u>
+        Dans le cadre de ma mission, j'ai assuré <strong>le support fonctionnel</strong> pour un parc d'environ 13 000 salariés, en travaillant en 100 % télétravail.
 
-        Mes responsabilités comprenaient l'émission d'appels pour la résolution des incidents, la gestion des activités liées à Citrix, Azure, Intune, et le support des systèmes Windows 10, 11 et Windows Server 2019.
+        Mes responsabilités comprenaient l'émission d'appels pour <strong>la résolution des incidents, la gestion des activités liées à Citrix, Azure, Intune, et le support des systèmes Windows 10, 11 et Windows Server 2019.</strong>
 
-        Cette approche m'a permis de garantir une gestion des serveurs tout en maintenant une communication fluide avec les équipes."},
+        Cette approche m'a permis de garantir une gestion des serveurs tout en maintenant une communication fluide avec les équipes.
+
+        <u><strong>Administrateur Système
+        Groupe Synergie - Juin et Juillet 2024:</strong></u>
+        Dans le cadre de ma mission, <strong>j'ai été chargé de l'administration, du support de niveau 3, et de la gestion pour un parc</strong> d'environ 2000 salariés dans les différents environnements <strong>Windows, Cloud azure et Intune.</strong>
+
+        Je m’occupais également de <strong>l'analyse des tickets</strong> pour garantir un service de qualité et <strong>une résolution rapide des incidents</strong>, contribuant ainsi à l'efficacité opérationnelle de l'organisation.
+
+        <u><strong>Technicien Système
+        AGIRC-ARRCO - Décembre 2019 à Septembre 2023:</strong></u>
+        Dans le cadre de ma mission, j'ai <strong>fourni une assistance utilisateur et assuré la supervision ainsi que la gestion de projets.</strong>
+
+        J'ai également <strong>géré des problématiques</strong> en collaboration avec les administrateurs système et réseau, notamment pour des solutions comme <strong>Pulse-Sécure</strong>.
+
+        De plus, j'ai pris en charge <strong>la gestion du parc informatique et des masters postes</strong> pour le site de Gradignan, qui comptait environ 250 personnes.
+
+        Cette expérience m'a permis de développer mes compétences en gestion technique et en communication."},
+      {company: "WYZE-ACADEMY", duration: "2024 (Suite formation Chef de projet digital)", url: "https://wyze-academy.com", description: "<u><strong>Chef de projet digital
+        Mars 2024 - Mai 2024</u></strong>
+        Dans le cadre de ma période en entreprise pour WYZE-ACADEMY en 2024, suite à ma formation de Chef de projet digital chez Digital Campus Paris, j'ai occupé le poste de Chef de projet digital.
+
+        J'ai supervisé le <strong>projet de mise en place d'un site web</strong>, en assurant <strong>la gestion pluridisciplinaire du projet</strong> entre les équipes DESIGN, Marketing et Développeurs, tout en utilisant <strong>les méthodes Agile et Scrum.</strong>
+
+        J'ai également assuré <strong>le suivi du cahier des charges</strong>, animé des <strong>réunions hebdomadaires et rédigé des comptes rendus, la planification des deadlines et la gestion des tâches via Jira</strong> (Confluences) ont été des éléments clés de ma mission, tout comme <strong>la réalisation de rapports sous Canva</stong>, ce qui m'a permis de renforcer mes compétences en gestion de projet."}
     ]
   end
 
