@@ -14,7 +14,19 @@
         <a href="https://www.linkedin.com/in/benoit-marfany-60126132" class="fa-brands fa-linkedin fa-2xl social-link" target="_blank"></a>
         <a href="https://www.instagram.com/b_itconsulting_gironde/" class="fa-brands fa-square-instagram fa-2xl social-link" target="_blank" ></a>
         <p></p>
-        <a href="https://drive.google.com/file/d/1wjZVfahMcNLDTvQSTqLUEQG3igfdV-q_/view?usp=share_link" class="button border-radius button-center" target="-blank">Voir ma vidéo de présentation</a>
+        <a href="#" id="toggle-video-btn" class="button border-radius button-center">Voir ma vidéo de présentation</a>
+        <div id="video-modal" class="video-modal hidden">
+          <div class="video-modal-backdrop"></div>
+          <div class="video-modal-content">
+            <button id="close-video-modal" class="close-modal">&times;</button>
+            <div class="video-responsive">
+              <iframe
+                src="https://drive.google.com/file/d/1wjZVfahMcNLDTvQSTqLUEQG3igfdV-q_/preview"
+                frameborder="0" allow="autoplay" allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+        </div>
       </div>
       <div></div>
     </div>
