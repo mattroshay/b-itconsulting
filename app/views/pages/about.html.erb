@@ -11,34 +11,47 @@
 
 <div class="experience-section">
   <div></div>
-  <img src="<%= cl_image_path("Photo_cv_Pascal_Rousse_Large_mzx2aj", fetch_format: :auto) %>" alt="buildings" class="img-hp-lg">
+
+  <img
+    src="<%= cl_image_path('Photo_cv_Pascal_Rousse_Large_mzx2aj', fetch_format: :auto) %>"
+    alt="buildings"
+    class="img-hp-lg"
+  />
+
   <div class="timeline">
-    <% @experiences.each_with_index do |experience, idx| %>
+    <% @experiences_by_company.each_with_index do |(company, exps), idx| %>
       <details class="experience-card" <%= 'open' if idx.zero? %>>
         <summary class="experience-header">
-          <p>
-            <strong><%= experience[:company] %></strong>
-          </p>
+          <p><strong><%= company %></strong></p>
           <%= simple_format(
-                experience[:duration],
+                exps.first[:period],
                 { class: 'no-bottom-margin' },
                 sanitize: false
               ) %>
         </summary>
+
         <div class="experience-body">
-          <%= simple_format(
-                sanitize(
-                  experience[:description],
-                  tags: %w(strong u p br),
-                  attributes: []
-                ),
-                {},
-                sanitize: false
+          <% exps.each do |exp| %>
+            <div class="role-block mb-3">
+              <h4><%= exp[:role] %></h4>
+              <%= simple_format(
+                    exp[:details],
+                    {},
+                    sanitize: false
+                  ) %>
+            </div>
+          <% end %>
+
+          <%= link_to(
+                'En savoir plus',
+                exps.first[:url],
+                class: 'border-radius button button-center',
+                target: '_blank'
               ) %>
-          <%= link_to "En savoir plus", experience[:url], class: "border-radius button button-center", target:"_blank"%>
         </div>
       </details>
     <% end %>
   </div>
+
   <div></div>
 </div>

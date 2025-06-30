@@ -18,7 +18,7 @@ class PagesController < ApplicationController
       Sa bonne humeur, sa fiabilité et son attitude positive font de lui un atout précieux pour toute organisation et future équipe."},
       { image: "https://res.cloudinary.com/roshaym/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/v1748270837/Anne_BERTINETTI_rjzuyn.jpg", name: "Anne BERTINETTI", testimony: "Anne BERTINETTI, Chef du département Gestion des Ressources de la Direction de la Sécurité de l'Aviation Civile Sud-Ouest, atteste que Monsieur Benoît MARFANY, a rempli avec sérieux sa mission dans nos services du 1er juin 2015 au 31 mars 2016 en tant qu’administrateur Système.
       M. MARFANY, disponible, possède de bonnes qualités professionnelles et a donné entière satisfaction sur son poste."},
-      { image: "Flavien_villant_lbtcon", name: "Flavien VILLANT", testimony: "Monsieur Marfany Benoit à travaillé dans notre société, ITE, du Groupe Alliaserv, en tant qu’Administrateur système et réseaux, de juin à septembre 2012.
+      { image: "Flavien_villant_lbtcon", name: "Flavien VILLANT", testimony: "Monsieur Marfany Benoit à travaillé dans notre société, ITE, du Groupe Alliaserv, en tant qu’Administrateur Système et Réseaux, de juin à septembre 2012.
       Dans le cadre de cette fonction, Monsieur Marfany a su, durant tout le temps qu’il a passé chez nous, faire preuve de professionnalisme et de sérieux.
       En outre, son travail s’est avéré de très bonne qualité.
       Son sens des responsabilités lui permet de s’adapter très facilement aux nouveaux environnements de travail et sa maitrise des systèmes informatiques lui permet de proposer des solutions adaptées aux besoins des utilisateurs."}
@@ -27,37 +27,200 @@ class PagesController < ApplicationController
 
   def about
     @experiences = [
-      {company: "DCS EASYWARE", duration: "2019 à ce jour", url: "https://www.dcsit-group.com", description: "<u><strong>Administrateur Système Savencia - Septembre 2024:</strong></u>
-        Dans le cadre de ma mission, j'ai assuré <strong>le support fonctionnel</strong> pour un parc d'environ 13 000 salariés, en travaillant en 100 % télétravail.
+      {
+        company: 'DCS EASYWARE',
+        url: 'https://www.dcsit-group.com',
+        period: '2019 à ce jour',
+        role: 'Administrateur Système
+        Savencia – Septembre 2024:',
+        details: "Dans le cadre de ma mission, j'ai assuré <strong>le support fonctionnel</strong> pour un parc d'environ 13 000 salariés, en travaillant en 100 % télétravail.
 
         Mes responsabilités comprenaient l'émission d'appels pour <strong>la résolution des incidents, la gestion des activités liées à Citrix, Azure, Intune, et le support des systèmes Windows 10, 11 et Windows Server 2019.</strong>
 
-        Cette approche m'a permis de garantir une gestion des serveurs tout en maintenant une communication fluide avec les équipes.
+        Cette approche m'a permis de garantir une gestion des serveurs tout en maintenant une communication fluide avec les équipes."
+      },
+      {
+        company: 'DCS EASYWARE',
+        period: '2019 à ce jour',
+        role: 'Administrateur Système
+        Groupe Synergie – Juin et Juillet 2024:',
+        details: "Dans le cadre de ma mission, j'ai été chargé de <strong>l'administration, du support de niveau 3, et de la gestion pour un parc</strong> d'environ 2000 salariés dans les différents environnements <strong>Windows, Cloud Azure et Intune.</strong>
 
-        <u><strong>Administrateur Système
-        Groupe Synergie - Juin et Juillet 2024:</strong></u>
-        Dans le cadre de ma mission, <strong>j'ai été chargé de l'administration, du support de niveau 3, et de la gestion pour un parc</strong> d'environ 2000 salariés dans les différents environnements <strong>Windows, Cloud azure et Intune.</strong>
-
-        Je m’occupais également de <strong>l'analyse des tickets</strong> pour garantir un service de qualité et <strong>une résolution rapide des incidents</strong>, contribuant ainsi à l'efficacité opérationnelle de l'organisation.
-
-        <u><strong>Technicien Système
-        AGIRC-ARRCO - Décembre 2019 à Septembre 2023:</strong></u>
-        Dans le cadre de ma mission, j'ai <strong>fourni une assistance utilisateur et assuré la supervision ainsi que la gestion de projets.</strong>
+        Je m’occupais également de <strong>l'analyse des tickets</strong> pour garantir un service de qualité et une <strong>résolution rapide des incidents</strong>, contribuant ainsi à l'efficacité opérationnelle de l'organisation."
+      },
+      {
+        company: 'DCS EASYWARE',
+        period: 'Décembre 2019 à Septembre 2023',
+        role: 'Technicien Système
+        AGIRC-ARRCO: Decembre 2019 à Septembre 2023:',
+        details: "Dans le cadre de ma mission, <strong>j'ai fourni une assistance utilisateur et assuré la supervision ainsi que la gestion de projets.</strong>
 
         J'ai également <strong>géré des problématiques</strong> en collaboration avec les administrateurs système et réseau, notamment pour des solutions comme <strong>Pulse-Sécure</strong>.
 
-        De plus, j'ai pris en charge <strong>la gestion du parc informatique et des masters postes</strong> pour le site de Gradignan, qui comptait environ 250 personnes.
+        De plus, j'ai pris en charge <strong>la gestion du parc informatique et des masters postes</strong> pour le site de Gradignan (environ 250 personnes).
 
-        Cette expérience m'a permis de développer mes compétences en gestion technique et en communication."},
-      {company: "WYZE-ACADEMY", duration: "2024 (Suite formation Chef de projet digital)", url: "https://wyze-academy.com", description: "<u><strong>Chef de projet digital
-        Mars 2024 - Mai 2024</u></strong>
-        Dans le cadre de ma période en entreprise pour WYZE-ACADEMY en 2024, suite à ma formation de Chef de projet digital chez Digital Campus Paris, j'ai occupé le poste de Chef de projet digital.
+        Cette expérience m'a permis de développer mes compétences en gestion technique et en communication."
+      },
+      {
+        company: 'WYZE-ACADEMY',
+        url: 'https://www.wyze-academy.com',
+        period: '2024 (Suite formation Chef de projet digital)',
+        role: 'Chef de projet digital
+        Mars 2024 – Mai 2024',
+        details: "Dans le cadre de ma période en entreprise pour WYZE-ACADEMY en 2024, suite à ma formation de Chef de projet digital chez Digital Campus Paris, j'ai occupé le poste de Chef de projet digital.
 
-        J'ai supervisé le <strong>projet de mise en place d'un site web</strong>, en assurant <strong>la gestion pluridisciplinaire du projet</strong> entre les équipes DESIGN, Marketing et Développeurs, tout en utilisant <strong>les méthodes Agile et Scrum.</strong>
+        J'ai supervisé le <strong>projet de mise en place d'un site web</strong>, en assurant <strong>la gestion pluridisciplinaire du projet</strong> entre les équipes DESIGN, Marketing et Développeurs, tout en utilisant <strong>les méthodes Agile et Scrum</strong>.
 
-        J'ai également assuré <strong>le suivi du cahier des charges</strong>, animé des <strong>réunions hebdomadaires et rédigé des comptes rendus, la planification des deadlines et la gestion des tâches via Jira</strong> (Confluences) ont été des éléments clés de ma mission, tout comme <strong>la réalisation de rapports sous Canva</stong>, ce qui m'a permis de renforcer mes compétences en gestion de projet."}
+        J'ai également assuré <strong>le suivi du cahier des charges</strong>, animé des <strong>réunions hebdomadaires et rédigé des comptes rendus, la planification des deadlines et la gestion des tâches via Jira</strong> (Confluences) ont été des éléments clés de ma mission, tout comme <strong>la réalisation de rapports sous Canva</strong>, ce qui m'a permis de renforcer mes compétences en gestion de projet."
+      },
+      {
+        company: 'COMPUTACENTER',
+        url: 'https://www.computacenter.com/fr-fr',
+        period: '2019 - 2011 - 2007',
+        role: 'Technicien Système
+        AXA / Dassault Aviation - Mars 2019 à Décembre 2019',
+        details: "Dans le cadre de la mission, j’avais <strong>la responsabilité du bon suivi du projet</strong>, et assurer <strong>le changement de poste</strong> et <strong>la migration des données.</strong>
+
+        Pour la mission qui concernait Dassault Aviation, <strong>la confidentialité défense</strong> était importante ainsi que <strong>la sécurisation des données.</strong> Chaque poste était configuré avec une clé de cryptage.
+
+        Mon rôle incluait également le <strong>reporting et la documentation des processus</strong>, ainsi que <stong>l'assistance technique et le support utilisateur</strong>, ce qui m'a permis de développer des compétences en gestion de projets informatiques et en communication."
+      },
+      {
+        company: 'COMPUTACENTER',
+        period: '2019 - 2011 - 2007',
+        role: 'Administrateur Système
+        Ministère de la Défense - Octobre 2011 à Janvier 2012',
+        details: "Dans le cadre de ma mission j'ai réalisé le <strong>déploiement de serveurs de proximité sous 2012R2</strong>, avec la <strong>virtualisation de plusieurs serveurs sous Hyper-V.</strong>
+
+        J'ai également effectué le <strong>paramétrage des serveurs virtuels</strong> et du réseau, tout en garantissant <strong>la gestion de la sécurité et de la performance des systèmes.</strong>
+
+        Cela m'a permis de renforcer mes compétences techniques en infrastructure."
+      },
+      {
+        company: 'COMPUTACENTER',
+        period: '2019 - 2011 - 2007',
+        role: 'Technicien Système
+        Groupe Manpower - Août 2007 à Mars 2008',
+        details: "Dans le cadre de cette mission, j'ai assuré <strong>l'infogérance pour l'ouverture d'une nouvelle agence</strong> ainsi que pour le déménagement d'agences existantes et superviser le déménagement et <strong>la réinstallation de l'ensemble du système d'information.</strong>
+
+        En outre, j'ai réalisé des <strong>tests applicatifs</strong> et fourni <strong>un support technique</strong>, tout en rédigeant <strong>des comptes rendus d'activité.</strong>
+
+        Cette expérience m'a permis de développer mes compétences en gestion de projets et en support technique."
+      },
+      {
+        company: 'ECONOCOM',
+        period: '2018',
+        url: 'https://www.econocom.com/fr',
+        role: 'Technicien Système
+        Groupe Engie - Août 2018 à Décembre 2018',
+        details: "J’avais la responsabilité de <strong>la gestion de ce projet de déploiement des postes</strong> sous Windows 10.
+
+        J'en ai assuré <strong>la coordination et la gestion du planning</strong> pour les différents sites de la partie sud de la France, tout en m'occupant de <strong>la migration, du changement et de la résolution</strong> des problèmes sur les postes.
+
+        Cela m'a permis de renforcer mes compétences en gestion de projet et en support technique."
+      },
+      {
+        company: 'CAPGEMINI Sogeti',
+        url: 'https://www.capgemini.com/fr-fr/notre-groupe/nous-connaitre/nos-marques/sogeti/',
+        period: '2017',
+        role: 'Administrateur Système
+        Groupe EDF - Octobre 2017 à Décembre 2017',
+        details: "En tant qu'Administrateur Système au sein du groupe EDF, j'ai été responsable de l'administration des serveurs et de la gestion des <strong>incidents de niveau 3.</strong>
+
+        Mon rôle m'a permis de développer des compétences techniques approfondies, notamment en <strong>virtualisation avec VMware (Vsphère, ESXi 6).</strong>
+
+        De plus, j'ai contribué à l'élaboration et à la mise en œuvre du <strong>Plan de Reprise d'Activité (PRA)</strong>, garantissant ainsi la continuité des services en cas de défaillance.
+
+        Cette expérience m'a permis d'acquérir une solide expertise dans la gestion des infrastructures IT et de renforcer mes capacités à résoudre des problèmes complexes."
+      },
+      {
+        company: 'CASTEL-FRERES',
+        url: 'https://www.castel-freres.com',
+        period: '2016 - 2017',
+        role: 'Technicien Système
+        Juillet 2016 à Juin 2017',
+        details: "Au sein de Castel-Frères, j'étais chargé de fournir un <strong>support de niveau I et II pour les postes de travail</strong>, incluant environ 1200 postes.
+
+        Mon rôle impliquait également <strong>la gestion des serveurs Citrix</strong> via l’interface ainsi qu'une <strong>assistance technique pour les sessions</strong>, supervisant un parc de 72 serveurs.
+
+        De plus, j'ai assuré <strong>la gestion du parc informatique</strong>, ce qui m'a permis de développer des compétences solides en maintenance et en optimisation des systèmes.
+
+        Cette expérience m'a permis d'améliorer la satisfaction des utilisateurs tout en garantissant le bon fonctionnement des infrastructures IT."
+      },
+      {
+        company: 'D.G.A.C',
+        url: 'https://www.ecologie.gouv.fr/direction-generale-laviation-civile-dgac-0',
+        period: '2015 - 2016',
+        role: 'Administrateur Système
+        Juin 2015 à Avril 2016',
+        details: "Dans le cadre de mon poste d'Administrateur Système, j'avais la responsabilité de <strong>l'administration de 38 serveurs</strong>, assurant leur bon fonctionnement et leur sécurité et de la <strong>sauvegarde via Veeam Backup.</strong>
+
+        J'ai contribué a <strong>des projets de réplication des serveurs</strong>, garantissant la continuité des services et la disponibilité des données et de <strong>l’amélioration de l’infrastructure Système.</strong>
+
+        En parallèle, j'ai fourni un <strong>support utilisateur sur les différents outils informatiques</strong> utilisés par les équipes ainsi que sur le système de navigation aérienne.
+
+        Cette expérience m'a permis d'acquérir une expertise technique solide et de développer mes compétences en administration, gestion de projets et en relation client."
+      },
+      {
+        company: 'SCC – ARIANE GROUP',
+        url: 'https://ariane.group/en/',
+        period: '2014 - 2015',
+        role: 'Coordinateur de projet
+        Ariane Group – Octobre 2014 à Avril 2015',
+        details: "En tant que Coordinateur de Projet, j'ai supervisé <strong>le déploiement de 600 postes de travail</strong> en collaboration avec une équipe de 6 techniciens.
+
+        Mon rôle impliquait <strong>une étroite collaboration avec le manager de projet</strong> pour garantir le respect des délais et des objectifs fixés.
+
+        Je participais  <strong>aux comités de pilotage (COPIL)</strong> hebdomadaires avec le client, dans le cadre du projet, assurant <strong>une communication efficace</strong> entre toutes les parties prenantes.
+
+        Cette expérience m'a permis de développer mes compétences en gestion d'équipe et en coordination de projet tout en renforçant ma capacité à travailler sous pression."
+      },
+      {
+        company: 'CONNIT SAS',
+        url: 'https://partners.sigfox.com/companies/connit',
+        period: '2013 - 2014',
+        role: 'Administrateur Système
+        Décembre 2013 à Avril 2014',
+        details: "En tant qu'Administrateur Système chez Connit SAS, une startup basée à Toulouse spécialisée dans le système de télérelève de données, j'ai géré <strong>l'administration et le paramétrage de la supervision de la console Nagios (Centreon)</strong>, incluant deux serveurs front et deux serveurs d'analyse, le tout au sein d'OVH.
+
+        J'ai également <strong>mis en place un domaine informatique</strong> pour Connit SAS, en intégrant le domaine déjà existant auprès d'OVH. Cela a impliqué <strong>l'installation d'un contrôleur de domaine Windows 2012 sur le site de Toulouse</strong>, ainsi qu'un autre serveur Windows hébergé chez OVH, afin d'assurer la connexion entre les deux et d'intégrer les postes de travail dans le domaine.
+
+        Cette expérience m'a permis de renforcer mes compétences en gestion de réseaux, en supervision des infrastructures et en administration de systèmes."
+      },
+      {
+        company: 'ITE – ALLIASERV',
+        url: 'https://alliaserv.fr',
+        period: '2012',
+        role: 'Administrateur Système
+        Juillet 2012 à Novembre 2012',
+        details: "En tant qu'Administrateur Système chez Alliaserv, j'étais responsable de <strong>l'administration de serveurs dans un environnement de deux domaines (2008R2).</strong>
+
+        J'ai également participé à <strong>la restructuration du réseau local (LAN)</strong> et à <strong>la mise en place de serveurs sous VMware</strong> pour un lycée privé.
+
+        Cette expérience m'a permis de développer des compétences techniques en virtualisation et en gestion de réseaux, essentielles pour assurer le bon fonctionnement des infrastructures informatiques."
+      },
+      {
+        company: 'PC30BS',
+        period: 'Avril 2012 à Juin 2012',
+        role: 'Coordinateur de projet',
+        details: "Supervision du déploiement de 750 postes avec 3 techniciens, recrutement/formation sur site, reporting quotidien pour Les Toitures Lafarge."
+      },
+      {
+        company: 'LINKS-CONSEIL',
+        period: 'Mars 2009 à Août 2011',
+        role: 'Administrateur Système',
+        details: "Administration des routeurs Cisco/Huawei pour BT, remplacement/configuration des unités, escalade Orange, réunions d’équipe quotidiennes, projets d’optimisation."
+      },
+      {
+        company: 'ATOS',
+        period: 'Août 2008 à Novembre 2008',
+        role: 'Coordinateur de projet',
+        details: "Coordination de l’installation du Passeport Biométrique (équipe de 6 coordinateurs et 3 techniciens), QA, présentation aux ministères/préfets/élus, reporting hebdo."
+      }
     ]
+    @experiences_by_company = @experiences.group_by { |exp| exp[:company] }
   end
+
 
   def contact
   end
