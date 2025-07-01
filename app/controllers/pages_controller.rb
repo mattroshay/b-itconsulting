@@ -26,7 +26,7 @@ class PagesController < ApplicationController
   end
 
   def about
-    @experiences = [
+    @experiences1 = [
       {
         company: 'DCS EASYWARE',
         url: 'https://www.dcsit-group.com',
@@ -118,7 +118,9 @@ class PagesController < ApplicationController
         J'en ai assuré <strong>la coordination et la gestion du planning</strong> pour les différents sites de la partie sud de la France, tout en m'occupant de <strong>la migration, du changement et de la résolution</strong> des problèmes sur les postes.
 
         Cela m'a permis de renforcer mes compétences en gestion de projet et en support technique."
-      },
+      }
+    ]
+    @experiences2 = [
       {
         company: 'CAPGEMINI Sogeti',
         url: 'https://www.capgemini.com/fr-fr/notre-groupe/nous-connaitre/nos-marques/sogeti/',
@@ -174,7 +176,9 @@ class PagesController < ApplicationController
         Je participais  <strong>aux comités de pilotage (COPIL)</strong> hebdomadaires avec le client, dans le cadre du projet, assurant <strong>une communication efficace</strong> entre toutes les parties prenantes.
 
         Cette expérience m'a permis de développer mes compétences en gestion d'équipe et en coordination de projet tout en renforçant ma capacité à travailler sous pression."
-      },
+      }
+    ]
+      @experiences3 = [
       {
         company: 'CONNIT SAS',
         url: 'https://partners.sigfox.com/companies/connit',
@@ -201,24 +205,54 @@ class PagesController < ApplicationController
       },
       {
         company: 'PC30BS',
-        period: 'Avril 2012 à Juin 2012',
-        role: 'Coordinateur de projet',
-        details: "Supervision du déploiement de 750 postes avec 3 techniciens, recrutement/formation sur site, reporting quotidien pour Les Toitures Lafarge."
+        url: 'https://solutions30.com',
+        period: '2012',
+        role: 'Coordinateur de projet
+        Avril 2012 à Juin 2012',
+        details: "En tant que Coordinateur de Projet, j'ai supervisé <strong>le déploiement de 750 postes de travail</strong> avec une équipe de <strong>3 techniciens.</strong> J'ai collaboré étroitement avec le chef de projet pour garantir la bonne exécution du projet.
+
+        Mes responsabilités incluaient également <strong>le recrutement et la formation des techniciens sur site</strong>, ainsi que <strong>le reporting journalier</strong> pour le compte de « Les Toitures Lafarge ».
+
+        Cette expérience m'a permis de développer mes compétences en gestion d'équipe et en coordination de projet."
       },
       {
         company: 'LINKS-CONSEIL',
-        period: 'Mars 2009 à Août 2011',
-        role: 'Administrateur Système',
-        details: "Administration des routeurs Cisco/Huawei pour BT, remplacement/configuration des unités, escalade Orange, réunions d’équipe quotidiennes, projets d’optimisation."
+        url: 'https://www.globalservices.bt.com/fr',
+        period: '2009 - 2011',
+        role: 'Administrateur Système
+        Mars 2009 à Août 2011',
+        details: "J'étais responsable de l'administration <strong>des routeurs Cisco et Huawei</strong> au sein de <strong>british télécom.</strong>
+
+        Au sein d'une équipe de 6 personnes, nous gérions quotidiennement les incidents par région pour les entreprises, en nous concentrant sur les accès aux routeurs d'entrée.
+
+        Si un problème était lié à <strong>un routeur, je procédais à son remplacement, incluant l'injection et la configuration</strong> de la nouvelle unité.
+
+        En cas d’incident liés à la ligne, ceux-ci étaient renvoyés à Orange pour rétablissement. Chaque matin, nous tenions une <strong>réunion d'équipe</strong> pour faire le point sur les activités de la veille.
+
+        De plus, j'ai participé à des projets d'amélioration, notamment en ce qui concerne <strong>l'administration à distance et la récupération des configurations</strong>, afin d'optimiser les processus avant de les réinjecter dans le changement vers un autre modèle de routeur.
+
+        Cette expérience a renforcé mes compétences techniques et ma capacité à travailler efficacement en équipe."
       },
       {
         company: 'ATOS',
-        period: 'Août 2008 à Novembre 2008',
-        role: 'Coordinateur de projet',
-        details: "Coordination de l’installation du Passeport Biométrique (équipe de 6 coordinateurs et 3 techniciens), QA, présentation aux ministères/préfets/élus, reporting hebdo."
+        url: 'https://atos.net/fr/qui-nous-sommes',
+        period: '2008',
+        role: 'Coordinateur de projet
+        Août 2008 à Novembre 2008',
+        details: "En tant que Coordinateur de Projet chez ATOS, j'ai fait partie d'une équipe de <strong>6 coordinateurs, sous la direction d'un manager de projet, ainsi qu'avec 3 techniciens.</strong> Nous avons coordonné le projet d'installation et de mise en service du « Passeport Biométrique ».
+
+        Mon rôle impliquait de collaborer avec <strong>l'équipe réseau et les développeurs pour assurer la présentation et les étapes de test du projet.</strong>
+
+        Nous étions responsables de la présentation, de la réponse aux questions et de l'assurance qualité du projet, ainsi que le <strong>reporting</strong> hebdomadaire.
+
+        J'ai également collaboré étroitement <strong>avec le ministère, les préfets et les élus locaux</strong> pour garantir la mise en œuvre réussie du projet.
+
+        Cette expérience m'a permis de développer mes compétences en gestion de projet et en coordination interdisciplinaire."
       }
     ]
-    @experiences_by_company = @experiences.group_by { |exp| exp[:company] }
+    @experiences1_by_company = @experiences1.group_by { |exp| exp[:company] }
+    @experiences2_by_company = @experiences2.group_by { |exp| exp[:company] }
+    @experiences3_by_company = @experiences3.group_by { |exp| exp[:company] }
   end
 
 

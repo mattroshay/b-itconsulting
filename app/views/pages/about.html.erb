@@ -9,7 +9,7 @@
   <div></div>
 </div>
 
-<div class="experience-section">
+<div class="experience-section-right">
   <div></div>
 
   <img
@@ -19,7 +19,101 @@
   />
 
   <div class="timeline">
-    <% @experiences_by_company.each_with_index do |(company, exps), idx| %>
+    <% @experiences1_by_company.each_with_index do |(company, exps), idx| %>
+      <details class="experience-card" <%= 'open' if idx.zero? %>>
+        <summary class="experience-header">
+          <p><strong><%= company %></strong></p>
+          <%= simple_format(
+                exps.first[:period],
+                { class: 'no-bottom-margin' },
+                sanitize: false
+              ) %>
+        </summary>
+
+        <div class="experience-body">
+          <% exps.each do |exp| %>
+            <div class="role-block mb-3">
+              <h4><%= exp[:role] %></h4>
+              <%= simple_format(
+                    exp[:details],
+                    {},
+                    sanitize: false
+                  ) %>
+            </div>
+          <% end %>
+
+          <%= link_to(
+                'En savoir plus',
+                exps.first[:url],
+                class: 'border-radius button button-center',
+                target: '_blank'
+              ) %>
+        </div>
+      </details>
+    <% end %>
+  </div>
+
+  <div></div>
+</div>
+
+<div class="experience-section-left">
+  <div></div>
+
+  <div class="timeline">
+    <% @experiences2_by_company.each_with_index do |(company, exps), idx| %>
+      <details class="experience-card" <%= 'open' if idx.zero? %>>
+        <summary class="experience-header">
+          <p><strong><%= company %></strong></p>
+          <%= simple_format(
+                exps.first[:period],
+                { class: 'no-bottom-margin' },
+                sanitize: false
+              ) %>
+        </summary>
+
+        <div class="experience-body">
+          <% exps.each do |exp| %>
+            <div class="role-block mb-3">
+              <h4><%= exp[:role] %></h4>
+              <%= simple_format(
+                    exp[:details],
+                    {},
+                    sanitize: false
+                  ) %>
+            </div>
+          <% end %>
+
+          <%= link_to(
+                'En savoir plus',
+                exps.first[:url],
+                class: 'border-radius button button-center',
+                target: '_blank'
+              ) %>
+        </div>
+      </details>
+    <% end %>
+  </div>
+
+  <img
+    src="<%= cl_image_path('Image_expérience_2_1_c3leee', fetch_format: :auto) %>"
+    alt="buildings"
+    class="img-hp-lg"
+  />
+
+  <div></div>
+</div>
+
+<div class="experience-section-right">
+  <div></div>
+
+  <img
+    src="<%= cl_image_path('Image_expérience_3_1_hw6rtk', fetch_format: :auto) %>"
+    alt="buildings"
+    class="img-hp-lg"
+  />
+
+  <div class="timeline">
+    <% @experiences3_by_company.each_with_index do |(company, exps), idx| %>
       <details class="experience-card" <%= 'open' if idx.zero? %>>
         <summary class="experience-header">
           <p><strong><%= company %></strong></p>
