@@ -1,4 +1,16 @@
-.experience-section {
+.experience-section-right {
+  display: grid;
+  // grid-template-columns: 1fr 4fr 1fr 4fr 1fr;
+  grid-template-columns: 1fr 4fr 5fr 1fr;
+  justify-content:space-between;
+  align-items: center;
+  gap: 0px;
+  height: auto;
+  grid-auto-rows: auto;
+  padding-top: 64px;
+}
+
+.experience-section-left {
   display: grid;
   // grid-template-columns: 1fr 4fr 1fr 4fr 1fr;
   grid-template-columns: 1fr 4fr 5fr 1fr;
