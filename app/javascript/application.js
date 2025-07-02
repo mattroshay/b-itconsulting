@@ -62,19 +62,20 @@ document.addEventListener("turbo:load", () => {
 
 // only one experience credential open at a time
 
-document.addEventListener("turbo:load", () => {
-  const details = document.querySelectorAll(".timeline details");
+document.addEventListener("DOMContentLoaded", function() {
+    const allDetails = document.querySelectorAll(".experience-section details");
 
-  details.forEach((detail) => {
-    detail.addEventListener("toggle", () => {
-      if (detail.open) {
-        details.forEach((other) => {
-          if (other !== detail && other.open) other.open = false;
-        });
-      }
+    allDetails.forEach(detail => {
+      detail.addEventListener("toggle", () => {
+        if (detail.open) {
+          // Close every other <details>
+          allDetails.forEach(other => {
+            if (other !== detail) other.open = false;
+          });
+        }
+      });
     });
   });
-});
 
 // end experience credential
 
