@@ -61,7 +61,7 @@
 
   <div class="timeline-right">
     <% @experiences2_by_company.each_with_index do |(company, exps), idx| %>
-      <details class="experience-card" <%= 'open' if idx.zero? %>>
+      <details class="experience-card">
         <summary class="experience-header">
           <p><strong><%= company %></strong></p>
           <%= simple_format(
@@ -103,18 +103,18 @@
   <div></div>
 </div>
 
-<div class="experience-section">
+<div class="experience-section end-of-line">
   <div></div>
 
   <img
     src="<%= cl_image_path('Image_expérience_3_1_hw6rtk', fetch_format: :auto) %>"
     alt="buildings"
-    class="img-experience"
+    class="img-experience end-of-section"
   />
 
   <div class="timeline-left">
     <% @experiences3_by_company.each_with_index do |(company, exps), idx| %>
-      <details class="experience-card" <%= 'open' if idx.zero? %>>
+      <details class="experience-card">
         <summary class="experience-header">
           <p><strong><%= company %></strong></p>
           <%= simple_format(

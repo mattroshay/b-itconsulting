@@ -1,83 +1,65 @@
 .experience-section {
   display: grid;
-  // grid-template-columns: 1fr 4fr 1fr 4fr 1fr;
   grid-template-columns: 1fr 5fr 5fr 1fr;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
-  gap: 0px;
-  height: auto;
-  grid-auto-rows: auto;
+  gap: 0;
   padding-top: 64px;
 }
 
-.timeline-left {
+%timeline-line {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: -30rem;    // extension past each block
+  width: 5px;       // thickness of the line
+  background: #464a3b;
+  border-radius: 999px;
+}
+
+%timeline-details {
   position: relative;
-  padding-left: 2rem;       // space for the vertical timeline line
+  margin-bottom: 2rem;
+}
+
+%timeline-summary {
+  background-color: #e5eef9;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+  margin: 0;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+  &::after {
+    content: "+";
+    margin-left: auto;
+    font-weight: bold;
+    transition: transform 0.2s;
+  }
+}
+
+.timeline-left,
+.timeline-right {
+  position: relative;
   margin: 2rem 0;
 
   &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -5px;                // flush at the left edge
-    bottom: -8rem;
-    width: 5px;             // thickness of the timeline
-    background: #464a3b;
+    @extend %timeline-line;
   }
-
-  &:last-of-type::before {
-    bottom: 0; // prevent extending below final item
-  }
-
 
   details {
-    position: relative;
-    margin-bottom: 2rem;    // gap between entries
-    padding-left: 1.5rem;   // push content away from the line
+    @extend %timeline-details;
 
     summary {
-      list-style: none;     // remove default marker
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background-color: #e5eef9;
-      padding: 8px 1rem 8px 8px;
-      border-bottom: 1px solid black;
-      margin: 0;
-      position: relative;
-
-      // hide default marker in WebKit
-      &::-webkit-details-marker {
-        display: none;
-      }
-
-      // connector arm back to the timeline
-      &::before {
-        content: "";
-        position: absolute;
-        left: -3.5rem;       // starts at the vertical line
-        top: 50%;
-        width: 3.5rem;
-        height: 2px;
-        background: #464a3b;
-        transform: translateY(-50%);
-      }
-
-      // toggle indicator
-      &::after {
-        content: "+";        // closed state
-        margin-left: auto;    // push to far right
-        font-weight: bold;
-        transition: transform 0.2s;
-      }
-
-      p {
-        margin-bottom: 0;     // no default bottom margin in header
-      }
+      @extend %timeline-summary;
     }
 
-    // when open, change the indicator
     &[open] summary::after {
       content: "–";
     }
@@ -87,54 +69,54 @@
       padding: 16px;
 
       p {
-        margin-bottom: 1rem; // default paragraph spacing in body
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
+
+.timeline-left {
+  padding-left: 2rem;
+  &::before { left: -5px; }
+
+  details {
+    padding-left: 1.5rem;
+
+    summary {
+      padding: 8px 1rem 8px 8px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: -3.5rem;
+        top: 50%;
+        width: 3.5rem;
+        height: 2px;
+        background: #464a3b;
+        transform: translateY(-50%);
+      }
+
+      p {
+        margin-bottom: 0;
       }
     }
   }
 }
 
 .timeline-right {
-  position: relative;
-  padding-right: 2rem;       // space for the vertical timeline line
-  margin: 2rem 0;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;                // flush at the left edge
-    bottom: -8rem;
-    width: 5px;             // thickness of the timeline
-    background: #464a3b;
-  }
+  padding-right: 2rem;
+  &::before { right: 0; }
 
   details {
-    position: relative;
-    margin-bottom: 2rem;    // gap between entries
-    padding-right: 1.5rem;   // push content away from the line
+    padding-right: 1.5rem;
 
     summary {
-      list-style: none;     // remove default marker
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background-color: #e5eef9;
-      padding: 8px 1rem 8px 8px;
-      border-bottom: 1px solid black;
-      margin: 0;
-      position: relative;
+      padding: 8px 8px 8px 1rem;
 
-      // hide default marker in WebKit
-      &::-webkit-details-marker {
-        display: none;
-      }
-
-      // connector arm back to the timeline
       &::before {
         content: "";
         position: absolute;
-        right: -3.5rem;       // starts at the vertical line
+        right: -3.5rem;
         top: 50%;
         width: 3.5rem;
         height: 2px;
@@ -142,32 +124,17 @@
         transform: translateY(-50%);
       }
 
-      // toggle indicator
-      &::after {
-        content: "+";        // closed state
-        margin-left: auto;    // push to far right
-        font-weight: bold;
-        transition: transform 0.2s;
-      }
-
       p {
-        margin-bottom: 0;     // no default bottom margin in header
+        margin-bottom: 0;
       }
     }
+  }
+}
 
-    // when open, change the indicator
-    &[open] summary::after {
-      content: "–";
-    }
-
-    .experience-body {
-      background-color: #f9f6f3;
-      padding: 16px;
-
-      p {
-        margin-bottom: 1rem; // default paragraph spacing in body
-      }
-    }
+.experience-section.end-of-line {
+  > .timeline-left::before,
+  > .timeline-right::before {
+    bottom: 0;
   }
 }
 
@@ -181,4 +148,8 @@
   object-fit: cover;
   border-radius: 12px;
   justify-self: center;
+}
+
+.end-of-section {
+  margin-bottom: 2rem;
 }
