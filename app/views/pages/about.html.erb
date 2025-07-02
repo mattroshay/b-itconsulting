@@ -9,16 +9,16 @@
   <div></div>
 </div>
 
-<div class="experience-section-right">
+<div class="experience-section">
   <div></div>
 
   <img
     src="<%= cl_image_path('Photo_cv_Pascal_Rousse_Large_mzx2aj', fetch_format: :auto) %>"
     alt="buildings"
-    class="img-hp-lg"
+    class="img-experience"
   />
 
-  <div class="timeline">
+  <div class="timeline-left">
     <% @experiences1_by_company.each_with_index do |(company, exps), idx| %>
       <details class="experience-card" <%= 'open' if idx.zero? %>>
         <summary class="experience-header">
@@ -56,10 +56,10 @@
   <div></div>
 </div>
 
-<div class="experience-section-left">
+<div class="experience-section">
   <div></div>
 
-  <div class="timeline">
+  <div class="timeline-right">
     <% @experiences2_by_company.each_with_index do |(company, exps), idx| %>
       <details class="experience-card" <%= 'open' if idx.zero? %>>
         <summary class="experience-header">
@@ -97,22 +97,22 @@
   <img
     src="<%= cl_image_path('Image_expérience_2_1_c3leee', fetch_format: :auto) %>"
     alt="buildings"
-    class="img-hp-lg"
+    class="img-experience"
   />
 
   <div></div>
 </div>
 
-<div class="experience-section-right">
+<div class="experience-section">
   <div></div>
 
   <img
     src="<%= cl_image_path('Image_expérience_3_1_hw6rtk', fetch_format: :auto) %>"
     alt="buildings"
-    class="img-hp-lg"
+    class="img-experience"
   />
 
-  <div class="timeline">
+  <div class="timeline-left">
     <% @experiences3_by_company.each_with_index do |(company, exps), idx| %>
       <details class="experience-card" <%= 'open' if idx.zero? %>>
         <summary class="experience-header">
