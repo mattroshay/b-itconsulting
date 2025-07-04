@@ -63,7 +63,7 @@ document.addEventListener("turbo:load", () => {
 // only one experience credential open at a time
 
 document.addEventListener("DOMContentLoaded", function() {
-    const allDetails = document.querySelectorAll(".experience-section details");
+    const allDetails = document.querySelectorAll(".experience details");
 
     allDetails.forEach(detail => {
       detail.addEventListener("toggle", () => {

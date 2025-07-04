@@ -253,6 +253,70 @@ class PagesController < ApplicationController
     @experiences1_by_company = @experiences1.group_by { |exp| exp[:company] }
     @experiences2_by_company = @experiences2.group_by { |exp| exp[:company] }
     @experiences3_by_company = @experiences3.group_by { |exp| exp[:company] }
+
+    @formations = [
+      {
+        title: 'Chef de projet digital',
+        institution: 'DIGITAL CAMPUS PARIS',
+        url: 'https://www.digital-campus.fr/glossaire-du-web/metier-chef-projet-digital?gge_source=google&gge_medium=cpc&gge_term=formation%20chef%20de%20projet%20digital&gge_campaign=Search-Metiers&gad_source=1&gclid=EAIaIQobChMI9qriufeCjAMVsD0GAB1VeCBHEAAYAiAAEgK8cvD_BwE',
+        period: '2024',
+        certification: 'Niveau VI - License',
+        details: "La formation de Chef de Projet Digital à Digital Campus Paris vise à devenir un expert en gestion de projets digitaux.
+
+        Elle inclut l'apprentissage de la gestion de projet, de la stratégie webmarketing et de la création de contenus digitaux.
+
+        Les compétences acquises incluent l'analyse de la demande client, la proposition de solutions digitales et la gestion des ressources nécessaires.
+
+        Cette formation est également transposable à un poste de Chef de Projet IT ou informatique, offrant ainsi une base solide pour gérer des projets technologiques.
+
+        Les professionnels formés peuvent ainsi s'adapter efficacement aux exigences du secteur informatique.
+
+        La formation, reconnue par l'État, prépare les étudiants à gérer efficacement des projets digitaux ou informatiques."
+      },
+      {
+        title: 'MCITP',
+        institution: 'Centre IFORM Toulouse-Balma',
+        url: 'https://www.iform.fr',
+        period: '2012',
+        certification: 'Certifications Microsoft',
+        details: "La formation MCITP Windows Server 2012 prépare les administrateurs système à installer, configurer et gérer Windows Server 2012.
+
+        Elle couvre des compétences avancées telles que l'administration Active Directory, la gestion des stratégies de groupe, et l'utilisation de PowerShell.
+
+        La certification valide des compétences essentielles pour la surveillance et la maintenance des serveurs, ainsi que la gestion du stockage et des services réseaux.
+
+        Elle est reconnue par Microsoft et constitue une étape vers la certification MCSA et MCSE."
+      },
+      {
+        title: 'TSSI',
+        institution: 'Ifpa Ecole',
+        url: 'https://www.ifpa.pro',
+        period: '2006',
+        certification: 'Diplome Niveau v (Bac +2)',
+        details: "La formation TSSI (Technicien Supérieur Support Informatique) à l'IFPA à Mérignac te prépare à gérer les incidents informatiques, en appliquant les bonnes pratiques ITIL.
+
+        Elle inclut le support utilisateur, le dépannage et le déploiement de postes de travail, ainsi que l'intervention sur des infrastructures réseau.
+
+        Elle apprends à gérer le parc informatique et à suivre les configurations.  La formation développe aussi des compétences transversales, comme  l'utilisation de l'anglais professionnel et des qualités relationnelles.
+
+        Suite à la formation TSSI, une évolution vers le poste d'administrateur système et réseau est possible, nécessitant souvent des compétences supplémentaires en systèmes d'exploitation, en virtualisation, ainsi qu'une certification comme le CCNA ou le MCSA, ou bien vers la formation Administrateur d’Infrastructures Sécurisée."
+      },
+      {
+        title: 'Conseiller Clientèle à Distance',
+        institution: 'Centre AFPA',
+        url: 'https://www.afpa.fr/formation-qualifiante/conseiller-relation-client-a-distance',
+        period: '2005',
+        certification: 'Diplome Niveau IV (Bac)',
+        details: "La formation Conseiller Service Clientèle à Distance de l'AFPA prépare à offrir un support clientèle efficace via des canaux numériques.
+
+        Elle te forme aux techniques de communication à distance, à la gestion des outils de collaboration,  et à la résolution de problèmes clients.
+
+        Elle forme également à gérer des situations conflictuelles et à maintenir une relation de confiance avec les clients.
+
+        La formation permet de développer des compétences en écoute active et en  gestion du temps. Elle délivre le diplôme de Conseiller Service  Clientèle à Distance de niveau IV (Bac)."
+      }
+    ]
+
   end
 
 
