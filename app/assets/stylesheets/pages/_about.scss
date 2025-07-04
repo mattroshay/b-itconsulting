@@ -11,8 +11,8 @@
   content: "";
   position: absolute;
   top: 0;
-  bottom: -30rem;    // extension past each block
-  width: 5px;       // thickness of the line
+  bottom: -30rem;
+  width: 5px;
   background: #464a3b;
   border-radius: 999px;
 }
@@ -148,8 +148,44 @@
   object-fit: cover;
   border-radius: 12px;
   justify-self: center;
+  align-items: flex-start;
 }
 
 .end-of-section {
+  margin-bottom: 2rem;
+}
+
+.formations {
+  display: grid;
+  grid-template-columns: 1fr 3fr 4fr 1fr;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0;
+  padding-top: 64px;
+  background-color: #f9f6f3;
+}
+
+.formation-cards {
+  display: grid;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.formation-card {
+  summary {
+    @extend %timeline-summary;
+
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+
+    .summary-main {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+  }
   margin-bottom: 2rem;
 }
