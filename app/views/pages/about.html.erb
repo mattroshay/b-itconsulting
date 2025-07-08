@@ -155,9 +155,9 @@
 <section class="formations">
   <div></div>
     <div class="formations-cards">
-      <h2 class="text-center row justify-content-start">Formations</h2>
-      <% @formations.each_with_index do |formation, exps| %>
-        <details class="formation-card">
+      <h2>Formations</h2>
+      <% @formations.each_with_index do |formation, idx| %>
+        <details class="formation-card" <%= 'open' if idx.zero? %>>
           <summary class="formation-header">
             <div class="formation-header-row">
               <p><strong><%= formation[:title] %></strong> <%= formation[:period] %></p>
@@ -187,10 +187,44 @@
     </div>
   <div>
     <img
-      src="<%= cl_image_path('Image_expérience_3_1_hw6rtk', fetch_format: :auto) %>"
+      src="<%= cl_image_path('Formations_mu5g06', fetch_format: :auto) %>"
       alt="buildings"
-      class="img-experience end-of-section row justify-self-center"
+      class="img-formation end-of-section row justify-self-center"
     />
   </div>
   <div></div>
+</section>
+
+<section class="projets-futurs background-image" style="background-image: url('<%= cl_image_path("projet_futur_Large_ro37jn", fetch_format: :auto) %>');">
+  <div></div>
+  <div class="formations-cards">
+    <h2 class="white">Projets Futurs</h2>
+    <% @projets_futurs.each_with_index do |projets, idx| %>
+      <details class="formation-card"<%= 'open' if idx.zero? %>>
+        <summary class="formation-header">
+          <div class="formation-header-row">
+            <p><strong><%= projets[:title] %></strong></p>
+          </div>
+        </summary>
+
+        <div class="formation-body">
+            <div class="role-block mb-3 custom-list">
+              <h4><%= projets[:sub_title] %></h4>
+              <%= simple_format(
+                    projets[:details],
+                    {},
+                    sanitize: false
+                  ) %>
+            </div>
+
+          <%= link_to(
+                'En savoir plus',
+                projets[:url],
+                class: 'border-radius button button-center',
+                target: '_blank'
+              ) %>
+        </div>
+      </details>
+    <% end %>
+  </div>
 </section>
