@@ -261,17 +261,17 @@ class PagesController < ApplicationController
         url: 'https://www.digital-campus.fr/glossaire-du-web/metier-chef-projet-digital?gge_source=google&gge_medium=cpc&gge_term=formation%20chef%20de%20projet%20digital&gge_campaign=Search-Metiers&gad_source=1&gclid=EAIaIQobChMI9qriufeCjAMVsD0GAB1VeCBHEAAYAiAAEgK8cvD_BwE',
         period: '2024',
         certification: 'Niveau VI - License',
-        details: "La formation de Chef de Projet Digital à Digital Campus Paris vise à devenir un expert en gestion de projets digitaux.
+        details: "La formation de <strong>Chef de Projet Digital</strong> à Digital Campus Paris vise à devenir un expert en gestion de projets digitaux.
 
-        Elle inclut l'apprentissage de la gestion de projet, de la stratégie webmarketing et de la création de contenus digitaux.
+        Elle inclut <strong>l'apprentissage de la gestion de projet, de la stratégie webmarketing et de la création de contenus digitaux.</strong>
 
-        Les compétences acquises incluent l'analyse de la demande client, la proposition de solutions digitales et la gestion des ressources nécessaires.
+        Les compétences acquises incluent <strong>l'analyse de la demande client, la proposition de solutions digitales et la gestion des ressources nécessaires.</strong>
 
-        Cette formation est également transposable à un poste de Chef de Projet IT ou informatique, offrant ainsi une base solide pour gérer des projets technologiques.
+        Cette formation est également transposable à un poste de <strong>Chef de Projet IT ou informatique</strong>, offrant ainsi une base solide pour gérer des projets technologiques.
 
         Les professionnels formés peuvent ainsi s'adapter efficacement aux exigences du secteur informatique.
 
-        La formation, reconnue par l'État, prépare les étudiants à gérer efficacement des projets digitaux ou informatiques."
+        La formation, reconnue par l'État, prépare les étudiants à gérer efficacement des <strong>projets digitaux ou informatiques.</strong>"
       },
       {
         title: 'MCITP',
@@ -279,13 +279,13 @@ class PagesController < ApplicationController
         url: 'https://www.iform.fr',
         period: '2012',
         certification: 'Certifications Microsoft',
-        details: "La formation MCITP Windows Server 2012 prépare les administrateurs système à installer, configurer et gérer Windows Server 2012.
+        details: "La formation <strong>MCITP Windows Server 2012</strong> prépare <strong>les administrateurs système à installer, configurer et gérer Windows Server 2012.</strong>
 
-        Elle couvre des compétences avancées telles que l'administration Active Directory, la gestion des stratégies de groupe, et l'utilisation de PowerShell.
+        Elle couvre des compétences avancées telles que <strong>l'administration Active Directory, la gestion des stratégies de groupe, et l'utilisation de PowerShell.</strong>
 
-        La certification valide des compétences essentielles pour la surveillance et la maintenance des serveurs, ainsi que la gestion du stockage et des services réseaux.
+        La certification valide des compétences essentielles pour <strong>la surveillance et la maintenance des serveurs, ainsi que la gestion du stockage et des services réseaux.</strong>
 
-        Elle est reconnue par Microsoft et constitue une étape vers la certification MCSA et MCSE."
+        Elle est reconnue par Microsoft et constitue une étape vers la certification <strong>MCSA</strong> et <strong>MCSE</strong>."
       },
       {
         title: 'TSSI',
@@ -293,13 +293,13 @@ class PagesController < ApplicationController
         url: 'https://www.ifpa.pro',
         period: '2006',
         certification: 'Diplome Niveau v (Bac +2)',
-        details: "La formation TSSI (Technicien Supérieur Support Informatique) à l'IFPA à Mérignac te prépare à gérer les incidents informatiques, en appliquant les bonnes pratiques ITIL.
+        details: "La formation <strong>TSSI (Technicien Supérieur Support Informatique)</strong> à l'IFPA à Mérignac te prépare à <atrong>gérer les incidents informatiques, en appliquant les bonnes pratiques ITIL.</strong>
 
-        Elle inclut le support utilisateur, le dépannage et le déploiement de postes de travail, ainsi que l'intervention sur des infrastructures réseau.
+        Elle inclut <strong>le support utilisateur, le dépannage et le déploiement de postes de travail, ainsi que l'intervention sur des infrastructures réseau.</strong>
 
-        Elle apprends à gérer le parc informatique et à suivre les configurations.  La formation développe aussi des compétences transversales, comme  l'utilisation de l'anglais professionnel et des qualités relationnelles.
+        Elle apprends à gérer <strong>le parc informatique et à suivre les configurations.</strong> La formation développe aussi des compétences transversales, comme l'utilisation de <strong>l'anglais professionnel et des qualités relationnelles.</strong>
 
-        Suite à la formation TSSI, une évolution vers le poste d'administrateur système et réseau est possible, nécessitant souvent des compétences supplémentaires en systèmes d'exploitation, en virtualisation, ainsi qu'une certification comme le CCNA ou le MCSA, ou bien vers la formation Administrateur d’Infrastructures Sécurisée."
+        Suite à la formation TSSI, <strong>une évolution vers le poste d'administrateur système et réseau</strong> est possible, nécessitant souvent des compétences supplémentaires en systèmes d'exploitation, en virtualisation, ainsi qu'une certification comme le <strong>CCNA ou le MCSA</strong>, ou bien vers la formation <strong>Administrateur d’Infrastructures Sécurisée.</strong>"
       },
       {
         title: 'Conseiller Clientèle à Distance',
@@ -307,16 +307,63 @@ class PagesController < ApplicationController
         url: 'https://www.afpa.fr/formation-qualifiante/conseiller-relation-client-a-distance',
         period: '2005',
         certification: 'Diplome Niveau IV (Bac)',
-        details: "La formation Conseiller Service Clientèle à Distance de l'AFPA prépare à offrir un support clientèle efficace via des canaux numériques.
+        details: "La formation <strong>Conseiller Service Clientèle à Distance de l'AFPA</strong> prépare à offrir <strong>un support clientèle efficace via des canaux numériques.</strong>
 
-        Elle te forme aux techniques de communication à distance, à la gestion des outils de collaboration,  et à la résolution de problèmes clients.
+        Elle te forme <strong>aux techniques de communication à distance, à la gestion des outils de collaboration,  et à la résolution de problèmes clients.</strong>
 
-        Elle forme également à gérer des situations conflictuelles et à maintenir une relation de confiance avec les clients.
+        Elle forme également à gérer <strong>des situations conflictuelles et à maintenir une relation de confiance avec les clients.</strong>
 
-        La formation permet de développer des compétences en écoute active et en  gestion du temps. Elle délivre le diplôme de Conseiller Service  Clientèle à Distance de niveau IV (Bac)."
+        La formation permet de développer <strong>des compétences en écoute active et en  gestion du temps.</strong> Elle délivre le diplôme de Conseiller Service  Clientèle à Distance de niveau IV (Bac)."
       }
     ]
 
+    @projets_futurs = [
+      {
+        title: 'Objectifs pour les 3 prochaines années',
+        sub_title: 'Cybersécurité des systèmes d’information',
+        details: "Mon objectif principal est de me former sur la <strong>cybersécurité d'infrastructure.</strong>
+
+        Cela inclut l'obtention de certifications en sécurité informatique, ainsi qu'en <strong>ITIL.</strong>
+
+        De plus, je souhaite me former au management et à la chefferie de projet, en particulier sur les méthodes <strong>Agile et Scrum.</strong>
+
+        Cette formation intensive me permettra de <strong>développer des compétences pointues et polyvalentes, directement  applicables à des projets complexes et stratégiques.</strong>",
+        url: "https://fr.wikipedia.org/wiki/Sécurité_des_systèmes_d'information"
+      },
+      {
+        title: 'Objectif pour les 5 prochaines années',
+        sub_title: 'Consultant et Manager',
+        details: "À l'horizon des cinq ans, je vise à obtenir un poste en tant qu'<strong>encadrant et consultant.</strong>
+
+        Fort de mes nouvelles compétences et certifications, je <strong>pourrai conseiller  et diriger des équipes dans le domaine de la cybersécurité et de la  gestion de projet.</strong>
+
+        Mon expertise <strong>contribuera à renforcer la  sécurité et l'efficacité des infrastructures informatiques des  entreprises, leur offrant ainsi une meilleure résilience face aux  cybermenaces.</strong>
+
+        Je continuerais à me former dans un but de persévérance et d’actualisation sur les nouvelles technologies.",
+        url: "https://www.francecompetences.fr/recherche/rncp/35588/"
+      },
+      {
+        title: 'Objectifs pour les 8 prochaines années',
+        sub_title: 'Formateur et Manager',
+        details: "Dans les huit ans, je souhaite consacrer une partie de mon temps à former  des adultes et jeunes adultes dans un centre tel que le <strong>CESI</strong> ou <strong>EPSI.</strong>
+
+        Je souhaite pouvoir transmettre tout ce que j’ai acquis depuis le début de ma carrière, tout comme j’ai pu acquérir de la part de la part des différents formateurs qui m’ont transmis leur savoir-faire.
+
+        En partageant mes connaissances et mon expérience, je contribuerai à l'enrichissement professionnel et personnel des futurs talents.
+
+        Les entreprises pourront bénéficier de cette initiative, en ayant accès à une nouvelle génération de professionnels bien formés et prêts à relever les défis du secteur.",
+        url: "https://www.onisep.fr/ressources/univers-metier/metiers/formateur-formatrice-en-informatique"
+      },
+      {
+        title: 'Un Futur Gagnant pour les Entreprises',
+        sub_title: 'Que puis je leur apporter?',
+        details: "<li><strong>Expertise Avancée :</strong> Avec mes certifications en cybersécurité et ITIL, ainsi que mon  expertise en gestion de projet, je pourrai apporter une valeur ajoutée  significative aux projets complexes, assurant leur succès et leur  sécurité.</li>
+
+        <li><strong>Leadership et Encadrement :</strong> En tant qu'encadrant et consultant, je pourrai guider et inspirer les équipes, améliorant leur performance et leur efficacité.</li>
+
+        <li><strong>Formation des Talents :</strong> Mon engagement à former de nouveaux professionnels permettra aux  entreprises de recruter des individus bien préparés et compétents,  réduisant ainsi le besoin de formation initiale.</li>"
+      }
+    ]
   end
 
 

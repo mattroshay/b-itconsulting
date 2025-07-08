@@ -69,7 +69,7 @@ h4 {
   text-decoration: underline;
 }
 
-p {
+p, li {
   font-family: 'Satoshi Variable', sans-serif;
   font-size: 18px;
   font-weight: regular;
@@ -85,6 +85,10 @@ a {
 
 .border-radius {
   border-radius: 12px;
+}
+
+.white {
+  color: white !important;
 }
 
 .button {
