@@ -10,8 +10,8 @@
 %timeline-line {
   content: "";
   position: absolute;
-  top: 0;
-  bottom: -30rem;
+  top: -2rem;
+  bottom: -60rem;
   width: 5px;
   background: #464a3b;
   border-radius: 999px;
@@ -26,8 +26,8 @@
   // background-color: #e5eef9;
   background: linear-gradient(
     to right,
-    rgba(36, 110, 185, 0.65),
-    rgba(255, 255, 255, 0)
+    rgba(36, 110, 185, 1),
+    rgba(255, 255, 255, 0.65)
   );
   position: relative;
   display: flex;
@@ -37,6 +37,7 @@
   cursor: pointer;
   border-bottom: 1px solid black;
   margin: 0;
+  scroll-margin-top: 80px;
 
   &::-webkit-details-marker {
     display: none;
@@ -47,6 +48,10 @@
     font-weight: bold;
     transition: transform 0.2s;
   }
+}
+
+.no-scroll-margin {
+  scroll-margin-top: 600px !important;
 }
 
 .timeline-left,
@@ -148,13 +153,12 @@
 }
 
 .img-experience {
+  align-self: start;
   width: 580px;
   height: 705px;
   object-fit: cover;
   border-radius: 12px;
   justify-self: center;
-  align-items: flex-start;
-  top: 0;
 }
 
 .end-of-section {

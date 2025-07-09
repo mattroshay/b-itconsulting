@@ -209,3 +209,7 @@ a {
 // lg: Large devices (Desktops 👉 992px and up)
 // xl: Extra large devices (Large desktops 👉 1200px and up)
 // xxl: Extra extra large devices (Extra large desktops 👉 1400px and up)
+
+html {
+  scroll-behavior: smooth;
+}
