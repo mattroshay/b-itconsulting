@@ -11,4 +11,3 @@ pin "scrolltop_button", to: "scrolltop_button.js"
 pin "one_at_a_time", to: "one_at_a_time.js"
 pin "carousel_auto_scroll", to: "carousel_auto_scroll.js"
 pin "video_player", to: "video_player.js"
-
