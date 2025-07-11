@@ -1,4 +1,3 @@
-// scrolltop_button.js
 document.addEventListener("turbo:load", function () {
   const scrollTop = document.getElementById("scrollTop");
   if (!scrollTop) return;
