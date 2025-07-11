@@ -7,12 +7,28 @@
   padding-top: 64px;
 }
 
+.the-line {
+  position: relative;
+}
+
+.the-line::before {
+  content: "";
+  position: absolute;
+  top: 1%;
+  bottom: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  background-color: #464a3b;
+  border-radius: 999px;
+}
+
 %timeline-line {
   content: "";
   position: absolute;
-  top: -2rem;
-  bottom: -60rem;
-  width: 5px;
+  top: 0;
+  bottom: 0;
+  width: 0px;
   background: #464a3b;
   border-radius: 999px;
 }
