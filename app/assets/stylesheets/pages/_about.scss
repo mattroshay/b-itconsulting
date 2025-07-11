@@ -224,13 +224,18 @@
   }
 }
 
+.formation-image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
 .img-formation {
   width: 681px;
   height: 647px;
   object-fit: cover;
   border-radius: 12px;
-  justify-self: center;
-  align-self: flex-start;
 }
 
 .projets-futurs {
