@@ -230,7 +230,7 @@
   object-fit: cover;
   border-radius: 12px;
   justify-self: center;
-  align-items: flex-start;
+  align-self: flex-start;
 }
 
 .projets-futurs {
@@ -273,5 +273,5 @@
 }
 
 details {
-  scroll-margin-top: 80px; 
+  scroll-margin-top: 80px;
 }
