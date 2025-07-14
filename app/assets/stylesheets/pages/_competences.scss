@@ -68,12 +68,13 @@ body {
     left: -30px;
     top: -30px;
     transform: rotate(calc(45deg + var(--rotation)));
+    transition: transform 1s ease-in-out;
     position: absolute;
     width: 16rem;
     z-index: 2;
   }
   &__title {
-    // color: #1b1c17;
+    color: #1b1c17;
     left: 50%;
     text-align: center;
     z-index: 3;
