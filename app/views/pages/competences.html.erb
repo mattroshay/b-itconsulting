@@ -37,3 +37,116 @@
     <div></div>
   </div>
 </section>
+
+<section class="support-technique-et-assitance-ultilisateur secondary-background">
+  <div class="competences-grid">
+    <div></div>
+    <div>
+      <div class="competences-image-wrapper"><img src="<%= cl_image_path("Image_Support_users_s7rrpq", fetch_format: :auto) %>" alt="buildings" class="img-competences"></div>
+      <div class="competences-text-wrapper">
+        <h2 class="text-center">Support Technique et Assistance Utilisateur</h2>
+        <p>Cette section met en avant des compétences clés en support technique et assistance utilisateur, incluant le support de niveau I et II, le déploiement de postes, et la gestion des migrations.</p>
+
+        <p>Elle démontre également une expertise en configuration d’Office 365, en gestion de parcs informatiques, et en mise à jour des procédures, garantissant une assistance efficace et une expérience utilisateur optimisée.</p>
+
+      </div>
+      <div class="gauges-container">
+        <% @skills = [
+          { value: 90, label: 'Support utilisateurs Niveau I et II' },
+          { value: 90, label: 'Déploiement Postes et Migration' },
+          { value: 90, label: "Mise  à jour des procédures" },
+          { value: 80, label: 'Installation et paramétrages des applications' },
+          nil,
+          { value: 75, label: 'Support Office 365' },
+          { value: 90, label: 'Gestion Parc' },
+          nil
+        ] %>
+
+        <% @skills.each do |skill| %>
+          <% if skill.present? %>
+            <%= render partial: 'shared/gauge', locals: { value: skill[:value], label: skill[:label] } %>
+          <% else %>
+            <div></div> <!-- spacer -->
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</section>
+
+<section class="gestion-et-chefferie-de-projets">
+  <div class="competences-grid">
+    <div></div>
+    <div>
+      <div class="competences-image-wrapper"><img src="<%= cl_image_path("Image_Chef_de_projet_z0zxxs", fetch_format: :auto) %>" alt="buildings" class="img-competences"></div>
+      <div class="competences-text-wrapper">
+        <h2 class="text-center">Gestion et Chefferie de Projets</h2>
+        <p>Cette section met en avant des compétences solides en gestion et chefferie de projet, incluant la maîtrise des outils de gestion (JIRA, Trello, Microsoft Project), l’élaboration de cahiers des charges, et la coordination des équipes.</p>
+
+        <p>Elle souligne une expertise en gestion des risques, suivi des performances via les KPI, et leadership, assurant une organisation efficace et la réussite des projets.</p>
+
+      </div>
+      <div class="gauges-container">
+        <% @skills = [
+          { value: 70, label: 'Gestion de projet (Agile, Scrum) et outils associés (Jira, Trello)' },
+          { value: 85, label: 'Coordination et supervision des projets' },
+          { value: 78, label: "Planification et Suivi des progrès (Copil, Gestion, Suivi)" },
+          { value: 82, label: "Encadrement et Leadership (Capacité d’écoute, de gestion et motivation d’équipe)" },
+          nil,
+          { value: 80, label: 'Communication et gestion des parties prenantes transversales (responsable équipe, et clients)' },
+          { value: 50, label: 'Suivi des performances et reporting (Cahier des charges, suivi KPI)' },
+          nil
+        ] %>
+
+        <% @skills.each do |skill| %>
+          <% if skill.present? %>
+            <%= render partial: 'shared/gauge', locals: { value: skill[:value], label: skill[:label] } %>
+          <% else %>
+            <div></div> <!-- spacer -->
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</section>
+
+<section class="logiciels secondary-background">
+  <div class="competences-grid">
+    <div></div>
+    <div>
+      <div class="competences-image-wrapper"><img src="<%= cl_image_path("Image_Logiciel_gpl8ci", fetch_format: :auto) %>" alt="buildings" class="img-competences"></div>
+      <div class="competences-text-wrapper">
+        <h2 class="text-center">Logiciels</h2>
+        <p>Cette section illustre une expertise logicielle en lien avec l'administration système (VMware, Hyper-V, SCCM, Nagios, Centreon), le support utilisateur (GLPI, Zendesk, Citrix) et la chefferie de projet (Jira, GanttProject, Figma, ServiceNow).</p>
+
+        <p>Ces outils renforcent la gestion, l’administration des infrastructures, l’assistance IT et la coordination des projets.</p>
+
+      </div>
+      <div class="gauges-container">
+        <% @skills = [
+          { value: 55, label: 'Administration système et virtualisation (VMWare 75%, SCCM 40%, Citrix 60%)' },
+          { value: 40, label: 'Monitoring et supervision IT (Nagios 35%, Altiris 45%, Service Now 35%)' },
+          { value: 60, label: "Support utilisateur et gestion IT (GLPI 80%, Zendesk 25%,  Ivanti 70%)" },
+          { value: 60, label: 'Gestion de projet et collaboration (Jira 70%, Ganttprojet 60%, Canva 70%)' },
+          nil,
+          { value: 30, label: 'Outils spécifiques pour le contenu web (WordPress)' },
+          { value: 50, label: 'Outils orientés ITSM (Service Now 40%, Altiris 60%)' },
+          nil
+        ] %>
+
+        <% @skills.each do |skill| %>
+          <% if skill.present? %>
+            <%= render partial: 'shared/gauge', locals: { value: skill[:value], label: skill[:label] } %>
+          <% else %>
+            <div></div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</section>
+
+
