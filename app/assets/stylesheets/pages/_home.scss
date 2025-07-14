@@ -24,7 +24,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  height: 110%;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -254,3 +254,5 @@
 .video-modal.zoom-out .video-modal-content {
   animation: zoomOut 0.3s ease-in forwards;
 }
+
+

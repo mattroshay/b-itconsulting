@@ -1,3 +1,39 @@
-<div class="top-margin">
-  <h1>Pages#competences</h1>
-</div>
+<div class="top-margin"></div>
+<section class="administration-des-systemes-et-reseaux">
+  <div class="competences-grid">
+    <div></div>
+    <div>
+      <h1 class="text-center">Compétences</h1>
+      <div class="competences-image-wrapper"><img src="<%= cl_image_path("image_Admin_systeme_ixgjjf", fetch_format: :auto) %>" alt="buildings" class="img-competences"></div>
+      <div class="competences-text-wrapper">
+        <h2 class="text-center">Administration des Systèmes et Réseaux</h2>
+        <p>Cette section illustre des compétences avancées en administration des systèmes et réseaux, incluant la gestion des systèmes N3 (Active Directory, Azure, Intune), la maintenance réseau, et la supervision d’infrastructures critiques.</p>
+
+        <p>Elle met en avant une expertise en virtualisation, sécurité (VPN, antivirus), et gestion des données. Avec une maîtrise des projets techniques et une capacité à coordonner des équipes, ce profil assure une gestion optimale des environnements IT et la continuité des opérations.</p>
+
+        <p><strong><i>“Le pourcentage des compétences peut varier en fonction de la fiche de poste”</strong></i></p>
+      </div>
+      <div class="gauges-container">
+        <% @skills = [
+          { value: 75, label: 'Administration de systèmes N3 (Active Directory, Azure, Intune) et Virtualisation (VMWare, Hyper-V)' },
+          { value: 80, label: 'Installation, Maintenance réseau et résolution des problèmes de connectivité' },
+          { value: 60, label: "Gestion de projets techniques et coordination d'équipe" },
+          { value: 80, label: 'Documentation des processus et mises à jour des configurations' },
+          nil,
+          { value: 60, label: 'Gestion des données et des systèmes de stockage' },
+          { value: 50, label: 'Sécurité / VPN / Antivirus (Zscaler - Pulse sécure)' },
+          nil
+        ] %>
+
+        <% @skills.each do |skill| %>
+          <% if skill.present? %>
+            <%= render partial: 'shared/gauge', locals: { value: skill[:value], label: skill[:label] } %>
+          <% else %>
+            <div></div> <!-- spacer -->
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</section>
