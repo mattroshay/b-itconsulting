@@ -9,8 +9,8 @@
 
 .competences-text-wrapper {
   width: 70%;
-  justify-self: center;
-  justify-content: center;
+  margin: 0 auto; // ✅ This actually centers the block
+  text-align: left;
 }
 
 .img-competences {
@@ -67,7 +67,10 @@ body {
     height: 16rem;
     left: -30px;
     top: -30px;
-    transform: rotate(calc(45deg + var(--rotation)));
+    // transform: rotate(calc(45deg + var(--rotation)));
+    transform: rotate(calc(45deg + var(--rotation, 0deg)));
+    // transform: rotate(calc(45deg + var(--rotation, 0deg))) translateZ(0);
+    backface-visibility: hidden;
     transition: transform 1s ease-in-out;
     position: absolute;
     width: 16rem;

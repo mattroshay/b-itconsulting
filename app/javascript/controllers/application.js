@@ -8,6 +8,4 @@ window.Stimulus   = application
 
 export { application }
 
-document.addEventListener("DOMContentLoaded", () => {
-  observeGauges();
-});
+
