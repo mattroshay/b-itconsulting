@@ -26,10 +26,10 @@
         <li class="nav-item dropdown">
           <a href="<%= competences_path %>" class="nav-link <%= 'active' if current_page?(competences_path) %>">Compétences</a>
           <ul class="dropdown-menu">
-            <li><%= link_to "Administration des Systèmes et Réseaux", competences_path(anchor: "Administration des Systèmes et Réseaux") %></li>
-            <li><%= link_to "Support Technique et Assistance Utilisateur", competences_path(anchor: "Support Technique et Assistance Utilisateur") %></li>
-            <li><%= link_to "Gestion et Chefferie de Projets", competences_path(anchor: "Gestion et Chefferie de Projets") %></li>
-            <li><%= link_to "Logiciels", competences_path(anchor: "Logiciels") %></li>
+            <li><%= link_to "Administration des Systèmes et Réseaux", competences_path%></li>
+            <li><%= link_to "Support Technique et Assistance Utilisateur", competences_path(anchor: "support-technique-et-assitance-ultilisateur") %></li>
+            <li><%= link_to "Gestion et Chefferie de Projets", competences_path(anchor: "gestion-et-chefferie-de-projets") %></li>
+            <li><%= link_to "Logiciels", competences_path(anchor: "logiciels") %></li>
           </ul>
         </li>
 
