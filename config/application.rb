@@ -14,6 +14,7 @@ module BItconsulting
       generate.helper false
       generate.test_framework :test_unit, fixture: false
     end
+    config.autoload_paths += %W(#{config.root}/app/forms)
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 

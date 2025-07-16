@@ -1,0 +1,32 @@
+<div class="top-margin"></div>
+<section id="contact">
+  <div class="contact-grid">
+    <div></div>
+    <div class="contact-content">
+      <h1>Contact</h1>
+      <div class="contact-info">
+        <p><strong>Benoît MARFANY</strong></p>
+        <p>Le Haillan 33185</p>
+        <p>Gironde, France</p>
+        <p><i class="fa-solid fa-phone"></i> +33.7.66.98.16.33</p>
+      </div>
+
+      <div class="content-form">
+        <%= simple_form_for @form, url: contacts_path, method: :post do |f| %>
+          <%= f.input :last_name, label: "Votre nom" %>
+          <%= f.input :first_name, label: "Votre prénom" %>
+          <%= f.input :email, label: "Votre email", placeholder: "addresse@email.com" %>
+          <%= f.input :subject, label: "Objet de votre demande", placeholder: "Indiquez l’objet de votre demande " %>
+          <%= f.input :message,
+            label: "Votre message",
+            as: :text,
+            placeholder:"Écrivez le corps de votre message.
+5000 caractères maximum.",
+            input_html: {rows: 8} %>
+          <%= f.button :submit, "Envoyer", class:"border-radius button btn-no-hover" %>
+        <% end %>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</section>

@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   # verb "/path", to: "controller#action"
   get "/about", to: "pages#about"
   get "/competences", to: "pages#competences"
-  get "/contact", to: "pages#contact"
+  get 'contact', to: 'contacts#new'
+  post 'contacts', to: 'contacts#create'
   # get "/home", to: "pages#home"
-
+  # config/routes.rb
+  resource :contacts, only: [:new, :create]
 end

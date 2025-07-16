@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-dege">
+    <meta name="viewport" content="width=devide-width, initial-scale=1.0">
+  </head>
+  <body>
+    <p><strong>Nom:</strong> <%= @form.last_name %></p>
+    <p><strong>Prénom:</strong> <%= @form.first_name %></p>
+    <p><strong>Email:</strong> <%= @form.email %></p>
+    <p><strong>Objet:</strong> <%= @form.subject %></p>
+    <p><strong>Message:</strong></p>
+    <p><%= simple_format(@form.message) %></p>
+  </body>
+</html>
