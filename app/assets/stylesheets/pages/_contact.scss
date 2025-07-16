@@ -1,3 +1,35 @@
 // Specific CSS for your contact-page
+.contact-grid {
+  display:grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0;
+  margin-top: 6rem;
+  margin-bottom: 2rem;
+}
 
+.contact-info {
+  p {
+    line-height: 0.5 !important;
+  }
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
 
+.content-form {
+  display: inline;
+  margin-bottom: 2rem;
+}
+
+.contact-content {
+  margin-bottom: 2rem;
+  margin-top: 4rem;
+}
+
+.btn-no-hover:hover {
+  background-color: #2563eb; // your base color
+  color: white;
+  text-decoration: none;
+  box-shadow: none;
+}
