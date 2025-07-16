@@ -34,6 +34,8 @@
 }
 
 :root {
+  --gauge-size: 13rem; // Change this value to resize the gauge
+  --gauge-border-width: 30px; // Adjust border thickness proportionally if needed
   --rotation: 0deg;
 }
 
@@ -43,38 +45,43 @@ body {
 
 .container {
   font-family: Arial;
-  height: 8rem;
+  height: calc(var(--gauge-size) / 2); // Half the gauge size for the container
   overflow: hidden;
   position: relative;
-  width: 18rem;
+  width: calc(var(--gauge-size) + (var(--gauge-border-width) * 2)); // Gauge size + border width on both sides
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .gauge {
   background: transparent;
-  border: 30px solid #e5eef9;
+  border: var(--gauge-border-width) solid #e5eef9;
   border-radius: 50%;
-  height: 16rem;
-  font-size: px;
+  height: var(--gauge-size);
+  width: var(--gauge-size);
+  font-size: calc(var(--gauge-size) / 16); // Proportional font size
   transition: transform .2s ease;
   position: relative;
-  width: 16rem;
   &::before {
     content: '';
-    border: 30px solid #246eb9;
+    border: var(--gauge-border-width) solid #246eb9;
     border-left-color: transparent;
     border-radius: 50%;
     border-top-color: transparent;
-    height: 16rem;
-    left: -30px;
-    top: -30px;
+    height: calc(var(--gauge-size) );
+    width: calc(var(--gauge-size) );
+    left: calc(var(--gauge-border-width) * -1);
+    top: calc(var(--gauge-border-width) * -1);
     // transform: rotate(calc(45deg + var(--rotation)));
     transform: rotate(calc(45deg + var(--rotation, 0deg)));
     // transform: rotate(calc(45deg + var(--rotation, 0deg))) translateZ(0);
     backface-visibility: hidden;
     transition: transform 1s ease-in-out;
     position: absolute;
-    width: 16rem;
     z-index: 2;
+    -webkit-transform: rotate(calc(45deg + var(--rotation, 0deg)));
+    -webkit-backface-visibility: hidden;
   }
   &__title {
     color: #1b1c17;
@@ -93,7 +100,7 @@ body {
 }
 
 .gauge-container {
-  justify-content: space-between;
+  justify-items: center;
   margin-bottom: 2rem;
   margin-top: 2rem;
 }
@@ -107,7 +114,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  top: -40px;
+  top: calc(var(--gauge-border-width) * -1.33); // Proportional offset
   left: 0;
   z-index: 3;
 }
