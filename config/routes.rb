@@ -10,11 +10,17 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   # verb "/path", to: "controller#action"
+
   get "/about", to: "pages#about"
   get "/competences", to: "pages#competences"
   get 'contact', to: 'contacts#new'
   post 'contacts', to: 'contacts#create'
-  # get "/home", to: "pages#home"
-  # config/routes.rb
-  resource :contacts, only: [:new, :create]
+  # resources :articles, only: [:index, :show, :new]
+  get  '/articles',     to: 'articles#index', as: 'articles'
+  get  '/articles/new', to: 'articles#new',   as: 'new_article'
+  get  '/articles/:id', to: 'articles#show',  as: 'article'
 end
+
+
+# https://res.cloudinary.com/roshaym/image/upload/f_auto/LI-In-Bug_jisuer?_a=BACAEuEv
+# https://res.cloudinary.com/roshaym/image/upload/f_auto/v1/development/LI-In-Bug_jisuer?_a=BACAEuEv
