@@ -1,0 +1,21 @@
+<div class="top-margin">
+  <h1>Le numérique en Nouvelle-Aquitaine</h1>
+
+  <h1><%= @article.title %></h1>
+  <p><%= @article.date&.strftime("%d %B %Y") %></p>
+
+  <div class="prose"><%= simple_format(@article.content) %></div>
+
+  <% if @article.media.attached? %>
+    <div class="article-media-grid">
+      <% @article.media.each do |file| %>
+        <% if file.content_type&.start_with?("image/") %>
+          <%= image_tag file, class: "article-image" %>
+        <% elsif file.content_type&.start_with?("video/") %>
+          <%= video_tag url_for(file), controls: true, preload: "metadata", class: "article-video" %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+</div>

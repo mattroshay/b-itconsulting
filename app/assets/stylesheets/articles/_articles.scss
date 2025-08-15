@@ -1,0 +1,136 @@
+/* Blog index */
+.articles-page {
+  padding: 2rem 0 4rem;
+
+  .articles-title {
+    text-align: center;
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+    margin: 1rem 0 2rem;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: 2fr 6fr 6fr 2fr;
+    gap: 3rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    @media (min-width: 900px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3rem 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .article-card {
+    display: grid;
+    grid-template-rows: auto auto auto 4fr auto;
+    row-gap: 0.75rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+    padding: 1rem 1rem 1.25rem;
+  }
+
+  .article-media {
+    display: block;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: #f2f2f2;
+
+    img, video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .video-thumb {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .play-badge {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 56px;
+      height: 56px;
+      line-height: 56px;
+      text-align: center;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.2rem;
+      pointer-events: none;
+    }
+  }
+
+  .media-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #eaeaea, #f4f4f4);
+  }
+
+  .article-card__title {
+    margin: 0.75rem 0 0.25rem;
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+
+  .article-card__meta {
+    margin: 0 0 0.25rem;
+    color: #7a7a7a;
+    font-size: 0.95rem;
+  }
+
+  .article-card__excerpt {
+    margin: 0.25rem 0 0.5rem;
+    color: #2c2c2c;
+    line-height: 1.65;
+
+    /* 3-line clamp for neat cards */
+    display: -webkit-box;
+    // -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .article-card__share {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.25rem;
+
+    span {
+      color: #2c2c2c;
+      font-size: 0.95rem;
+      margin-right: 0.25rem;
+    }
+    .share-icon img {
+      width: 22px;
+      height: 22px;
+      display: block;
+      filter: saturate(0) contrast(0.9); /* subtle monochrome like screenshot */
+      transition: filter 120ms ease;
+    }
+    .share-icon:hover img {
+      filter: none;
+    }
+  }
+}

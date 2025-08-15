@@ -1,0 +1,49 @@
+<div class="top-margin">
+
+
+  <div class="articles-page">
+    <h1 class="articles-title">Le numérique en Nouvelle-Aquitaine</h1>
+
+    <div class="articles-grid">
+      <% @articles.reverse.each do |article| %>
+        <article class="article-card">
+          <a class="article-media" href="<%= article_path(article) %>">
+            <% if article.images.attached? %>
+              <%= image_tag(article.images.first, alt: article.title) %>
+            <% elsif article.videos.attached? %>
+              <div class="video-thumb">
+                <%= video_tag url_for(article.videos.first), preload: "metadata", muted: true %>
+                <span class="play-badge">▶</span>
+              </div>
+            <% else %>
+              <div class="media-placeholder"></div>
+            <% end %>
+          </a>
+
+          <h2 class="article-card__title">
+            <%= link_to article.title, article_path(article) %>
+          </h2>
+
+          <p class="article-card__meta">
+            Écrit le <%= article.date&.strftime("%d %B %Y") %>
+          </p>
+
+          <p class="article-card__excerpt">
+            <%= truncate(strip_tags(article.content), length: 280) %>
+          </p>
+
+          <div class="article-card__share">
+            <span>Partager l’article</span>
+            <a href="#" aria-label="Partager sur LinkedIn" class="share-icon">
+              <%= cl_image_tag("LI-In-Bug_jisuer", fetch_format: :auto, quality: :auto) %>
+            </a>
+            <a href="#" aria-label="Partager sur Instagram" class="share-icon">
+              <%= cl_image_tag("Instagram_Glyph_Gradient_pqsha4", fetch_format: :auto, quality: :auto) %>
+            </a>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  </div>
+
+</div>
