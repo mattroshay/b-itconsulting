@@ -9,12 +9,14 @@
   <% if @article.media.attached? %>
     <div class="article-media-grid">
       <% @article.media.each do |file| %>
-        <% if file.content_type&.start_with?("image/") %>
-          <%= image_tag file, class: "article-image" %>
-        <% elsif file.content_type&.start_with?("video/") %>
-          <%= video_tag url_for(file), controls: true, preload: "metadata", class: "article-video" %>
-        <% end %>
+      <% if file.content_type.start_with?("image/") %>
+        <div class="article-media"><%= image_tag file, alt: @article.title %></div>
+      <% else %>
+        <div class="article-media">
+          <%= video_tag url_for(file), controls: true, preload: "metadata" %>
+        </div>
       <% end %>
+    <% end %>
     </div>
   <% end %>
 

@@ -19,6 +19,7 @@ ARTICLES = [
   {
     title: "💡 L'IA au service des infrastructures informatiques : une révolution en marche ! 🚀",
     date: Date.new(2025, 2, 17),
+    media: "https://i.vimeocdn.com/video/1983634618-d113aaf426679dabea940f4832060fd974358b94488429e16078fe21f2734a68-d_295x166",
     content: <<~TEXT
       L'intelligence artificielle (IA) transforme profondément la gestion des infrastructures IT. Découvrez les 6 étapes clés où l'IA joue un rôle essentiel :
 
@@ -42,6 +43,7 @@ ARTICLES = [
   {
     title: "L’IA, un levier d’innovation en Gironde ! 🚀",
     date: Date.new(2025, 2, 12),
+    media: "https://i.vimeocdn.com/video/1981716356-f954834040330812d35599961cce1fb7ba250229e38d7449bd8a47b246fccbc5-d_295x166",
     content: <<~TEXT
       La Gironde accélère sa transformation numérique avec Bordeaux comme moteur technologique ! L’intelligence artificielle (IA) est au cœur de cette révolution, boostant les entreprises, l’emploi et l’innovation.
 
@@ -58,6 +60,7 @@ ARTICLES = [
   {
     title: "La formation en informatique et numérique en Gironde : Opportunités et Perspectives",
     date: Date.new(2025, 2, 7),
+    media: "https://i.vimeocdn.com/video/1979972951-0d4d489771dc3be776d3440e705ac7cec46f88e9f72208c9bb781c457a6023e0-d_295x166",
     content: <<~TEXT
       Le secteur du numérique est en pleine expansion, et la Gironde s’impose comme un territoire dynamique offrant de nombreuses opportunités de formation. Universités, écoles privées, centres de formation professionnelle : l’offre est variée et s’adapte aussi bien aux étudiants qu’aux professionnels en reconversion.
 
@@ -77,6 +80,7 @@ ARTICLES = [
   {
     title: "L'évolution de l'informatique pour les entreprises girondines depuis les années 2000 et l'impact sur l'emploi",
     date: Date.new(2025, 1, 19),
+    media: "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-capture-decran-2025-01-19-a-213428-604910.png",
     content: <<~TEXT
       L'évolution de l'informatique pour les entreprises en Gironde depuis les années 2000 a été marquée par plusieurs avancées technologiques majeures.
       Au début des années 2000, les entreprises ont commencé à adopter des solutions de bureautique et de gestion de base de données, avec une utilisation croissante de Windows et de Microsoft Office.
@@ -94,6 +98,7 @@ ARTICLES = [
   {
     title: "De l'arpanet à L'internet",
     date: Date.new(2025, 1, 12),
+    media: "https://i.vimeocdn.com/video/1976500719-f62f051f5dca6f8d402ef9ed788a969688032262a0f21253a8f6ceded3f7decf-d_295x166",
     content: <<~TEXT
       Avez-vous déjà réfléchi à l'évolution incroyable d'ARPANET à l'Internet tel que nous le connaissons aujourd'hui ?
       Quelles innovations ont permis cette transformation radicale ?
@@ -105,6 +110,10 @@ ARTICLES = [
   {
     title: "Le Datacenter de Gironde Numérique",
     date: Date.new(2025, 1, 12),
+    media: [
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w400-bache-haut-mega-scaled-c8eec8.jpg",
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w400-datacenter-3-0b0033.jpg"
+    ],
     content: <<~TEXT
       Gironde Numérique a mis en place un datacenter souverain et 100 % public, conçu pour garantir la sécurité et l'intégrité des données publiques. Ce centre de données joue un rôle essentiel dans la protection des informations sensibles des collectivités locales, en offrant des solutions de sauvegarde et de gestion des données fiables.
 
@@ -124,6 +133,15 @@ ARTICLES = [
   {
     title: "Cyberattaques en Gironde : Un Alerte Croissante pour les Entreprises",
     date: Date.new(2025, 1, 12),
+    media: [
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-2-2eea3a.png",
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-3-2eea3a.png",
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-4-07a1db.png",
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-5-20cf06.png",
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-1-8b5aa9.png",
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-6-20cf06.png",
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-7-20cf06.png"
+    ],
     content: <<~TEXT
       🔒 Introduction
 
@@ -162,11 +180,28 @@ ARTICLES = [
   }
 ]
 
+# db/seeds.rb
+require "open-uri"
+
+def attach_url!(record, name, url, filename: nil, content_type: nil)
+  io = URI.open(url)
+  filename ||= File.basename(URI.parse(url).path.presence || "file")
+  content_type ||= io.content_type
+  record.public_send(name).attach(io: io, filename: filename, content_type: content_type)
+end
+
 Article.transaction do
+  user = User.first || User.create!(email: "admin@example.com", password: "password")
+
   ARTICLES.each do |attrs|
-    Article.find_or_create_by!(title: attrs[:title], user_id: user.id) do |article|
-      article.date    = attrs[:date]
-      article.content = attrs[:content]
+    article = Article.find_or_initialize_by(title: attrs[:title], user_id: user.id)
+    article.assign_attributes(date: attrs[:date], content: attrs[:content])
+    article.save!
+
+    # attach media URLs (array)
+    urls = Array(attrs[:media_urls] || attrs[:media]).compact
+    urls.each do |url|
+      attach_url!(article, :media, url)
     end
   end
 end
