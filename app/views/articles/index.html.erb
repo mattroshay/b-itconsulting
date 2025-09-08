@@ -11,7 +11,7 @@
             <% if article.media.attached? %>
               <% cover = article.media.first %> <!-- get an attachment -->
               <% if cover.content_type.start_with?("image/") %>
-                <%= image_tag cover, alt: article.title %>
+                <%= image_tag url_for(cover), alt: article.title %>
               <% elsif cover.content_type.start_with?("video/") %>
                 <%= video_tag url_for(cover), muted: true, playsinline: true, preload: "metadata" %>
                 <span class="play-badge" aria-hidden="true">▶</span>

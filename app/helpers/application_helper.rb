@@ -4,12 +4,16 @@ module ApplicationHelper
     article.media_images.first || article.media.first
   end
 
+  def attachment_image?(attachment)
+    attachment.blob&.content_type.to_s.start_with?("image/")
+  end
+
   # render the cover consistently (no controls on index)
   def article_cover_tag(attachment, alt:)
     return content_tag(:div, "", class: "media-placeholder") unless attachment
 
-    if attachment.content_type.start_with?("image/")
-      image_tag(attachment, alt:)
+    if attachment_image?(attachment)
+      image_tag url_for(attachment), alt: alt, loading: "lazy", decoding: "async"
     else
       # video: show a quiet teaser; controls on the show page only
       video_tag url_for(attachment),
