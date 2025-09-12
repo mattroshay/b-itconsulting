@@ -30,9 +30,9 @@ class PagesController < ApplicationController
       {
         company: 'DCS EASYWARE',
         url: 'https://www.dcsit-group.com',
-        period: '2019 à ce jour',
-        role: 'Administrateur Système
-        Savencia – Septembre 2024:',
+        period: '2019 - 2025',
+        role: "<strong><u>Administrateur Système
+        Savencia – Septembre 2024:</u></strong>",
         details: "Dans le cadre de ma mission, j'ai assuré <strong>le support fonctionnel</strong> pour un parc d'environ 13 000 salariés, en travaillant en 100 % télétravail.
 
         Mes responsabilités comprenaient l'émission d'appels pour <strong>la résolution des incidents, la gestion des activités liées à Citrix, Azure, Intune, et le support des systèmes Windows 10, 11 et Windows Server 2019.</strong>
@@ -42,8 +42,8 @@ class PagesController < ApplicationController
       {
         company: 'DCS EASYWARE',
         period: '2019 à ce jour',
-        role: 'Administrateur Système
-        Groupe Synergie – Juin et Juillet 2024:',
+        role: '<strong><u>Administrateur Système
+        Groupe Synergie – Juin et Juillet 2024:</u></strong>',
         details: "Dans le cadre de ma mission, j'ai été chargé de <strong>l'administration, du support de niveau 3, et de la gestion pour un parc</strong> d'environ 2000 salariés dans les différents environnements <strong>Windows, Cloud Azure et Intune.</strong>
 
         Je m’occupais également de <strong>l'analyse des tickets</strong> pour garantir un service de qualité et une <strong>résolution rapide des incidents</strong>, contribuant ainsi à l'efficacité opérationnelle de l'organisation."
@@ -51,8 +51,8 @@ class PagesController < ApplicationController
       {
         company: 'DCS EASYWARE',
         period: 'Décembre 2019 à Septembre 2023',
-        role: 'Technicien Système
-        AGIRC-ARRCO: Decembre 2019 à Septembre 2023:',
+        role: '<strong><u>Technicien Système
+        AGIRC-ARRCO: Decembre 2019 à Septembre 2023:</u></strong>',
         details: "Dans le cadre de ma mission, <strong>j'ai fourni une assistance utilisateur et assuré la supervision ainsi que la gestion de projets.</strong>
 
         J'ai également <strong>géré des problématiques</strong> en collaboration avec les administrateurs système et réseau, notamment pour des solutions comme <strong>Pulse-Sécure</strong>.
@@ -65,8 +65,8 @@ class PagesController < ApplicationController
         company: 'WYZE-ACADEMY',
         url: 'https://www.wyze-academy.com',
         period: '2024 (Suite formation Chef de projet digital)',
-        role: 'Chef de projet digital
-        Mars 2024 – Mai 2024',
+        role: '<strong><u>Chef de projet digital
+        Mars 2024 – Mai 2024</u></strong>',
         details: "Dans le cadre de ma période en entreprise pour WYZE-ACADEMY en 2024, suite à ma formation de Chef de projet digital chez Digital Campus Paris, j'ai occupé le poste de Chef de projet digital.
 
         J'ai supervisé le <strong>projet de mise en place d'un site web</strong>, en assurant <strong>la gestion pluridisciplinaire du projet</strong> entre les équipes DESIGN, Marketing et Développeurs, tout en utilisant <strong>les méthodes Agile et Scrum</strong>.
@@ -77,8 +77,8 @@ class PagesController < ApplicationController
         company: 'COMPUTACENTER',
         url: 'https://www.computacenter.com/fr-fr',
         period: '2019 - 2011 - 2007',
-        role: 'Technicien Système
-        AXA / Dassault Aviation - Mars 2019 à Décembre 2019',
+        role: '<strong><u>Technicien Système
+        AXA / Dassault Aviation - Mars 2019 à Décembre 2019</strong></u>',
         details: "Dans le cadre de la mission, j’avais <strong>la responsabilité du bon suivi du projet</strong>, et assurer <strong>le changement de poste</strong> et <strong>la migration des données.</strong>
 
         Pour la mission qui concernait Dassault Aviation, <strong>la confidentialité défense</strong> était importante ainsi que <strong>la sécurisation des données.</strong> Chaque poste était configuré avec une clé de cryptage.
@@ -88,8 +88,8 @@ class PagesController < ApplicationController
       {
         company: 'COMPUTACENTER',
         period: '2019 - 2011 - 2007',
-        role: 'Administrateur Système
-        Ministère de la Défense - Octobre 2011 à Janvier 2012',
+        role: '<strong><u>Administrateur Système
+        Ministère de la Défense - Octobre 2011 à Janvier 2012</strong></u>',
         details: "Dans le cadre de ma mission j'ai réalisé le <strong>déploiement de serveurs de proximité sous 2012R2</strong>, avec la <strong>virtualisation de plusieurs serveurs sous Hyper-V.</strong>
 
         J'ai également effectué le <strong>paramétrage des serveurs virtuels</strong> et du réseau, tout en garantissant <strong>la gestion de la sécurité et de la performance des systèmes.</strong>
@@ -99,8 +99,8 @@ class PagesController < ApplicationController
       {
         company: 'COMPUTACENTER',
         period: '2019 - 2011 - 2007',
-        role: 'Technicien Système
-        Groupe Manpower - Août 2007 à Mars 2008',
+        role: '<strong><u>Technicien Système
+        Groupe Manpower - Août 2007 à Mars 2008</u></strong>',
         details: "Dans le cadre de cette mission, j'ai assuré <strong>l'infogérance pour l'ouverture d'une nouvelle agence</strong> ainsi que pour le déménagement d'agences existantes et superviser le déménagement et <strong>la réinstallation de l'ensemble du système d'information.</strong>
 
         En outre, j'ai réalisé des <strong>tests applicatifs</strong> et fourni <strong>un support technique</strong>, tout en rédigeant <strong>des comptes rendus d'activité.</strong>
@@ -111,8 +111,8 @@ class PagesController < ApplicationController
         company: 'ECONOCOM',
         period: '2018',
         url: 'https://www.econocom.com/fr',
-        role: 'Technicien Système
-        Groupe Engie - Août 2018 à Décembre 2018',
+        role: '<strong><u>Technicien Système
+        Groupe Engie - Août 2018 à Décembre 2018</u></strong>',
         details: "J’avais la responsabilité de <strong>la gestion de ce projet de déploiement des postes</strong> sous Windows 10.
 
         J'en ai assuré <strong>la coordination et la gestion du planning</strong> pour les différents sites de la partie sud de la France, tout en m'occupant de <strong>la migration, du changement et de la résolution</strong> des problèmes sur les postes.
@@ -125,8 +125,8 @@ class PagesController < ApplicationController
         company: 'CAPGEMINI Sogeti',
         url: 'https://www.capgemini.com/fr-fr/notre-groupe/nous-connaitre/nos-marques/sogeti/',
         period: '2017',
-        role: 'Administrateur Système
-        Groupe EDF - Octobre 2017 à Décembre 2017',
+        role: '<strong><u>Administrateur Système
+        Groupe EDF - Octobre 2017 à Décembre 2017</u></strong>',
         details: "En tant qu'Administrateur Système au sein du groupe EDF, j'ai été responsable de l'administration des serveurs et de la gestion des <strong>incidents de niveau 3.</strong>
 
         Mon rôle m'a permis de développer des compétences techniques approfondies, notamment en <strong>virtualisation avec VMware (Vsphère, ESXi 6).</strong>
@@ -139,8 +139,8 @@ class PagesController < ApplicationController
         company: 'CASTEL-FRERES',
         url: 'https://www.castel-freres.com',
         period: '2016 - 2017',
-        role: 'Technicien Système
-        Juillet 2016 à Juin 2017',
+        role: '<strong><u>Technicien Système
+        Juillet 2016 à Juin 2017</strong></u>',
         details: "Au sein de Castel-Frères, j'étais chargé de fournir un <strong>support de niveau I et II pour les postes de travail</strong>, incluant environ 1200 postes.
 
         Mon rôle impliquait également <strong>la gestion des serveurs Citrix</strong> via l’interface ainsi qu'une <strong>assistance technique pour les sessions</strong>, supervisant un parc de 72 serveurs.
@@ -153,8 +153,8 @@ class PagesController < ApplicationController
         company: 'D.G.A.C',
         url: 'https://www.ecologie.gouv.fr/direction-generale-laviation-civile-dgac-0',
         period: '2015 - 2016',
-        role: 'Administrateur Système
-        Juin 2015 à Avril 2016',
+        role: '<strong><u>Administrateur Système
+        Juin 2015 à Avril 2016</strong></u>',
         details: "Dans le cadre de mon poste d'Administrateur Système, j'avais la responsabilité de <strong>l'administration de 38 serveurs</strong>, assurant leur bon fonctionnement et leur sécurité et de la <strong>sauvegarde via Veeam Backup.</strong>
 
         J'ai contribué a <strong>des projets de réplication des serveurs</strong>, garantissant la continuité des services et la disponibilité des données et de <strong>l’amélioration de l’infrastructure Système.</strong>
@@ -167,8 +167,8 @@ class PagesController < ApplicationController
         company: 'SCC – ARIANE GROUP',
         url: 'https://ariane.group/en/',
         period: '2014 - 2015',
-        role: 'Coordinateur de projet
-        Ariane Group – Octobre 2014 à Avril 2015',
+        role: '<strong><u>Coordinateur de projet
+        Ariane Group – Octobre 2014 à Avril 2015</strong></u>',
         details: "En tant que Coordinateur de Projet, j'ai supervisé <strong>le déploiement de 600 postes de travail</strong> en collaboration avec une équipe de 6 techniciens.
 
         Mon rôle impliquait <strong>une étroite collaboration avec le manager de projet</strong> pour garantir le respect des délais et des objectifs fixés.
@@ -183,8 +183,8 @@ class PagesController < ApplicationController
         company: 'CONNIT SAS',
         url: 'https://partners.sigfox.com/companies/connit',
         period: '2013 - 2014',
-        role: 'Administrateur Système
-        Décembre 2013 à Avril 2014',
+        role: '<strong><u>Administrateur Système
+        Décembre 2013 à Avril 2014</strong></u>',
         details: "En tant qu'Administrateur Système chez Connit SAS, une startup basée à Toulouse spécialisée dans le système de télérelève de données, j'ai géré <strong>l'administration et le paramétrage de la supervision de la console Nagios (Centreon)</strong>, incluant deux serveurs front et deux serveurs d'analyse, le tout au sein d'OVH.
 
         J'ai également <strong>mis en place un domaine informatique</strong> pour Connit SAS, en intégrant le domaine déjà existant auprès d'OVH. Cela a impliqué <strong>l'installation d'un contrôleur de domaine Windows 2012 sur le site de Toulouse</strong>, ainsi qu'un autre serveur Windows hébergé chez OVH, afin d'assurer la connexion entre les deux et d'intégrer les postes de travail dans le domaine.
@@ -195,8 +195,8 @@ class PagesController < ApplicationController
         company: 'ITE – ALLIASERV',
         url: 'https://alliaserv.fr',
         period: '2012',
-        role: 'Administrateur Système
-        Juillet 2012 à Novembre 2012',
+        role: '<strong><u>Administrateur Système
+        Juillet 2012 à Novembre 2012</strong></u>',
         details: "En tant qu'Administrateur Système chez Alliaserv, j'étais responsable de <strong>l'administration de serveurs dans un environnement de deux domaines (2008R2).</strong>
 
         J'ai également participé à <strong>la restructuration du réseau local (LAN)</strong> et à <strong>la mise en place de serveurs sous VMware</strong> pour un lycée privé.
@@ -207,8 +207,8 @@ class PagesController < ApplicationController
         company: 'PC30BS',
         url: 'https://solutions30.com',
         period: '2012',
-        role: 'Coordinateur de projet
-        Avril 2012 à Juin 2012',
+        role: '<strong><u>Coordinateur de projet
+        Avril 2012 à Juin 2012</strong></u>',
         details: "En tant que Coordinateur de Projet, j'ai supervisé <strong>le déploiement de 750 postes de travail</strong> avec une équipe de <strong>3 techniciens.</strong> J'ai collaboré étroitement avec le chef de projet pour garantir la bonne exécution du projet.
 
         Mes responsabilités incluaient également <strong>le recrutement et la formation des techniciens sur site</strong>, ainsi que <strong>le reporting journalier</strong> pour le compte de « Les Toitures Lafarge ».
@@ -219,8 +219,8 @@ class PagesController < ApplicationController
         company: 'LINKS-CONSEIL',
         url: 'https://www.globalservices.bt.com/fr',
         period: '2009 - 2011',
-        role: 'Administrateur Système
-        Mars 2009 à Août 2011',
+        role: '<strong><u>Administrateur Système
+        Mars 2009 à Août 2011</strong></u>',
         details: "J'étais responsable de l'administration <strong>des routeurs Cisco et Huawei</strong> au sein de <strong>british télécom.</strong>
 
         Au sein d'une équipe de 6 personnes, nous gérions quotidiennement les incidents par région pour les entreprises, en nous concentrant sur les accès aux routeurs d'entrée.
@@ -237,8 +237,8 @@ class PagesController < ApplicationController
         company: 'ATOS',
         url: 'https://atos.net/fr/qui-nous-sommes',
         period: '2008',
-        role: 'Coordinateur de projet
-        Août 2008 à Novembre 2008',
+        role: '<strong><u>Coordinateur de projet
+        Août 2008 à Novembre 2008</strong></u>',
         details: "En tant que Coordinateur de Projet chez ATOS, j'ai fait partie d'une équipe de <strong>6 coordinateurs, sous la direction d'un manager de projet, ainsi qu'avec 3 techniciens.</strong> Nous avons coordonné le projet d'installation et de mise en service du « Passeport Biométrique ».
 
         Mon rôle impliquait de collaborer avec <strong>l'équipe réseau et les développeurs pour assurer la présentation et les étapes de test du projet.</strong>
