@@ -8,20 +8,23 @@
       <% @articles.reverse.each do |article| %>
         <article class="article-card">
           <a class="article-media" href="<%= article_path(article) %>">
-            <% if article.media.attached? %>
-              <% cover = article.media.first %> <!-- get an attachment -->
-              <% if cover.content_type.start_with?("image/") %>
-                <%= image_tag url_for(cover), alt: article.title %>
-              <% elsif cover.content_type.start_with?("video/") %>
-                <%= video_tag url_for(cover), muted: true, playsinline: true, preload: "metadata" %>
+            <% if article.image_url.present? %>
+              <%= image_tag article.image_url, alt: article.title, class: "article-thumb" %>
+            <% elsif article.video_embed_url.present? %>
+              <div class="video-thumb">
+                <iframe
+                  src="<%= article.video_embed_url %>"
+                  allow="autoplay; fullscreen"
+                  allowfullscreen
+                  frameborder="0"></iframe>
                 <span class="play-badge" aria-hidden="true">▶</span>
-              <% end %>
+              </div>
             <% else %>
               <div class="media-placeholder"></div>
             <% end %>
           </a>
 
-          <h2 class="article-card__title"><%= link_to article.title, article_path(article) %></h2>
+          <h2 class="article-card__title blue"><%= link_to article.title, article_path(article) %></h2>
           <p class="article-card__meta"><%= article.date&.strftime("%d %B %Y") %></p>
           <p class="article-card__excerpt"><%= truncate(strip_tags(article.content), length: 280) %></p>
 

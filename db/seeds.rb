@@ -12,51 +12,17 @@ puts "Seeding articles…"
 
 require "open-uri"
 
-# --- Helpers ---------------------------------------------------------------
-
-def fetch_io(url)
-  URI.open(url)
-rescue OpenURI::HTTPError, SocketError, Errno::ECONNRESET, Errno::ETIMEDOUT
-  # Retry with browser-y headers (helps with some CDNs)
-  URI.open(url, "User-Agent" => "Mozilla/5.0", "Referer" => "https://www.google.com")
-end
-
-def ensure_filename(url, content_type)
-  base = File.basename(URI.parse(url).path.presence || "file")
-  return base if File.extname(base).present? || content_type.to_s.empty?
-
-  case
-  when content_type.start_with?("image/jpeg") then "#{base}.jpg"
-  when content_type.start_with?("image/png")  then "#{base}.png"
-  when content_type.start_with?("image/webp") then "#{base}.webp"
-  when content_type.start_with?("image/gif")  then "#{base}.gif"
-  when content_type.start_with?("video/mp4")  then "#{base}.mp4"
-  else base
-  end
-end
-
-def attach_url!(record, name, url)
-  io        = fetch_io(url)
-  ct        = io.content_type.presence || "application/octet-stream"
-  filename  = ensure_filename(url, ct)
-
-  record.public_send(name).attach(io: io, filename: filename, content_type: ct)
-  blob = record.public_send(name).attachments.last&.blob
-  puts "→ attached #{filename} (ct=#{ct}) key=#{blob&.key}"
-rescue => e
-  warn "× FAILED to attach #{url}: #{e.class} #{e.message}"
-end
-
 # Ensure a seed user exists (adjust email/password if needed)
-user = User.find_or_create_by!(email: "admin@example.com") do |u|
-  u.password = "password"
-end
+user = User.find_or_create_by!(email: "admin@example.com") { |u| u.password = "password" }
 
 ARTICLES = [
   {
     title: "💡 L'IA au service des infrastructures informatiques : une révolution en marche ! 🚀",
     date: Date.new(2025, 2, 17),
-    # media: "https://i.vimeocdn.com/video/1983634618-d113aaf426679dabea940f4832060fd974358b94488429e16078fe21f2734a68-d_295x166",
+    # media: "https://drive.google.com/uc?export=download&id=1JOOPaVNLhUukFU3zlODlpn9EqSD15tUH",
+    # image_url: "https://drive.google.com/uc?export=view&id=YOUR_IMAGE_FILE_ID",
+    # file_url: "https://drive.google.com/uc?export=download&id=YOUR_DOC_OR_PDF_FILE_ID",
+    video_embed_url: "https://drive.google.com/file/d/1JOOPaVNLhUukFU3zlODlpn9EqSD15tUH/preview",
     content: <<~TEXT
       L'intelligence artificielle (IA) transforme profondément la gestion des infrastructures IT. Découvrez les 6 étapes clés où l'IA joue un rôle essentiel :
 
@@ -81,6 +47,7 @@ ARTICLES = [
     title: "L’IA, un levier d’innovation en Gironde ! 🚀",
     date: Date.new(2025, 2, 12),
     # media: "https://i.vimeocdn.com/video/1981716356-f954834040330812d35599961cce1fb7ba250229e38d7449bd8a47b246fccbc5-d_295x166",
+    video_embed_url: "https://drive.google.com/file/d/135pIw-nhD_ZtCG7691QtonHLHxs-SQpa/preview",
     content: <<~TEXT
       La Gironde accélère sa transformation numérique avec Bordeaux comme moteur technologique ! L’intelligence artificielle (IA) est au cœur de cette révolution, boostant les entreprises, l’emploi et l’innovation.
 
@@ -98,6 +65,7 @@ ARTICLES = [
     title: "La formation en informatique et numérique en Gironde : Opportunités et Perspectives",
     date: Date.new(2025, 2, 7),
     # media: "https://i.vimeocdn.com/video/1979972951-0d4d489771dc3be776d3440e705ac7cec46f88e9f72208c9bb781c457a6023e0-d_295x166",
+    video_embed_url: "https://drive.google.com/file/d/1tkJaHA0TSq7U5g-wy0t3rSygNiFLwAxY/preview",
     content: <<~TEXT
       Le secteur du numérique est en pleine expansion, et la Gironde s’impose comme un territoire dynamique offrant de nombreuses opportunités de formation. Universités, écoles privées, centres de formation professionnelle : l’offre est variée et s’adapte aussi bien aux étudiants qu’aux professionnels en reconversion.
 
@@ -118,6 +86,9 @@ ARTICLES = [
     title: "L'évolution de l'informatique pour les entreprises girondines depuis les années 2000 et l'impact sur l'emploi",
     date: Date.new(2025, 1, 19),
     # media: "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-capture-decran-2025-01-19-a-213428-604910.png",
+    image_url: "https://drive.google.com/uc?export=view&id=1gW4zHlrSVhFgbID9QM6_QvExJCR96YyC",
+    #   "https://drive.google.com/uc?export=view&id=1S414gwkAAbej-HSsAgWaeczpSxaCLmje"
+    # ],
     content: <<~TEXT
       L'évolution de l'informatique pour les entreprises en Gironde depuis les années 2000 a été marquée par plusieurs avancées technologiques majeures.
       Au début des années 2000, les entreprises ont commencé à adopter des solutions de bureautique et de gestion de base de données, avec une utilisation croissante de Windows et de Microsoft Office.
@@ -136,6 +107,7 @@ ARTICLES = [
     title: "De l'arpanet à L'internet",
     date: Date.new(2025, 1, 12),
     # media: "https://i.vimeocdn.com/video/1976500719-f62f051f5dca6f8d402ef9ed788a969688032262a0f21253a8f6ceded3f7decf-d_295x166",
+    video_embed_url: "https://drive.google.com/file/d/1jJc_u7YfGslzGN4b4KbvjcXCXC2orL_u/preview",
     content: <<~TEXT
       Avez-vous déjà réfléchi à l'évolution incroyable d'ARPANET à l'Internet tel que nous le connaissons aujourd'hui ?
       Quelles innovations ont permis cette transformation radicale ?
@@ -220,15 +192,14 @@ ARTICLES = [
 Article.transaction do
   ARTICLES.each do |attrs|
     article = Article.find_or_initialize_by(title: attrs[:title], user:)
-    article.assign_attributes(date: attrs[:date], content: attrs[:content])
+    article.assign_attributes(
+      date: attrs[:date],
+      content: attrs[:content],
+      image_url: attrs[:image_url],
+      file_url: attrs[:file_url],
+      video_embed_url: attrs[:video_embed_url]
+    )
     article.save!
-
-    urls = Array(attrs[:media]).compact
-    next if urls.empty?
-
-    # Keep idempotency: replace attachments on reseed
-    article.media.purge
-    urls.each { |url| attach_url!(article, :media, url) }
   end
 end
 

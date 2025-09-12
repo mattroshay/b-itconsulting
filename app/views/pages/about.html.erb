@@ -34,7 +34,12 @@
           <div class="experience-body">
             <% exps.each do |exp| %>
               <div class="role-block mb-3">
-                <h4><%= exp[:role] %></h4>
+                <%# <h4><%= exp[:role] %>
+                <%= simple_format(
+                      exp[:role],
+                      {},
+                      sanitize: false
+                    ) %>
                 <%= simple_format(
                       exp[:details],
                       {},
@@ -75,7 +80,11 @@
           <div class="experience-body">
             <% exps.each do |exp| %>
               <div class="role-block mb-3">
-                <h4><%= exp[:role] %></h4>
+                <%= simple_format(
+                      exp[:role],
+                      {},
+                      sanitize: false
+                    ) %>
                 <%= simple_format(
                       exp[:details],
                       {},
@@ -128,7 +137,11 @@
           <div class="experience-body">
             <% exps.each do |exp| %>
               <div class="role-block mb-3">
-                <h4><%= exp[:role] %></h4>
+                <%= simple_format(
+                      exp[:role],
+                      {},
+                      sanitize: false
+                    ) %>
                 <%= simple_format(
                       exp[:details],
                       {},

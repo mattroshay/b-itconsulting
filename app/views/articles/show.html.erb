@@ -1,23 +1,42 @@
-<div class="top-margin">
-  <h1>Le numérique en Nouvelle-Aquitaine</h1>
+<div class="article-show-page top-margin">
+  <nav class="article-breadcrumb">
+    <%= link_to "← Retour au blog", articles_path, class: "back-link" %>
+  </nav>
 
-  <h1><%= @article.title %></h1>
-  <p><%= @article.date&.strftime("%d %B %Y") %></p>
+  <header class="article-hero">
+    <p class="article-kicker">Le numérique en Nouvelle-Aquitaine</p>
+    <h1 class="article-title"><%= @article.title %></h1>
+    <p class="article-meta">
+      <time datetime="<%= @article.date %>"><%= @article.date&.strftime("%d %B %Y") %></time>
+    </p>
 
-  <div class="prose"><%= simple_format(@article.content) %></div>
-
-  <% if @article.media.attached? %>
-    <div class="article-media-grid">
-      <% @article.media.each do |file| %>
-      <% if file.content_type.start_with?("image/") %>
-        <div class="article-media"><%= image_tag file, alt: @article.title %></div>
-      <% else %>
-        <div class="article-media">
-          <%= video_tag url_for(file), controls: true, preload: "metadata" %>
-        </div>
-      <% end %>
+    <%# Cover from Google Drive (image first, else video preview) %>
+    <% if @article.image_url.present? %>
+      <div class="article-cover">
+        <%= image_tag @article.image_url, alt: @article.title, class: "article-image" %>
+      </div>
+    <% elsif @article.video_embed_url.present? %>
+      <div class="article-cover video-wrapper">
+        <iframe
+          src="<%= @article.video_embed_url %>"
+          allow="autoplay; fullscreen"
+          allowfullscreen
+          frameborder="0"></iframe>
+      </div>
     <% end %>
+  </header>
+
+  <article class="article-body prose">
+    <%= simple_format(@article.content) %>
+  </article>
+
+  <%# Optional download button from Drive %>
+  <% if @article.file_url.present? %>
+    <div class="article-download mt-4">
+      <%= link_to "Télécharger la pièce jointe",
+                  @article.file_url,
+                  class: "btn btn-primary",
+                  download: true %>
     </div>
   <% end %>
-
 </div>
