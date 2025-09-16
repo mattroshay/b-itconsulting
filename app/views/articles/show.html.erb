@@ -10,16 +10,15 @@
       <time datetime="<%= @article.date %>"><%= @article.date&.strftime("%d %B %Y") %></time>
     </p>
 
-    <%# Cover from Google Drive (image first, else video preview) %>
-    <% if @article.image_url.present? %>
+    <% if @article.images.attached? %>
       <div class="article-cover">
-        <%= image_tag @article.image_url, alt: @article.title, class: "article-image" %>
+        <%= image_tag url_for(@article.images.first), alt: @article.title, class: "article-image" %>
       </div>
     <% elsif @article.video_embed_url.present? %>
       <div class="article-cover video-wrapper">
         <iframe
           src="<%= @article.video_embed_url %>"
-          allow="autoplay; fullscreen"
+          allow="autoplay; fullscreen; picture-in-picture"
           allowfullscreen
           frameborder="0"></iframe>
       </div>
@@ -30,13 +29,21 @@
     <%= simple_format(@article.content) %>
   </article>
 
-  <%# Optional download button from Drive %>
+  <%# Gallery: any remaining images %>
+  <% if @article.images.size > 1 %>
+    <section class="article-media-grid">
+      <% @article.images.drop(1).each do |img| %>
+        <figure class="article-media">
+          <%= image_tag url_for(img), alt: @article.title %>
+        </figure>
+      <% end %>
+    </section>
+  <% end %>
+
+  <%# Optional: download button if you later use file_url %>
   <% if @article.file_url.present? %>
     <div class="article-download mt-4">
-      <%= link_to "Télécharger la pièce jointe",
-                  @article.file_url,
-                  class: "btn btn-primary",
-                  download: true %>
+      <%= link_to "Télécharger la pièce jointe", @article.file_url, class: "btn btn-primary", download: true %>
     </div>
   <% end %>
 </div>

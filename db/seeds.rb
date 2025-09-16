@@ -12,6 +12,34 @@ puts "Seeding articles…"
 
 require "open-uri"
 
+# Helpers
+def drive_download_url(file_id)
+  "https://drive.google.com/uc?export=download&id=#{file_id}"
+end
+
+def drive_thumbnail_url(file_id, size: 1600)
+  # Google serves a JPEG thumbnail; good fallback if download is flaky/large
+  "https://drive.google.com/thumbnail?id=#{file_id}&sz=w#{size}"
+end
+
+def attach_drive_image!(record, file_id, filename: "cover.jpg")
+  # Try full download first (best quality), then fallback to thumbnail
+  io = nil
+  ct = nil
+
+  begin
+    io = URI.open(drive_download_url(file_id), "User-Agent" => "Mozilla/5.0")
+    ct = io.content_type.presence || "image/jpeg"
+  rescue => e
+    warn "Download failed (#{e.class}: #{e.message}). Trying thumbnail…"
+    io = URI.open(drive_thumbnail_url(file_id), "User-Agent" => "Mozilla/5.0")
+    ct = io.content_type.presence || "image/jpeg"
+  end
+
+  record.images.attach(io: io, filename: filename, content_type: ct)
+  puts "→ attached image (ct=#{ct}) for #{record.title}"
+end
+
 # Ensure a seed user exists (adjust email/password if needed)
 user = User.find_or_create_by!(email: "admin@example.com") { |u| u.password = "password" }
 
@@ -19,10 +47,7 @@ ARTICLES = [
   {
     title: "💡 L'IA au service des infrastructures informatiques : une révolution en marche ! 🚀",
     date: Date.new(2025, 2, 17),
-    # media: "https://drive.google.com/uc?export=download&id=1JOOPaVNLhUukFU3zlODlpn9EqSD15tUH",
-    # image_url: "https://drive.google.com/uc?export=view&id=YOUR_IMAGE_FILE_ID",
-    # file_url: "https://drive.google.com/uc?export=download&id=YOUR_DOC_OR_PDF_FILE_ID",
-    video_embed_url: "https://drive.google.com/file/d/1JOOPaVNLhUukFU3zlODlpn9EqSD15tUH/preview",
+    video_file_id: "1JOOPaVNLhUukFU3zlODlpn9EqSD15tUH",
     content: <<~TEXT
       L'intelligence artificielle (IA) transforme profondément la gestion des infrastructures IT. Découvrez les 6 étapes clés où l'IA joue un rôle essentiel :
 
@@ -46,8 +71,7 @@ ARTICLES = [
   {
     title: "L’IA, un levier d’innovation en Gironde ! 🚀",
     date: Date.new(2025, 2, 12),
-    # media: "https://i.vimeocdn.com/video/1981716356-f954834040330812d35599961cce1fb7ba250229e38d7449bd8a47b246fccbc5-d_295x166",
-    video_embed_url: "https://drive.google.com/file/d/135pIw-nhD_ZtCG7691QtonHLHxs-SQpa/preview",
+    video_file_id: "135pIw-nhD_ZtCG7691QtonHLHxs-SQpa",
     content: <<~TEXT
       La Gironde accélère sa transformation numérique avec Bordeaux comme moteur technologique ! L’intelligence artificielle (IA) est au cœur de cette révolution, boostant les entreprises, l’emploi et l’innovation.
 
@@ -64,8 +88,7 @@ ARTICLES = [
   {
     title: "La formation en informatique et numérique en Gironde : Opportunités et Perspectives",
     date: Date.new(2025, 2, 7),
-    # media: "https://i.vimeocdn.com/video/1979972951-0d4d489771dc3be776d3440e705ac7cec46f88e9f72208c9bb781c457a6023e0-d_295x166",
-    video_embed_url: "https://drive.google.com/file/d/1tkJaHA0TSq7U5g-wy0t3rSygNiFLwAxY/preview",
+    video_file_id: "1tkJaHA0TSq7U5g-wy0t3rSygNiFLwAxY",
     content: <<~TEXT
       Le secteur du numérique est en pleine expansion, et la Gironde s’impose comme un territoire dynamique offrant de nombreuses opportunités de formation. Universités, écoles privées, centres de formation professionnelle : l’offre est variée et s’adapte aussi bien aux étudiants qu’aux professionnels en reconversion.
 
@@ -85,10 +108,10 @@ ARTICLES = [
   {
     title: "L'évolution de l'informatique pour les entreprises girondines depuis les années 2000 et l'impact sur l'emploi",
     date: Date.new(2025, 1, 19),
-    # media: "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-capture-decran-2025-01-19-a-213428-604910.png",
-    image_url: "https://drive.google.com/uc?export=view&id=1gW4zHlrSVhFgbID9QM6_QvExJCR96YyC",
-    #   "https://drive.google.com/uc?export=view&id=1S414gwkAAbej-HSsAgWaeczpSxaCLmje"
-    # ],
+    image_file_id: [
+      "1gW4zHlrSVhFgbID9QM6_QvExJCR96YyC",
+      "1S414gwkAAbej-HSsAgWaeczpSxaCLmje"
+    ],
     content: <<~TEXT
       L'évolution de l'informatique pour les entreprises en Gironde depuis les années 2000 a été marquée par plusieurs avancées technologiques majeures.
       Au début des années 2000, les entreprises ont commencé à adopter des solutions de bureautique et de gestion de base de données, avec une utilisation croissante de Windows et de Microsoft Office.
@@ -106,8 +129,7 @@ ARTICLES = [
   {
     title: "De l'arpanet à L'internet",
     date: Date.new(2025, 1, 12),
-    # media: "https://i.vimeocdn.com/video/1976500719-f62f051f5dca6f8d402ef9ed788a969688032262a0f21253a8f6ceded3f7decf-d_295x166",
-    video_embed_url: "https://drive.google.com/file/d/1jJc_u7YfGslzGN4b4KbvjcXCXC2orL_u/preview",
+    video_file_id: "1jJc_u7YfGslzGN4b4KbvjcXCXC2orL_u",
     content: <<~TEXT
       Avez-vous déjà réfléchi à l'évolution incroyable d'ARPANET à l'Internet tel que nous le connaissons aujourd'hui ?
       Quelles innovations ont permis cette transformation radicale ?
@@ -119,10 +141,10 @@ ARTICLES = [
   {
     title: "Le Datacenter de Gironde Numérique",
     date: Date.new(2025, 1, 12),
-    # media: [
-    #   "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w400-bache-haut-mega-scaled-c8eec8.jpg",
-    #   "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w400-datacenter-3-0b0033.jpg"
-    # ],
+    media: [
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w400-bache-haut-mega-scaled-c8eec8.jpg",
+      "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w400-datacenter-3-0b0033.jpg"
+    ],
     content: <<~TEXT
       Gironde Numérique a mis en place un datacenter souverain et 100 % public, conçu pour garantir la sécurité et l'intégrité des données publiques. Ce centre de données joue un rôle essentiel dans la protection des informations sensibles des collectivités locales, en offrant des solutions de sauvegarde et de gestion des données fiables.
 
@@ -142,15 +164,15 @@ ARTICLES = [
   {
     title: "Cyberattaques en Gironde : Un Alerte Croissante pour les Entreprises",
     date: Date.new(2025, 1, 12),
-    # media: [
-    #   "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-2-2eea3a.png",
-    #   "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-3-2eea3a.png",
-    #   "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-4-07a1db.png",
-    #   "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-5-20cf06.png",
-    #   "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-1-8b5aa9.png",
-    #   "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-6-20cf06.png",
-    #   "https://dvqlxo2m2q99q.cloudfront.net/000_clients/4093735/page/w1000-cyberattaque-7-20cf06.png"
-    # ],
+    image_file_id: [
+        "1U-sg9ttFWB8qxWa_aTD2uqb0tvXiqrcs",
+        "1x5dPP5fZHXZHcSkVVUJAdRTHEmlnX2EY",
+        "1ehueIeDTMaH-TzbWAgG86NN1vPqGd6i2",
+        "1EXfgeSbtQWZzG3tzXKJ-tOrIWcSVPlyJ",
+        "1Ovm75DPfnO3rvjxDSTwDA_wzbsDZOIya",
+        "1PEVwFRSfuJ5yYTk0hEFLhUfIQUs4XQ45",
+        "1Dju6cTmVGW3c87JebnjJLO4EYueTBqUm"
+    ],
     content: <<~TEXT
       🔒 Introduction
 
@@ -189,17 +211,46 @@ ARTICLES = [
   }
 ]
 
+
 Article.transaction do
-  ARTICLES.each do |attrs|
-    article = Article.find_or_initialize_by(title: attrs[:title], user:)
-    article.assign_attributes(
-      date: attrs[:date],
-      content: attrs[:content],
-      image_url: attrs[:image_url],
-      file_url: attrs[:file_url],
-      video_embed_url: attrs[:video_embed_url]
-    )
-    article.save!
+  ARTICLES.each_with_index do |attrs, idx|
+    a = Article.find_or_initialize_by(title: attrs[:title], user:)
+    a.date    = attrs[:date]
+    a.content = attrs[:content]
+
+    # --- Video (Drive preview iframe) ---------------------------------------
+    # Accept either a file_id or a full preview URL already in attrs
+    if attrs[:video_file_id].present?
+      a.video_embed_url = "https://drive.google.com/file/d/#{attrs[:video_file_id]}/preview"
+    elsif attrs[:video_embed_url].present?
+      a.video_embed_url = attrs[:video_embed_url]
+    else
+      a.video_embed_url = nil
+    end
+
+    a.save!  # save record before attaching blobs
+
+    # --- Images (Active Storage, many) --------------------------------------
+    # Accept any of the following keys:
+    # - :image_file_ids  -> array of Drive file IDs or share URLs
+    # - :image_files     -> array (same as above; alias)
+    # - :image_file_id   -> single Drive file ID or share URL
+    image_inputs =
+      Array(attrs[:image_file_ids] || attrs[:image_files] || attrs[:image_file_id]).compact
+
+    if image_inputs.any?
+      # Replace images on reseed to keep it idempotent
+      a.images.purge if a.images.attached?
+
+      image_inputs.each_with_index do |raw_or_id, i|
+        # attach_drive_image! should:
+        #   - accept file ID OR full share URL
+        #   - forward resourcekey if present
+        #   - try download first, then thumbnail as fallback
+        #   - NOT raise on failure (log and continue)
+        attach_drive_image!(a, raw_or_id, filename: "article_#{idx}_#{i}.jpg")
+      end
+    end
   end
 end
 
