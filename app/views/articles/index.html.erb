@@ -1,30 +1,28 @@
 <div class="top-margin">
-
-
   <div class="articles-page">
     <h1 class="articles-title">Le numérique en Nouvelle-Aquitaine</h1>
 
     <div class="articles-grid">
       <% @articles.reverse.each do |article| %>
         <article class="article-card">
-          <a class="article-media" href="<%= article_path(article) %>">
-            <% if article.image_url.present? %>
-              <%= image_tag article.image_url, alt: article.title, class: "article-thumb" %>
+          <%= link_to article_path(article), class: "article-media" do %>
+            <% if article.images.attached? %>
+              <%= image_tag url_for(article.images.first), alt: article.title %>
             <% elsif article.video_embed_url.present? %>
-              <div class="video-thumb">
-                <iframe
-                  src="<%= article.video_embed_url %>"
-                  allow="autoplay; fullscreen"
-                  allowfullscreen
-                  frameborder="0"></iframe>
-                <span class="play-badge" aria-hidden="true">▶</span>
-              </div>
+              <iframe
+                src="<%= article.video_embed_url %>"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen
+                frameborder="0"></iframe>
+              <span class="play-badge" aria-hidden="true">▶</span>
             <% else %>
               <div class="media-placeholder"></div>
             <% end %>
-          </a>
+          <% end %>
 
-          <h2 class="article-card__title blue"><%= link_to article.title, article_path(article) %></h2>
+          <h2 class="article-card__title blue">
+            <%= link_to article.title, article_path(article) %>
+          </h2>
           <p class="article-card__meta"><%= article.date&.strftime("%d %B %Y") %></p>
           <p class="article-card__excerpt"><%= truncate(strip_tags(article.content), length: 280) %></p>
 
@@ -37,5 +35,4 @@
       <% end %>
     </div>
   </div>
-
 </div>
