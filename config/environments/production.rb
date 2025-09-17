@@ -107,7 +107,4 @@ Rails.application.configure do
     authentication: :plain,
     enable_starttls_auto: true
   }
-
-  # Make sure your production host is set properly
-  config.action_mailer.default_url_options = { host: "www.b-itconsulting.com" } # update with real domain
 end
