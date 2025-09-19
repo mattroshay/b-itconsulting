@@ -11,9 +11,57 @@
     </p>
 
     <% if @article.images.attached? %>
-      <div class="article-cover">
-        <%= image_tag url_for(@article.images.first), alt: @article.title, class: "article-image" %>
-      </div>
+      <% if @article.images.many? %>
+        <div class="article-cover article-carousel" data-controller="article-carousel">
+          <div class="article-carousel__viewport" aria-live="polite">
+            <% @article.images.each_with_index do |img, idx| %>
+              <figure
+                class="article-carousel__slide"
+                data-article-carousel-target="slide"
+                <%= "hidden" unless idx.zero? %>
+              >
+                <%= image_tag url_for(img), alt: "#{@article.title} – image #{idx + 1}", class: "article-image" %>
+              </figure>
+            <% end %>
+          </div>
+
+          <button
+            type="button"
+            class="article-carousel__control article-carousel__control--prev"
+            aria-label="Image précédente"
+            data-action="article-carousel#prev"
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            class="article-carousel__control article-carousel__control--next"
+            aria-label="Image suivante"
+            data-action="article-carousel#next"
+          >
+            ›
+          </button>
+
+          <div class="article-carousel__indicators">
+            <% @article.images.each_with_index do |_, idx| %>
+              <button
+                type="button"
+                class="article-carousel__indicator <%= 'is-active' if idx.zero? %>"
+                aria-label="Voir l'image <%= idx + 1 %>"
+                aria-current="<%= idx.zero? %>"
+                data-action="article-carousel#go"
+                data-article-carousel-target="indicator"
+                data-index="<%= idx %>"
+              ></button>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div class="article-cover">
+          <%= image_tag url_for(@article.images.first), alt: @article.title, class: "article-image" %>
+        </div>
+      <% end %>
     <% elsif @article.video_embed_url.present? %>
       <div class="article-cover video-wrapper">
         <iframe
@@ -28,17 +76,6 @@
   <article class="article-body prose">
     <%= simple_format(@article.content) %>
   </article>
-
-  <%# Gallery: any remaining images %>
-  <% if @article.images.size > 1 %>
-    <section class="article-media-grid">
-      <% @article.images.drop(1).each do |img| %>
-        <figure class="article-media">
-          <%= image_tag url_for(img), alt: @article.title %>
-        </figure>
-      <% end %>
-    </section>
-  <% end %>
 
   <%# Optional: download button if you later use file_url %>
   <% if @article.file_url.present? %>
