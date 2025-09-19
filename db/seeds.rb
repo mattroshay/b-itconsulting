@@ -11,34 +11,109 @@
 puts "Seeding articles…"
 
 require "open-uri"
+require "cgi"
+require "uri"
+
+Article.destroy_all
 
 # Helpers
-def drive_download_url(file_id)
-  "https://drive.google.com/uc?export=download&id=#{file_id}"
+def drive_download_url(file_id, resourcekey: nil)
+  return if file_id.blank?
+
+  url = "https://drive.google.com/uc?export=download&id=#{file_id}"
+  url += "&resourcekey=#{CGI.escape(resourcekey)}" if resourcekey.present?
+  url
 end
 
-def drive_thumbnail_url(file_id, size: 1600)
-  # Google serves a JPEG thumbnail; good fallback if download is flaky/large
-  "https://drive.google.com/thumbnail?id=#{file_id}&sz=w#{size}"
+def drive_thumbnail_url(file_id, size: 1600, resourcekey: nil)
+  return if file_id.blank?
+
+  url = "https://drive.google.com/thumbnail?id=#{file_id}&sz=w#{size}"
+  url += "&resourcekey=#{CGI.escape(resourcekey)}" if resourcekey.present?
+  url
 end
 
-def attach_drive_image!(record, file_id, filename: "cover.jpg")
-  # Try full download first (best quality), then fallback to thumbnail
-  io = nil
-  ct = nil
+def drive_source?(source)
+  str = source.to_s.strip
+  return false if str.blank?
 
-  begin
-    io = URI.open(drive_download_url(file_id), "User-Agent" => "Mozilla/5.0")
-    ct = io.content_type.presence || "image/jpeg"
-  rescue => e
-    warn "Download failed (#{e.class}: #{e.message}). Trying thumbnail…"
-    io = URI.open(drive_thumbnail_url(file_id), "User-Agent" => "Mozilla/5.0")
-    ct = io.content_type.presence || "image/jpeg"
+  !(str =~ %r{\Ahttps?://} && !str.include?("drive.google"))
+end
+
+def extract_drive_identifiers(source)
+  str = source.to_s.strip
+  return [str, nil] unless str.include?("drive.google")
+
+  uri = URI.parse(str)
+  params = CGI.parse(uri.query.to_s)
+
+  file_id = params["id"]&.first
+  resourcekey = params["resourcekey"]&.first
+
+  if file_id.blank? && uri.path.present?
+    if (match = uri.path.match(%r{/d/([^/]+)}))
+      file_id = match[1]
+    end
   end
 
-  record.images.attach(io: io, filename: filename, content_type: ct)
-  puts "→ attached image (ct=#{ct}) for #{record.title}"
+  [file_id.presence || str, resourcekey.presence]
+rescue URI::InvalidURIError
+  [str, nil]
 end
+
+def download_from_url(url)
+  response = URI.open(url, "User-Agent" => "Mozilla/5.0")
+  data = response.read
+  content_type = response.content_type.presence
+  [data, content_type]
+rescue => e
+  warn "Download failed from #{url}: #{e.message}"
+  [nil, nil]
+end
+
+def prepare_remote_file(source, default_content_type: nil)
+  str = source.to_s.strip
+  return nil if str.blank?
+
+  data = nil
+  content_type = nil
+
+  if drive_source?(str)
+    file_id, resourcekey = extract_drive_identifiers(str)
+
+    [drive_download_url(file_id, resourcekey: resourcekey),
+     drive_thumbnail_url(file_id, resourcekey: resourcekey)].compact.each do |url|
+      data, content_type = download_from_url(url)
+      break if data.present?
+    end
+  elsif str =~ %r{\Ahttps?://}
+    data, content_type = download_from_url(str)
+  else
+    warn "Unsupported remote source: #{str}"
+  end
+
+  return nil unless data.present?
+
+  io = StringIO.new(data)
+  io.set_encoding('BINARY') if io.respond_to?(:set_encoding)
+
+  {
+    io: io,
+    content_type: content_type.presence || default_content_type || "application/octet-stream"
+  }
+end
+
+def filename_from_source(source, fallback)
+  str = source.to_s
+  return fallback if str.blank? || str !~ %r{\Ahttps?://}
+
+  uri = URI.parse(str)
+  candidate = File.basename(uri.path.to_s).presence
+  candidate && candidate != "." ? candidate : fallback
+rescue URI::InvalidURIError
+  fallback
+end
+
 
 # Ensure a seed user exists (adjust email/password if needed)
 user = User.find_or_create_by!(email: "admin@example.com") { |u| u.password = "password" }
@@ -212,6 +287,10 @@ ARTICLES = [
 ]
 
 
+previous_cloudinary_folder = if defined?(Cloudinary) && Cloudinary.config.respond_to?(:folder)
+  Cloudinary.config.folder
+end
+
 Article.transaction do
   ARTICLES.each_with_index do |attrs, idx|
     a = Article.find_or_initialize_by(title: attrs[:title], user:)
@@ -230,28 +309,63 @@ Article.transaction do
 
     a.save!  # save record before attaching blobs
 
-    # --- Images (Active Storage, many) --------------------------------------
-    # Accept any of the following keys:
-    # - :image_file_ids  -> array of Drive file IDs or share URLs
-    # - :image_files     -> array (same as above; alias)
-    # - :image_file_id   -> single Drive file ID or share URL
     image_inputs =
       Array(attrs[:image_file_ids] || attrs[:image_files] || attrs[:image_file_id]).compact
 
     if image_inputs.any?
-      # Replace images on reseed to keep it idempotent
-      a.images.purge if a.images.attached?
+      pending_images = []
 
       image_inputs.each_with_index do |raw_or_id, i|
-        # attach_drive_image! should:
-        #   - accept file ID OR full share URL
-        #   - forward resourcekey if present
-        #   - try download first, then thumbnail as fallback
-        #   - NOT raise on failure (log and continue)
-        attach_drive_image!(a, raw_or_id, filename: "article_#{idx}_#{i}.jpg")
+        payload = prepare_remote_file(raw_or_id, default_content_type: "image/jpeg")
+
+        if payload
+          pending_images << payload.merge(filename: "article_#{idx}_#{i}.jpg")
+        else
+          warn "Skipped image ##{i + 1} for #{a.title}: source #{raw_or_id.inspect} could not be fetched"
+        end
+      end
+
+      if pending_images.any?
+        # Replace images on reseed to keep it idempotent
+        a.images.purge if a.images.attached?
+        pending_images.each { |payload| a.images.attach(payload) }
+        puts "→ attached #{pending_images.size} image(s) for #{a.title}"
+      else
+        warn "No new images attached for #{a.title}; keeping existing attachments"
+      end
+    end
+
+    media_inputs = Array(attrs[:media]).compact
+
+    if media_inputs.any?
+      pending_media = []
+
+      media_inputs.each_with_index do |source, i|
+        payload = prepare_remote_file(source)
+
+        if payload
+          fallback_name = "article_#{idx}_media_#{i}"
+          filename = filename_from_source(source, fallback_name)
+          filename += "#{File.extname(filename).presence || '.bin'}" unless filename.include?(".")
+          pending_media << payload.merge(filename: filename)
+        else
+          warn "Skipped media ##{i + 1} for #{a.title}: source #{source.inspect} could not be fetched"
+        end
+      end
+
+      if pending_media.any?
+        a.media.purge if a.media.attached?
+        pending_media.each { |payload| a.media.attach(payload) }
+        puts "→ attached #{pending_media.size} media file(s) for #{a.title}"
+      else
+        warn "No new media attached for #{a.title}; keeping existing attachments"
       end
     end
   end
+end
+
+if defined?(Cloudinary) && Cloudinary.config.respond_to?(:folder=)
+  Cloudinary.config.folder = previous_cloudinary_folder
 end
 
 puts "Finished! Created #{Article.count} articles."
