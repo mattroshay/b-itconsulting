@@ -60,7 +60,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background: transparent;
+    background: white;
     backdrop-filter: saturate(180%) blur(3px); //blur effect
     -webkit-backdrop-filter: saturate(180%) blur(3px); //blur effect
     border: 0px;
@@ -96,4 +96,8 @@
 
 .homepage .dropdown-menu a {
   color: white !important;
+}
+
+.homepage .dropdown-menu {
+  background: transparent !important;
 }

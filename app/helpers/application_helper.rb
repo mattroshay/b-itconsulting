@@ -24,10 +24,7 @@ module ApplicationHelper
 
   # Force Cloudinary helper to ignore the global folder Active Storage might set
   def cl_image_path(public_id, **opts)
-    Cloudinary::Utils.cloudinary_url(
-      public_id,
-      { resource_type: "image", type: "upload", secure: true, fetch_format: :auto, folder: nil, version: nil }.merge(opts)
-    )
+    cdn_image_src(public_id, **{ folder: nil }.merge(opts))
   end
 
 end
