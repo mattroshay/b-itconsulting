@@ -13,6 +13,9 @@ puts "Seeding articles…"
 require "open-uri"
 require "cgi"
 require "uri"
+require "active_support/inflector"
+require "active_support/core_ext/string/inflections"
+require "active_support/core_ext/object/blank"
 
 Article.destroy_all
 
@@ -112,6 +115,59 @@ def filename_from_source(source, fallback)
   candidate && candidate != "." ? candidate : fallback
 rescue URI::InvalidURIError
   fallback
+end
+
+def ensure_extension(filename, default_extension)
+  return filename if default_extension.nil? || default_extension.empty?
+
+  name = filename.to_s
+  name = "file" if name.empty?
+  name.include?(".") ? name : "#{name}#{default_extension}"
+end
+
+def attach_collection!(record, association:, sources:, default_content_type:, filename_prefix:, default_extension: nil, empty_message:)
+  inputs = Array(sources).compact
+  return if inputs.empty?
+
+  pending = []
+
+  inputs.each_with_index do |source, idx|
+    payload = prepare_remote_file(source, default_content_type: default_content_type)
+
+    if payload
+      base_name = if block_given?
+                    candidate = yield(source, idx, filename_prefix)
+                    candidate.nil? || candidate.to_s.empty? ? "#{filename_prefix}_#{idx}" : candidate
+                  else
+                    "#{filename_prefix}_#{idx}"
+                  end
+
+      pending << payload.merge(filename: ensure_extension(base_name, default_extension))
+    else
+      warn "Skipped #{association.to_s.singularize} ##{idx + 1} for #{record.title}: source #{source.inspect} could not be fetched"
+    end
+  end
+
+  attachments = record.public_send(association)
+
+  if pending.any?
+    attachments.purge if attachments.attached?
+    pending.each { |payload| attachments.attach(payload) }
+    puts "→ attached #{pending.size} #{association} for #{record.title}"
+  else
+    warn empty_message
+  end
+end
+
+def with_cloudinary_folder_reset
+  unless defined?(Cloudinary) && Cloudinary.config.respond_to?(:folder) && Cloudinary.config.respond_to?(:folder=)
+    return yield
+  end
+
+  previous_folder = Cloudinary.config.folder
+  yield
+ensure
+  Cloudinary.config.folder = previous_folder
 end
 
 
@@ -291,74 +347,47 @@ previous_cloudinary_folder = if defined?(Cloudinary) && Cloudinary.config.respon
   Cloudinary.config.folder
 end
 
-Article.transaction do
-  ARTICLES.each_with_index do |attrs, idx|
-    a = Article.find_or_initialize_by(title: attrs[:title], user:)
-    a.date    = attrs[:date]
-    a.content = attrs[:content]
+with_cloudinary_folder_reset do
+  Article.transaction do
+    ARTICLES.each_with_index do |attrs, idx|
+      a = Article.find_or_initialize_by(title: attrs[:title], user:)
+      a.date    = attrs[:date]
+      a.content = attrs[:content]
 
-    # --- Video (Drive preview iframe) ---------------------------------------
-    # Accept either a file_id or a full preview URL already in attrs
-    if attrs[:video_file_id].present?
-      a.video_embed_url = "https://drive.google.com/file/d/#{attrs[:video_file_id]}/preview"
-    elsif attrs[:video_embed_url].present?
-      a.video_embed_url = attrs[:video_embed_url]
-    else
-      a.video_embed_url = nil
-    end
-
-    a.save!  # save record before attaching blobs
-
-    image_inputs =
-      Array(attrs[:image_file_ids] || attrs[:image_files] || attrs[:image_file_id]).compact
-
-    if image_inputs.any?
-      pending_images = []
-
-      image_inputs.each_with_index do |raw_or_id, i|
-        payload = prepare_remote_file(raw_or_id, default_content_type: "image/jpeg")
-
-        if payload
-          pending_images << payload.merge(filename: "article_#{idx}_#{i}.jpg")
-        else
-          warn "Skipped image ##{i + 1} for #{a.title}: source #{raw_or_id.inspect} could not be fetched"
-        end
-      end
-
-      if pending_images.any?
-        # Replace images on reseed to keep it idempotent
-        a.images.purge if a.images.attached?
-        pending_images.each { |payload| a.images.attach(payload) }
-        puts "→ attached #{pending_images.size} image(s) for #{a.title}"
+      # --- Video (Drive preview iframe) ---------------------------------------
+      # Accept either a file_id or a full preview URL already in attrs
+      if attrs[:video_file_id].present?
+        a.video_embed_url = "https://drive.google.com/file/d/#{attrs[:video_file_id]}/preview"
+      elsif attrs[:video_embed_url].present?
+        a.video_embed_url = attrs[:video_embed_url]
       else
-        warn "No new images attached for #{a.title}; keeping existing attachments"
-      end
-    end
-
-    media_inputs = Array(attrs[:media]).compact
-
-    if media_inputs.any?
-      pending_media = []
-
-      media_inputs.each_with_index do |source, i|
-        payload = prepare_remote_file(source)
-
-        if payload
-          fallback_name = "article_#{idx}_media_#{i}"
-          filename = filename_from_source(source, fallback_name)
-          filename += "#{File.extname(filename).presence || '.bin'}" unless filename.include?(".")
-          pending_media << payload.merge(filename: filename)
-        else
-          warn "Skipped media ##{i + 1} for #{a.title}: source #{source.inspect} could not be fetched"
-        end
+        a.video_embed_url = nil
       end
 
-      if pending_media.any?
-        a.media.purge if a.media.attached?
-        pending_media.each { |payload| a.media.attach(payload) }
-        puts "→ attached #{pending_media.size} media file(s) for #{a.title}"
-      else
-        warn "No new media attached for #{a.title}; keeping existing attachments"
+      a.save!  # save record before attaching blobs
+
+      attach_collection!(
+        a,
+        association: :images,
+        sources: attrs[:image_file_ids] || attrs[:image_files] || attrs[:image_file_id],
+        default_content_type: "image/jpeg",
+        filename_prefix: "article_#{idx}",
+        default_extension: ".jpg",
+        empty_message: "No new images attached for #{a.title}; keeping existing attachments"
+      ) do |_source, i, prefix|
+        "#{prefix}_#{i}"
+      end
+
+      attach_collection!(
+        a,
+        association: :media,
+        sources: attrs[:media],
+        default_content_type: nil,
+        filename_prefix: "article_#{idx}_media",
+        default_extension: ".bin",
+        empty_message: "No new media attached for #{a.title}; keeping existing attachments"
+      ) do |source, i, prefix|
+        filename_from_source(source, "#{prefix}_#{i}")
       end
     end
   end

@@ -14,6 +14,10 @@ export default class extends Controller {
     }
   }
 
+  disconnect() {
+    this.indexValue = 0
+  }
+
   next(event) {
     event.preventDefault()
     this.show(this.indexValue + 1)
@@ -51,4 +55,3 @@ export default class extends Controller {
     })
   }
 }
-
