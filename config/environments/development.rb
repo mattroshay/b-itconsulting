@@ -77,14 +77,16 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
 
+
   config.action_mailer.smtp_settings = {
-    address: ENV["SMTP_ADDRESS"],
-    port: ENV["SMTP_PORT"],
-    domain: ENV["SMTP_DOMAIN"],
-    user_name: ENV["SMTP_USERNAME"],
-    password: ENV["SMTP_PASSWORD"],
-    authentication: :plain,
-    enable_starttls_auto: true
+    address:              ENV.fetch("SMTP_ADDRESS"),
+    port:                 ENV.fetch("SMTP_PORT", "465").to_i,
+    domain:               ENV.fetch("SMTP_DOMAIN"),
+    user_name:            ENV.fetch("SMTP_USERNAME"),
+    password:             ENV.fetch("SMTP_PASSWORD"),
+    authentication:       :plain,          # try :plain if login fails
+    ssl:                  true,            # implicit SSL for port 465
+    enable_starttls_auto: false            # STARTTLS is for port 587, not 465
   }
 
   # This helps with testing mail in development

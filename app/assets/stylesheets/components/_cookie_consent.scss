@@ -1,0 +1,67 @@
+.cookie-consent__banner {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  // width: min(420px, calc(100% - 32px));
+  z-index: 1050;
+}
+
+.cookie-consent__banner[hidden] {
+  display: none;
+}
+
+.cookie-consent__modal[hidden] {
+  display: none;
+}
+
+.cookie-consent__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cookie-consent__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(24, 28, 23, 0.55);
+}
+
+.cookie-consent__dialog {
+  position: relative;
+  // max-width: min(640px, calc(100% - 32px));
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.cookie-preferences-open {
+  overflow: hidden;
+}
+
+.cookie-consent__close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #33352f;
+  cursor: pointer;
+}
+
+@media (max-width: 576px) {
+  .cookie-consent__banner {
+    right: 16px;
+    left: 16px;
+    bottom: 16px;
+    width: auto;
+  }
+
+  .cookie-consent__dialog {
+    max-height: calc(100vh - 32px);
+  }
+}

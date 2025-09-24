@@ -1,0 +1,50 @@
+<% if current_page?(cookies_path) %>
+  <%# Skip the live consent banner on the cookie policy page %>
+<% else %>
+<div class="cookie-consent" data-cookie-consent>
+  <div class="cookie-consent__banner cookies-card cookies-card--banner" data-cookie-banner hidden>
+    <p class="cookies-card__eyebrow">Cookies</p>
+    <h3>Nous tenons compte de votre vie privée</h3>
+    <p>Nous utilisons des cookies pour améliorer votre expérience de navigation, diffuser des publicités ou du contenu personnalisé et analyser notre trafic. En cliquant sur "Tout Accepter", vous consentez à notre utilisation des cookies.</p>
+    <div class="cookies-actions cookies-actions--row">
+      <button type="button" class="cookies-button cookies-button--secondary" data-cookie-preferences-trigger>Préférences</button>
+      <button type="button" class="cookies-button cookies-button--secondary" data-cookie-reject>Tout refuser</button>
+    </div>
+    <button type="button" class="cookies-button cookies-button--primary cookies-button--full" data-cookie-accept>Tout accepter</button>
+  </div>
+
+  <div class="cookie-consent__modal" data-cookie-preferences hidden>
+    <div class="cookie-consent__overlay" data-cookie-preferences-close></div>
+    <div class="cookie-consent__dialog cookies-card cookies-card--preferences" role="dialog" aria-modal="true" aria-labelledby="cookie-preferences-title">
+      <button type="button" class="cookie-consent__close" aria-label="Fermer" data-cookie-preferences-close>&times;</button>
+      <p class="cookies-card__eyebrow">Personnalisez les préférences</p>
+      <h3 id="cookie-preferences-title">Personnaliser vos préférences</h3>
+      <p>Chez B-IT Consulting, nous attachons une grande importance à votre vie privée et à votre contrôle sur vos données. C’est pourquoi nous vous offrons la possibilité de personnaliser vos choix de cookies afin de garantir une expérience en ligne en accord avec vos besoins.</p>
+
+      <ul class="cookies-toggles">
+        <li class="cookies-toggle">
+          <span>Cookies nécessaires (Toujours actif)</span>
+          <span class="toggle toggle--locked" aria-hidden="true">On</span>
+        </li>
+        <li class="cookies-toggle">
+          <span>Cookies de performance</span>
+          <button type="button" class="toggle" data-cookie-toggle="performance" aria-pressed="true">On</button>
+        </li>
+        <li class="cookies-toggle">
+          <span>Cookies de personnalisation</span>
+          <button type="button" class="toggle" data-cookie-toggle="personalization" aria-pressed="true">On</button>
+        </li>
+        <li class="cookies-toggle">
+          <span>Cookies publicitaires</span>
+          <button type="button" class="toggle" data-cookie-toggle="marketing" aria-pressed="true">On</button>
+        </li>
+      </ul>
+
+      <div class="cookies-actions">
+        <button type="button" class="cookies-button cookies-button--ghost" data-cookie-preferences-close>Annuler</button>
+        <button type="button" class="cookies-button cookies-button--primary" data-cookie-save>Enregistrer mes choix</button>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

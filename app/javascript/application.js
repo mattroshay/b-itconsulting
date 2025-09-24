@@ -6,7 +6,9 @@ import "bootstrap"
 
 
 import { observeGauges } from "./gauge";
+import { initCookieConsent } from "./cookie_consent";
 
 document.addEventListener("turbo:load", () => {
   observeGauges();
+  initCookieConsent();
 });
