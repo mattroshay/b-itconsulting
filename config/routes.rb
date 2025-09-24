@@ -13,6 +13,9 @@ Rails.application.routes.draw do
 
   get "/about", to: "pages#about"
   get "/competences", to: "pages#competences"
+  get "/mentions-legales", to: "pages#legal_mentions"
+  get "/cookies", to: "pages#cookies"
+  get "/protection-des-donnees", to: "pages#data_protection"
   get 'contact', to: 'contacts#new'
   post 'contacts', to: 'contacts#create'
   # resources :articles, only: [:index, :show, :new]

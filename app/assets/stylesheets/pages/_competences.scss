@@ -39,11 +39,7 @@
   --rotation: 0deg;
 }
 
-body {
-  height: 100vh;
-}
-
-.container {
+.gauge-shell {
   font-family: Arial;
   height: calc(var(--gauge-size) / 2); // Half the gauge size for the container
   overflow: hidden;

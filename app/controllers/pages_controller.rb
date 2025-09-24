@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [ :home, :about, :contact, :competences ]
+  skip_before_action :authenticate_user!, only: [ :home, :about, :contact, :competences, :legal_mentions, :cookies, :data_protection ]
 
   def home
     @projects = [
@@ -371,5 +371,14 @@ class PagesController < ApplicationController
   end
 
   def competences
+  end
+
+  def legal_mentions
+  end
+
+  def cookies
+  end
+
+  def data_protection
   end
 end

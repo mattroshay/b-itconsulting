@@ -23,14 +23,14 @@
         <p><%= link_to "Accueil", root_path %></p>
         <p><%= link_to "À propos de", about_path %></p>
         <p><%= link_to "Compétences", competences_path %></p>
-        <p><%= link_to "Le numérique en Nouvelle-Aquitaine", "#" %></p>
+        <p><%= link_to "Le numérique en Nouvelle-Aquitaine", articles_path %></p>
       </div>
 
       <div>
         <h2 class="blue-headers">Informations</h2>
-        <p><a href="#">Mentions légales</a></p>
-        <p><a href="#">Protections des données</a></p>
-        <p><a href="#">Gestion des cookies</a></p>
+        <p><%= link_to "Mentions légales", mentions_legales_path %></p>
+        <p><%= link_to "Gestion des cookies", cookies_path %></p>
+        <p><%= link_to "Protection des données", protection_des_donnees_path %></p>
         <p><%= link_to "Contact", contact_path %></p>
       </div>
     </div>
