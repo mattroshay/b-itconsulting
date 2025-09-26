@@ -1,0 +1,350 @@
+/*
+ * Mobile Responsive Fixes - Minimal and Safe
+ * Based on Figma mobile design requirements
+ */
+
+// Mobile-first breakpoints
+@media (max-width: 768px) {
+
+  // Typography scaling for mobile - exact Figma specs
+  h1 {
+    font-size: 32px;
+    font-family: "Playfair Display", serif;
+    font-weight: black;
+    line-height: 1.2;
+    letter-spacing: 1%;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-family: "Playfair Display", serif;
+    font-weight: bold;
+    line-height: 1.3;
+    letter-spacing: 1%;
+    margin-bottom: 16px;
+    padding-top: 16px;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-family: "Playfair Display", serif;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 1%;
+    margin-bottom: 12px;
+  }
+
+  // Body text - exact Figma specs
+  p, li {
+    font-size: 16px;
+    font-family: "Satoshi Variable", sans-serif;
+    font-weight: regular;
+    line-height: 1.5;
+    letter-spacing: 0;
+    margin-bottom: 12px;
+  }
+
+  // Navigation links - exact Figma specs
+  .nav-link {
+    font-size: 16px;
+    font-family: "Playfair Display", serif;
+    font-weight: medium;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  // Button text - exact Figma specs
+  .button {
+    font-size: 16px;
+    font-family: "Satoshi Variable", sans-serif;
+    font-weight: bold;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  // Grid layouts - convert to single column with tight spacing
+  .content-main {
+    grid-template-columns: 1fr;
+    text-align: left;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  // Hero section specific spacing - ensure visibility
+  #hero-section {
+    margin-top: 10vh;
+    padding: 16px;
+  }
+
+  // Maintain parallax height but reduce padding
+  .parallax {
+    min-height: 100vh;
+    padding-bottom: 32px;
+  }
+
+  // Ensure overlay has proper height
+  .overlay {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 80px;
+  }
+
+  .flexbox {
+    grid-template-columns: 1fr;
+    padding: 24px 16px;
+  }
+
+  .flexbox2 {
+    grid-template-columns: 1fr;
+    padding: 24px 16px;
+  }
+
+  .flexbox3 {
+    grid-template-columns: 1fr;
+    padding: 24px 16px;
+  }
+
+  // Image responsiveness
+  .img-hp-lg,
+  .img-experience,
+  .img-formation {
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+  }
+
+  .content-secondary {
+    max-width: 100%;
+    width: 100%;
+    text-align: left;
+  }
+
+  // Text justification for content sections
+  .content-secondary p {
+    text-align: justify;
+  }
+
+  // Navigation improvements
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .navbar .navbar-brand img {
+    width: 60px;
+  }
+
+  // Footer mobile layout
+  .footer-section {
+    padding: 24px 16px;
+
+    .footer-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 24px;
+    }
+
+    .footer-logo {
+      justify-self: center;
+    }
+  }
+
+  // Contact page
+  .contact-grid {
+    grid-template-columns: 1fr;
+    margin-top: 80px;
+    padding: 0 16px;
+  }
+
+  // About page timeline - hide complex elements on mobile
+  .the-line::before {
+    display: none;
+  }
+
+  .experience-section {
+    grid-template-columns: 1fr;
+    padding: 32px 16px;
+  }
+
+  .formations {
+    grid-template-columns: 1fr;
+    padding: 32px 16px;
+  }
+
+  // Competences page
+  .competences-grid {
+    grid-template-columns: 1fr;
+    padding: 32px 16px;
+  }
+
+  .gauges-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .competences-text-wrapper {
+    width: 100%;
+  }
+
+  // Home page carousel - one image per screen
+  .carousel-container {
+    width: 95%;
+    margin: 32px auto;
+    padding: 16px 0;
+  }
+
+  .carousel-card {
+    flex: 0 0 90%;
+    min-width: 90%;
+    max-width: 90%;
+    margin: 0 auto;
+
+    img {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      object-fit: cover;
+    }
+
+    .carousel-text {
+      text-align: left;
+      padding: 16px 8px;
+
+      h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 1.4;
+      }
+    }
+  }
+
+  .testimonies-container {
+    grid-template-columns: 1fr;
+    margin: 0;
+    padding: 0 16px;
+  }
+
+  .testimony-card:last-child:nth-child(odd) {
+    grid-column: span 1;
+    width: 100%;
+  }
+
+  // Buttons
+  .button {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+  .center-button-wrapper {
+    margin-top: 24px;
+  }
+
+  // Scroll to top button
+  #scrollTop {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+    bottom: 20px;
+  }
+
+  // Social media links spacing
+  .social-link {
+    margin-right: 20px;
+  }
+
+  // Video button styling - compact
+  .button.border-radius.button-center {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    margin: 16px auto 0 0;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  // Content main inside hero needs proper spacing
+  .parallax .content-main {
+    padding: 0 16px;
+  }
+
+  // Ensure all text sections are left-aligned and justified
+  .flexbox,
+  .flexbox2,
+  .flexbox3 {
+    text-align: left;
+
+    p {
+      text-align: justify;
+    }
+  }
+}
+
+// Extra small mobile devices - maintain Figma specs but slightly smaller
+@media (max-width: 480px) {
+  h1 {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 12px;
+    padding-top: 12px;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  p, li {
+    font-size: 15px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .content-main {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  #hero-section {
+    margin-top: 8vh;
+    padding: 12px;
+  }
+
+  .overlay {
+    min-height: 100vh;
+    padding: 12px;
+    padding-top: 70px;
+  }
+
+  .parallax {
+    min-height: 100vh;
+  }
+
+  .gauges-container {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar .navbar-brand img {
+    width: 50px;
+  }
+
+  // Tighter spacing for very small screens
+  .social-link {
+    margin-right: 16px;
+  }
+
+  .button.border-radius.button-center {
+    margin: 12px auto 0 0;
+    font-size: 15px;
+    padding: 10px 16px;
+  }
+}
