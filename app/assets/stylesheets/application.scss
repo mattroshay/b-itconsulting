@@ -214,3 +214,6 @@ a {
 html {
   scroll-behavior: smooth;
 }
+
+// Mobile responsive styles (keep last so overrides apply)
+@import "responsive_mobile";
