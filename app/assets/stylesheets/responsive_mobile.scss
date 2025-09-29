@@ -124,6 +124,24 @@
     width: 60px;
   }
 
+  .navbar .navbar-collapse {
+    margin-top: 0.5rem;
+    background: rgba(255, 255, 255, 0.98);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .navbar .nav-link {
+    color: #1b1c17 !important;
+  }
+
+  .homepage .dropdown-menu,
+  .navbar .dropdown-menu {
+    background: rgba(255, 255, 255, 0.98) !important;
+    color: #1b1c17;
+  }
+
   .footer-section {
     padding: 24px 16px;
     margin-bottom: 4px;
@@ -144,6 +162,51 @@
     justify-self: center;
   }
 
+  .timeline-left summary::before,
+  .timeline-right summary::before,
+  .formation-card summary::before {
+    content: none;
+    display: none;
+  }
+
+  .timeline-left,
+  .timeline-right {
+    // margin: 24px auto 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .timeline-left details,
+  .timeline-right details {
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .timeline-left details + details,
+  .timeline-right details + details {
+    margin-top: 16px;
+  }
+
+  .timeline-left summary,
+  .timeline-right summary {
+    // padding: 16px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .timeline-left summary p,
+  .timeline-right summary p {
+    width: 100%;
+  }
+
+  .experience-body {
+    text-align: left;
+  }
+
   .contact-grid {
     grid-template-columns: 1fr;
     margin-top: 80px;
@@ -155,13 +218,32 @@
   }
 
   .experience-section {
-    grid-template-columns: 1fr;
-    padding: 32px 16px;
+    display: block;
+    padding: 32px;
+  }
+
+  .experience-section > div:first-child,
+  .experience-section > div:last-child {
+    display: none;
   }
 
   .formations {
     grid-template-columns: 1fr;
     padding: 32px 16px;
+  }
+
+  .projets-futurs {
+    display: block;
+    padding: 32px 16px;
+  }
+
+  .projets-futurs > div:first-child {
+    display: none;
+  }
+
+  .projets-futurs .formations-cards {
+    width: 100%;
+    margin: 0;
   }
 
   .competences-grid {
