@@ -79,3 +79,4 @@ end
 
 gem "cloudinary"
 # gem "activestorage-cloudinary-service"
+gem 'psych', '~> 5.1.0'
