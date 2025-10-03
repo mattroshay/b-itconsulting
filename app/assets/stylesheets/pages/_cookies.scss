@@ -22,13 +22,25 @@
 
 .cookies-card {
   background: #f4f1eb;
-  padding: 32px;
+  padding: 28px;
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
 }
 
 .cookies-card--banner {
   background: linear-gradient(150deg, #f7f0e6 0%, #f5efe7 100%);
+  padding: 24px;
+}
+
+.cookies-card--preferences .cookies-actions {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+}
+
+.cookies-card--preferences .cookies-actions .cookies-button {
+  min-width: 150px;
 }
 
 .cookies-card__eyebrow {
@@ -117,26 +129,70 @@
 
 .toggle {
   position: relative;
-  padding: 6px 24px;
+  width: 56px;
+  height: 28px;
+  padding: 0;
   border-radius: 999px;
-  background: #246eb9;
-  color: #ffffff;
+  background: #d0d4cc;
   border: none;
   cursor: pointer;
-  font-weight: 600;
-  transition: background 0.2s ease-in-out;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0;
+  line-height: 0;
 }
 
-.toggle[aria-pressed="false"] {
-  background: #d0d4cc;
-  color: #38402c;
+.toggle::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
+}
+
+.toggle[aria-pressed="true"] {
+  background: #246eb9;
+}
+
+.toggle[aria-pressed="true"]::after {
+  transform: translateX(28px);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid #246eb9;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(36, 110, 185, 0.2);
 }
 
 .toggle--locked {
-  padding: 6px 16px;
-  background: #d0d4cc;
-  color: #38402c;
+  display: inline-block;
+  width: 56px;
+  height: 28px;
+  border-radius: 999px;
+  background: #246eb9;
+  opacity: 0.7;
+  position: relative;
   cursor: not-allowed;
+}
+
+.toggle--locked::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  transform: translateX(28px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 @media (max-width: 992px) {
@@ -167,5 +223,13 @@
   .cookies-button {
     width: 100%;
     text-align: center;
+  }
+
+  .cookies-card--preferences .cookies-actions {
+    gap: 12px;
+  }
+
+  .cookies-card--preferences .cookies-actions .cookies-button {
+    width: 100%;
   }
 }

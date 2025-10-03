@@ -1,8 +1,12 @@
 .cookie-consent__banner {
   position: fixed;
-  bottom: 32px;
-  right: 32px;
-  // width: min(420px, calc(100% - 32px));
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 48px);
+  max-width: 550px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
   z-index: 1050;
 }
 
@@ -31,8 +35,9 @@
 
 .cookie-consent__dialog {
   position: relative;
-  // max-width: min(640px, calc(100% - 32px));
-  max-height: calc(100vh - 64px);
+  width: calc(100% - 64px);
+  max-width: 640px;
+  max-height: calc(100vh - 80px);
   overflow-y: auto;
   z-index: 1;
 }
@@ -55,13 +60,13 @@
 
 @media (max-width: 576px) {
   .cookie-consent__banner {
-    right: 16px;
-    left: 16px;
-    bottom: 16px;
-    width: auto;
+    width: calc(100% - 32px);
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .cookie-consent__dialog {
     max-height: calc(100vh - 32px);
+    width: calc(100% - 32px);
   }
 }

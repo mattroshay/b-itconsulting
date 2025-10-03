@@ -1,13 +1,34 @@
 const STORAGE_KEY = "cookiePreferences";
-const STORAGE_VERSION = 1;
+const STORAGE_VERSION = 2;
 const OPTIONAL_KEYS = ["performance", "personalization", "marketing"];
+const CONSENT_TTL_DAYS = 180;
+const MS_IN_DAY = 24 * 60 * 60 * 1000;
+const CONSENT_TTL_MS = CONSENT_TTL_DAYS * MS_IN_DAY;
 
 const DEFAULT_PREFERENCES = {
   necessary: true,
-  performance: true,
-  personalization: true,
-  marketing: true
+  performance: false,
+  personalization: false,
+  marketing: false
 };
+
+const CATEGORY_HANDLERS = OPTIONAL_KEYS.reduce((acc, key) => {
+  acc[key] = new Set();
+  return acc;
+}, {});
+
+const categoryStates = OPTIONAL_KEYS.reduce((acc, key) => {
+  acc[key] = false;
+  return acc;
+}, {});
+
+let latestPreferences = { ...DEFAULT_PREFERENCES };
+let handlersInitialised = false;
+
+const deferredElements = OPTIONAL_KEYS.reduce((acc, key) => {
+  acc.set(key, new Set());
+  return acc;
+}, new Map());
 
 const normalizePreferences = (input = {}) => ({
   necessary: true,
@@ -23,6 +44,149 @@ const computeConsentLabel = (preferences) => {
   return "custom";
 };
 
+const hasConsentExpired = (timestamp) => {
+  if (!timestamp) return true;
+  const updatedAt = new Date(timestamp);
+  if (Number.isNaN(updatedAt.getTime())) return true;
+  return Date.now() - updatedAt.getTime() > CONSENT_TTL_MS;
+};
+
+const clearStoredPreferences = () => {
+  if (typeof window === "undefined" || !window.localStorage) return;
+
+  try {
+    window.localStorage.removeItem(STORAGE_KEY);
+  } catch (_) {
+    // ignore inability to clear storage
+  }
+};
+
+const runCategoryHandlers = (preferences, { force = false } = {}) => {
+  latestPreferences = { ...DEFAULT_PREFERENCES, ...preferences };
+
+  OPTIONAL_KEYS.forEach((category) => {
+    const enabled = Boolean(latestPreferences[category]);
+    if (!force && enabled === categoryStates[category]) return;
+
+    CATEGORY_HANDLERS[category].forEach((handler) => {
+      try {
+        if (enabled) {
+          handler.enable?.();
+        } else {
+          handler.disable?.();
+        }
+      } catch (error) {
+        console.error(`Erreur lors de l'exécution du gestionnaire de cookies pour ${category} :`, error);
+      }
+    });
+
+    categoryStates[category] = enabled;
+  });
+};
+
+const registerCookieCategory = (category, handler) => {
+  if (!OPTIONAL_KEYS.includes(category)) {
+    console.warn(`Catégorie de cookies inconnue : ${category}`);
+    return () => {};
+  }
+
+  const normalized = typeof handler === "function"
+    ? { enable: handler }
+    : handler;
+
+  const entry = {
+    enable: normalized?.enable,
+    disable: normalized?.disable
+  };
+
+  CATEGORY_HANDLERS[category].add(entry);
+
+  runCategoryHandlers(latestPreferences, { force: true });
+
+  return () => {
+    CATEGORY_HANDLERS[category].delete(entry);
+    runCategoryHandlers(latestPreferences, { force: true });
+  };
+};
+
+const collectDeferredElements = () => {
+  deferredElements.forEach((records) => {
+    Array.from(records).forEach((record) => {
+      if (!record.template.isConnected) {
+        record.insertedNodes.forEach((node) => {
+          if (node?.parentNode) {
+            node.parentNode.removeChild(node);
+          }
+        });
+        record.insertedNodes = [];
+        records.delete(record);
+      }
+    });
+  });
+
+  document
+    .querySelectorAll("template[data-cookie-category]:not([data-cookie-processed])")
+    .forEach((template) => {
+      const category = template.dataset.cookieCategory;
+      if (!OPTIONAL_KEYS.includes(category)) return;
+
+      template.dataset.cookieProcessed = "true";
+
+      deferredElements.get(category).add({
+        template,
+        insertedNodes: []
+      });
+    });
+};
+
+const enableDeferredTemplates = (category) => {
+  const records = deferredElements.get(category);
+  if (!records) return;
+
+  records.forEach((record) => {
+    if (!record.template?.parentNode || record.insertedNodes.length) return;
+
+    const fragment = record.template.content.cloneNode(true);
+    const clones = Array.from(fragment.childNodes);
+    record.template.parentNode.insertBefore(fragment, record.template.nextSibling);
+    record.insertedNodes = clones;
+
+    record.insertedNodes = record.insertedNodes.map((node) => {
+      if (node.nodeType !== Node.ELEMENT_NODE || node.tagName !== "SCRIPT") {
+        return node;
+      }
+
+      const replacement = document.createElement("script");
+      Array.from(node.attributes).forEach((attr) => {
+        if (attr.name === "type" && attr.value === "text/plain") {
+          replacement.type = "text/javascript";
+        } else {
+          replacement.setAttribute(attr.name, attr.value);
+        }
+      });
+      replacement.textContent = node.textContent;
+      node.parentNode?.replaceChild(replacement, node);
+      return replacement;
+    });
+  });
+};
+
+const disableDeferredTemplates = (category) => {
+  const records = deferredElements.get(category);
+  if (!records) return;
+
+  records.forEach((record) => {
+    if (!record.insertedNodes.length) return;
+
+    record.insertedNodes.forEach((node) => {
+      if (node?.parentNode) {
+        node.parentNode.removeChild(node);
+      }
+    });
+    record.insertedNodes = [];
+  });
+};
+
 const readPreferences = () => {
   if (typeof window === "undefined" || !window.localStorage) return null;
 
@@ -31,23 +195,33 @@ const readPreferences = () => {
     if (!raw) return null;
 
     const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object" || !parsed.preferences) return null;
+    if (!parsed || typeof parsed !== "object" || !parsed.preferences) {
+      clearStoredPreferences();
+      return null;
+    }
+
+    if ((parsed.version || 0) !== STORAGE_VERSION) {
+      clearStoredPreferences();
+      return null;
+    }
+
+    if (hasConsentExpired(parsed.updatedAt)) {
+      clearStoredPreferences();
+      return null;
+    }
 
     const preferences = normalizePreferences(parsed.preferences);
+    const updatedAt = new Date(parsed.updatedAt).toISOString();
 
     return {
-      version: parsed.version || STORAGE_VERSION,
-      updatedAt: parsed.updatedAt,
+      version: STORAGE_VERSION,
+      updatedAt,
       consent: parsed.consent || computeConsentLabel(preferences),
       preferences
     };
   } catch (error) {
     console.warn("Impossible de lire les préférences de cookies :", error);
-    try {
-      window.localStorage.removeItem(STORAGE_KEY);
-    } catch (_) {
-      // ignore inability to remove item
-    }
+    clearStoredPreferences();
     return null;
   }
 };
@@ -76,7 +250,15 @@ const updateToggleButton = (button, enabled) => {
   if (!button) return;
   const value = Boolean(enabled);
   button.setAttribute("aria-pressed", value ? "true" : "false");
-  button.textContent = value ? "On" : "Off";
+  button.textContent = "";
+
+  const key = button.dataset.cookieToggle;
+  const labelBase = button.dataset.cookieLabel
+    || (key ? `les cookies ${key}` : "les cookies optionnels");
+  const actionLabel = value ? `Désactiver ${labelBase}` : `Activer ${labelBase}`;
+
+  button.setAttribute("aria-label", actionLabel);
+  button.setAttribute("title", actionLabel);
 };
 
 const syncPreviewToggles = (preferences) => {
@@ -101,7 +283,7 @@ const hideElement = (element) => {
   }
 };
 
-const setupCookieConsent = (root) => {
+const setupCookieConsent = (root, initialStored = null) => {
   const banner = root.querySelector("[data-cookie-banner]");
   const modal = root.querySelector("[data-cookie-preferences]");
   const toggleButtons = root.querySelectorAll("[data-cookie-toggle]:not([data-cookie-preview])");
@@ -111,7 +293,7 @@ const setupCookieConsent = (root) => {
   const saveButton = root.querySelector("[data-cookie-save]");
   const closeButtons = root.querySelectorAll("[data-cookie-preferences-close]");
 
-  let stored = readPreferences();
+  let stored = initialStored ?? readPreferences();
   let working = { ...(stored?.preferences || DEFAULT_PREFERENCES) };
   let bannerWasVisible = false;
 
@@ -128,6 +310,7 @@ const setupCookieConsent = (root) => {
     working = { ...(stored?.preferences || DEFAULT_PREFERENCES) };
     syncWorkingToggles();
     syncPreviewToggles(stored?.preferences || DEFAULT_PREFERENCES);
+    runCategoryHandlers(stored?.preferences || DEFAULT_PREFERENCES);
     if (stored) {
       hideElement(banner);
     } else {
@@ -167,6 +350,7 @@ const setupCookieConsent = (root) => {
     working = { ...payload.preferences };
     syncWorkingToggles();
     syncPreviewToggles(payload.preferences);
+    runCategoryHandlers(payload.preferences);
     hideElement(banner);
     closePreferences({ restore: false });
   };
@@ -240,24 +424,39 @@ const setupCookieConsent = (root) => {
 };
 
 const initCookieConsent = () => {
-  syncPreviewToggles(readPreferences()?.preferences || DEFAULT_PREFERENCES);
+  collectDeferredElements();
+
+  if (!handlersInitialised) {
+    OPTIONAL_KEYS.forEach((category) => {
+      registerCookieCategory(category, {
+        enable: () => enableDeferredTemplates(category),
+        disable: () => disableDeferredTemplates(category)
+      });
+    });
+    handlersInitialised = true;
+  }
+
+  const stored = readPreferences();
+  const effectivePreferences = stored?.preferences || DEFAULT_PREFERENCES;
+
+  runCategoryHandlers(effectivePreferences, { force: true });
+  syncPreviewToggles(effectivePreferences);
 
   const root = document.querySelector("[data-cookie-consent]");
   if (!root) return;
 
   if (root.dataset.cookieConsentInitialized === "true") {
-    const stored = readPreferences();
     if (stored) {
       hideElement(root.querySelector("[data-cookie-banner]"));
     } else {
       showElement(root.querySelector("[data-cookie-banner]"));
     }
-    syncPreviewToggles(stored?.preferences || DEFAULT_PREFERENCES);
+    syncPreviewToggles(effectivePreferences);
     return;
   }
 
   root.dataset.cookieConsentInitialized = "true";
-  setupCookieConsent(root);
+  setupCookieConsent(root, stored);
 };
 
-export { initCookieConsent };
+export { initCookieConsent, registerCookieCategory };
