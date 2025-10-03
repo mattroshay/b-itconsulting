@@ -349,7 +349,6 @@ PLATFORMS
 
 DEPENDENCIES
   autoprefixer-rails
-  bigdecimal (= 3.1.5)
   bootsnap
   bootstrap (~> 5.2)
   capybara
@@ -359,10 +358,8 @@ DEPENDENCIES
   dotenv-rails
   font-awesome-sass (~> 6.1)
   importmap-rails
-  io-console (~> 0.7.0)
   jbuilder
   pg (~> 1.1)
-  psych (= 5.1.2)
   puma (>= 5.0)
   rails (~> 7.1.5, >= 7.1.5.1)
   sassc-rails
@@ -370,7 +367,6 @@ DEPENDENCIES
   simple_form!
   sprockets-rails
   stimulus-rails
-  stringio (= 3.1.0)
   turbo-rails
   tzinfo-data
   web-console
