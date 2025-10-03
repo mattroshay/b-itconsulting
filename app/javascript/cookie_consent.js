@@ -80,7 +80,7 @@ const runCategoryHandlers = (preferences, { force = false } = {}) => {
           handler.disable?.();
         }
       } catch (error) {
-        console.error(`Erreur lors de l'exécution du gestionnaire de cookies pour ${category} :`, error);
+        console.error(`Erreur lors de l'exécution du gestionnaire de cookies (${enabled ? 'activation' : 'désactivation'}) pour ${category} :`, error);
       }
     });
 
