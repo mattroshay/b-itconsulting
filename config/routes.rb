@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, path: 'admin-console', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout'
+  }, skip: [:registrations]
+
+  # Allow users to edit their profile/password (but not register new accounts)
+  as :user do
+    get 'admin-console/edit', to: 'users/registrations#edit', as: :edit_user_registration
+    put 'admin-console', to: 'users/registrations#update', as: :user_registration
+  end
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
