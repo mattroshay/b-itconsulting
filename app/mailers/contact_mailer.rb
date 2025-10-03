@@ -8,4 +8,12 @@ class ContactMailer < ApplicationMailer
       reply_to: @form.email
     )
   end
+
+  def confirmation_email(form)
+    @form = form
+    mail(
+      to: @form.email,
+      subject: "Confirmation de votre message - B-IT Consulting"
+    )
+  end
 end
