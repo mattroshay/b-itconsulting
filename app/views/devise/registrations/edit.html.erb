@@ -18,10 +18,10 @@
                       hint: "Upload a new profile picture (optional)",
                       input_html: { accept: 'image/*' } %>
 
-          <% if resource.persisted? && resource.avatar.attached? && resource.avatar.blob.persisted? %>
+          <% if resource.avatar.attached? %>
             <div class="mb-3">
               <p class="small text-muted">Current avatar:</p>
-              <%= image_tag url_for(resource.avatar.variant(resize_to_limit: [200, 200])), class: "rounded-circle", style: "width: 80px; height: 80px; object-fit: cover;" %>
+              <%= image_tag resource.avatar, class: "rounded-circle", style: "width: 80px; height: 80px; object-fit: cover;" %>
             </div>
           <% end %>
 
