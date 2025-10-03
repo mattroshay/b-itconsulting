@@ -153,7 +153,7 @@ const enableDeferredTemplates = (category) => {
     record.template.parentNode.insertBefore(fragment, record.template.nextSibling);
     record.insertedNodes = clones;
 
-    record.insertedNodes = record.insertedNodes.map((node) => {
+    const normalizedNodes = record.insertedNodes.map((node) => {
       if (node.nodeType !== Node.ELEMENT_NODE || node.tagName !== "SCRIPT") {
         return node;
       }
@@ -170,6 +170,8 @@ const enableDeferredTemplates = (category) => {
       node.parentNode?.replaceChild(replacement, node);
       return replacement;
     });
+
+    record.insertedNodes = normalizedNodes;
   });
 };
 
@@ -287,6 +289,7 @@ const hideElement = (element) => {
 
 const setupCookieConsent = (root, initialStored = null) => {
   const banner = root.querySelector("[data-cookie-banner]");
+  const bannerBackdrop = root.querySelector("[data-cookie-banner-backdrop]");
   const modal = root.querySelector("[data-cookie-preferences]");
   const toggleButtons = root.querySelectorAll("[data-cookie-toggle]:not([data-cookie-preview])");
   const triggers = document.querySelectorAll("[data-cookie-preferences-trigger]");
@@ -315,9 +318,15 @@ const setupCookieConsent = (root, initialStored = null) => {
     runCategoryHandlers(stored?.preferences || DEFAULT_PREFERENCES);
     if (stored) {
       hideElement(banner);
+      hideElement(bannerBackdrop);
     } else {
       showElement(banner);
+      showElement(bannerBackdrop);
     }
+  };
+
+  const toggleBodyLock = (locked) => {
+    document.body.classList.toggle("cookie-preferences-open", locked);
   };
 
   const openPreferences = () => {
@@ -326,14 +335,15 @@ const setupCookieConsent = (root, initialStored = null) => {
     syncWorkingToggles();
     bannerWasVisible = banner ? !banner.hasAttribute("hidden") : false;
     hideElement(banner);
+    hideElement(bannerBackdrop);
     showElement(modal);
-    document.body.classList.add("cookie-preferences-open");
+    toggleBodyLock(true);
   };
 
   const closePreferences = ({ restore } = { restore: false }) => {
     if (!modal) return;
     hideElement(modal);
-    document.body.classList.remove("cookie-preferences-open");
+    toggleBodyLock(false);
 
     if (restore) {
       working = { ...(stored?.preferences || DEFAULT_PREFERENCES) };
@@ -342,6 +352,7 @@ const setupCookieConsent = (root, initialStored = null) => {
 
     if (!stored && bannerWasVisible) {
       showElement(banner);
+      showElement(bannerBackdrop);
     }
     bannerWasVisible = false;
   };
@@ -354,6 +365,7 @@ const setupCookieConsent = (root, initialStored = null) => {
     syncPreviewToggles(payload.preferences);
     runCategoryHandlers(payload.preferences);
     hideElement(banner);
+    hideElement(bannerBackdrop);
     closePreferences({ restore: false });
   };
 
@@ -362,8 +374,12 @@ const setupCookieConsent = (root, initialStored = null) => {
   syncPreviewToggles(stored?.preferences || DEFAULT_PREFERENCES);
   if (stored) {
     hideElement(banner);
+    hideElement(bannerBackdrop);
+    toggleBodyLock(false);
   } else {
     showElement(banner);
+    showElement(bannerBackdrop);
+    toggleBodyLock(true);
   }
 
   // Event bindings
@@ -448,10 +464,16 @@ const initCookieConsent = () => {
   if (!root) return;
 
   if (root.dataset.cookieConsentInitialized === "true") {
+    const banner = root.querySelector("[data-cookie-banner]");
+    const bannerBackdrop = root.querySelector("[data-cookie-banner-backdrop]");
     if (stored) {
-      hideElement(root.querySelector("[data-cookie-banner]"));
+      hideElement(banner);
+      hideElement(bannerBackdrop);
+      toggleBodyLock(false);
     } else {
-      showElement(root.querySelector("[data-cookie-banner]"));
+      showElement(banner);
+      showElement(bannerBackdrop);
+      toggleBodyLock(true);
     }
     syncPreviewToggles(effectivePreferences);
     return;

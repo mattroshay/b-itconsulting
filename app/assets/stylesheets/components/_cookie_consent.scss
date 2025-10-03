@@ -10,6 +10,18 @@
   z-index: 1050;
 }
 
+.cookie-consent__banner-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(24, 28, 23, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 1040;
+}
+
+.cookie-consent__banner-backdrop[hidden] {
+  display: none;
+}
+
 .cookie-consent__banner[hidden] {
   display: none;
 }
@@ -30,7 +42,8 @@
 .cookie-consent__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(24, 28, 23, 0.55);
+  background: rgba(24, 28, 23, 0.45);
+  backdrop-filter: blur(2px);
 }
 
 .cookie-consent__dialog {
