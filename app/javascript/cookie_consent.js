@@ -4,11 +4,9 @@ const OPTIONAL_KEYS = ["performance", "personalization", "marketing"];
 const CONSENT_TTL_DAYS = 180;
 const MS_IN_DAY = 24 * 60 * 60 * 1000;
 
-function daysToMilliseconds(days) {
-  return days * MS_IN_DAY;
-}
+// Inline days to milliseconds calculation for CONSENT_TTL_MS
 
-const CONSENT_TTL_MS = daysToMilliseconds(CONSENT_TTL_DAYS);
+const CONSENT_TTL_MS = CONSENT_TTL_DAYS * MS_IN_DAY;
 const DEFAULT_PREFERENCES = {
   necessary: true,
   performance: false,
