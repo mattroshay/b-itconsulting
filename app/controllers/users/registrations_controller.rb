@@ -9,13 +9,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def update_resource(resource, params)
     # Allow users to update without password if only changing profile info
-    if params[:password].blank? && params[:password_confirmation].blank?
-      params.delete(:password)
-      params.delete(:password_confirmation)
-      params.delete(:current_password)
-      resource.update_without_password(params)
+    if params[:password].blank?
+      resource.update_without_password(params.except(:current_password, :password, :password_confirmation))
     else
-      super
+      # Changing password - require current password
+      resource.update_with_password(params)
     end
   end
 end
