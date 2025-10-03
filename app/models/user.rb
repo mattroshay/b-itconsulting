@@ -12,8 +12,11 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}".strip
   end
 
-  def avatar_url
+  # Returns the fallback avatar URL (auto-generated with initials)
+  # Note: This method only returns the fallback URL, not uploaded avatars
+  # Use avatar.attached? and avatar directly for uploaded avatars in views
+  def fallback_avatar_url
     name = "#{first_name}+#{last_name}"
-    "https://ui-avatars.com/api/?name=#{CGI.escape(name)}&background=0D6EFD&color=fff"
+    "https://ui-avatars.com/api/?name=#{ERB::Util.url_encode(name)}&background=0D6EFD&color=fff"
   end
 end
