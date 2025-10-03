@@ -9,6 +9,7 @@ class ContactsController < ApplicationController
 
     if @form.valid?
       ContactMailer.contact_email(@form).deliver_now
+      ContactMailer.confirmation_email(@form).deliver_now
       redirect_to contact_path, notice: "Votre message a été envoyé avec succès."
     else
       render :new, status: :unprocessable_entity
