@@ -13,10 +13,7 @@ class User < ApplicationRecord
   end
 
   def avatar_url
-    if avatar.attached?
-      avatar
-    else
-      "https://ui-avatars.com/api/?name=#{first_name}+#{last_name}&background=0D6EFD&color=fff"
-    end
+    name = "#{first_name}+#{last_name}"
+    "https://ui-avatars.com/api/?name=#{CGI.escape(name)}&background=0D6EFD&color=fff"
   end
 end
