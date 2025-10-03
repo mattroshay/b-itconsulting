@@ -13,7 +13,7 @@ class User < ApplicationRecord
   end
 
   def avatar_url
-    name = "#{first_name}+#{last_name}"
+    name = "#{first_name.to_s}+#{last_name.to_s}"
     "https://ui-avatars.com/api/?name=#{ERB::Util.url_encode(name)}&background=0D6EFD&color=fff"
   end
 end
