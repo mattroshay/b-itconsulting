@@ -19,7 +19,7 @@
     <p><strong>Email:</strong> <%= @form.email %></p>
     <p><strong>Objet:</strong> <%= @form.subject %></p>
     <p><strong>Message:</strong></p>
-    <p><%= simple_format(@form.message) %></p>
+    <p><%= simple_format(h(@form.message)) %></p>
 
     <hr>
 
