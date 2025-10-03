@@ -3,8 +3,12 @@ const STORAGE_VERSION = 2;
 const OPTIONAL_KEYS = ["performance", "personalization", "marketing"];
 const CONSENT_TTL_DAYS = 180;
 const MS_IN_DAY = 24 * 60 * 60 * 1000;
-const CONSENT_TTL_MS = CONSENT_TTL_DAYS * MS_IN_DAY;
 
+function daysToMilliseconds(days) {
+  return days * MS_IN_DAY;
+}
+
+const CONSENT_TTL_MS = daysToMilliseconds(CONSENT_TTL_DAYS);
 const DEFAULT_PREFERENCES = {
   necessary: true,
   performance: false,
