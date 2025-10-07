@@ -140,9 +140,20 @@
   color: white !important;
 }
 
+// .homepage .dropdown-menu {
+//   background: rgba(255, 255, 255, 0.25) !important;
+//   backdrop-filter: blur(16px) saturate(180%) !important;
+//   -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+//   border: 1px solid rgba(255, 255, 255, 0.3);
+// }
+
 .homepage .dropdown-menu {
-  background: rgba(255, 255, 255, 0.25) !important;
-  backdrop-filter: blur(16px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: #246eb980; // blue base with transparency
+  color: white;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
