@@ -150,10 +150,9 @@
 .homepage .dropdown-menu {
   opacity: 0;
   visibility: hidden;
-  border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background-color: #246eb980; // blue base with transparency
-  color: white;
+  color: black;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
