@@ -3,6 +3,8 @@
  * Based on Figma mobile and tablet design requirements
  */
 
+@import "config/variables";
+
 // Shared adjustments for handheld devices (portrait & landscape phones)
 @mixin handheld-overrides {
   h1 {
@@ -193,7 +195,7 @@
 
   .carousel-card img {
     width: 100%;
-    height: 250px;
+    height: $carousel-image-height-mobile;
     object-fit: cover;
   }
 

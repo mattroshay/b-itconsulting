@@ -1,3 +1,5 @@
+@import "config/variables";
+
 .navbar {
   justify-content: space-between;
   background: transparent;
@@ -14,13 +16,13 @@
   letter-spacing: 0;
 
   // Mobile responsive backgrounds
-  @media (max-width: 767px) {
+  @media (max-width: $mobile-breakpoint) {
     background: white;
   }
 }
 
 .homepage .navbar {
-  @media (max-width: 767px) {
+  @media (max-width: $mobile-breakpoint) {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
