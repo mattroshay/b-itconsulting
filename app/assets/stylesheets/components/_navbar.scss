@@ -140,7 +140,9 @@
   color: white !important;
 }
 
-// remove white background from dropdown on homepage - unclear with bottom frosted background
-// .homepage .dropdown-menu {
-//   background: transparent !important;
-// }
+.homepage .dropdown-menu {
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
