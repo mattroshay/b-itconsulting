@@ -1,3 +1,43 @@
+<%
+  summary = truncate(strip_tags(@article.content.to_s).squish, length: 160)
+  image_url_for_meta = @article.images.attached? ? url_for(@article.images.first) : nil
+
+  set_meta_tags(
+    title: "#{@article.title} | Blog IT B-IT Consulting",
+    description: summary,
+    canonical: article_url(@article),
+    image: image_url_for_meta
+  )
+
+  article_structured_data = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": @article.title,
+    "description": summary,
+    "mainEntityOfPage": article_url(@article),
+    "author": {
+      "@type": "Person",
+      "name": "Benoît Marfany"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "B-IT Consulting",
+      "logo": {
+        "@type": "ImageObject",
+        "url": asset_url("Logo/Vista Logos/logo-transparent-png.png")
+      }
+    }
+  }
+  article_structured_data["image"] = image_url_for_meta if image_url_for_meta.present?
+  article_structured_data["datePublished"] = @article.date.iso8601 if @article.date.present?
+%>
+
+<% content_for :structured_data do %>
+  <%= tag.script(type: "application/ld+json") do %>
+    <%= article_structured_data.to_json.html_safe %>
+  <% end %>
+<% end %>
+
 <div class="article-show-page top-margin">
   <nav class="article-breadcrumb">
     <%= link_to "← Retour au blog", articles_path, class: "back-link" %>
