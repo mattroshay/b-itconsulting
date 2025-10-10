@@ -229,6 +229,13 @@
     justify-items: center;
   }
 
+  .gauge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
   .competences-text-wrapper {
     width: 100%;
   }
@@ -363,6 +370,13 @@
   .gauges-container {
     grid-template-columns: 1fr;
     justify-items: center;
+  }
+
+  .gauge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .navbar .navbar-brand img {
