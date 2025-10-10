@@ -165,12 +165,18 @@
   .timeline-right {
     padding-left: 0;
     padding-right: 0;
+    margin: 0;
     width: 100%;
 
     details {
       padding-left: 0;
       padding-right: 0;
       width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    details:last-child {
+      margin-bottom: 0;
     }
 
     &::before {
@@ -180,7 +186,26 @@
 
   .experience-section {
     grid-template-columns: 1fr;
-    padding: 32px 16px;
+    padding: 0 16px;
+    gap: 16px;
+  }
+
+  .experience-section:first-child {
+    padding-top: 16px;
+  }
+
+  .experience-section-2 {
+    display: flex;
+    flex-direction: column;
+
+    .timeline-right {
+      order: 2;
+    }
+
+    .img-experience-2 {
+      order: 1;
+      margin: 16px 0;
+    }
   }
 
   .formations {
