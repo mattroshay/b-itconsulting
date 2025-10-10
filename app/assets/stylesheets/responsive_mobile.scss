@@ -226,6 +226,7 @@
   .gauges-container {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
+    justify-items: center;
   }
 
   .competences-text-wrapper {
@@ -361,6 +362,7 @@
 
   .gauges-container {
     grid-template-columns: 1fr;
+    justify-items: center;
   }
 
   .navbar .navbar-brand img {
