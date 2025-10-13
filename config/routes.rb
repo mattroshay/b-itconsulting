@@ -27,10 +27,7 @@ Rails.application.routes.draw do
   get "/protection-des-donnees", to: "pages#data_protection"
   get 'contact', to: 'contacts#new'
   post 'contacts', to: 'contacts#create'
-  # resources :articles, only: [:index, :show, :new]
-  get  '/articles', to: 'articles#index', as: 'articles'
-  get  '/articles/new', to: 'articles#new',   as: 'new_article'
-  get  '/articles/:id', to: 'articles#show',  as: 'article'
+  resources :articles
 end
 
 

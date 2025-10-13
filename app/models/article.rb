@@ -2,11 +2,16 @@
 class Article < ApplicationRecord
   belongs_to :user
 
-  # has_one_attached :image
+  # Rich text content using Action Text
+  has_rich_text :rich_content
+
+  # Legacy images attachment (for backwards compatibility with old articles)
   has_many_attached :images
+
+  # Additional media attachments (separate from inline Action Text attachments)
   has_many_attached :media
 
-  validates :title, :content, presence: true
+  validates :title, presence: true
   validate  :media_types_ok
 
   def media_images
@@ -22,8 +27,8 @@ class Article < ApplicationRecord
   def media_types_ok
     media.each do |file|
       ct = file.content_type.to_s
-      unless ct.start_with?("image/") || ct.start_with?("video/")
-        errors.add(:media, "must be an image or a video (got #{ct.presence || 'unknown'})")
+      unless ct.start_with?("image/") || ct.start_with?("video/") || ct.start_with?("image/gif")
+        errors.add(:media, "must be an image, video, or GIF (got #{ct.presence || 'unknown'})")
       end
     end
   end

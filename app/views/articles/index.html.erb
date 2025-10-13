@@ -9,11 +9,13 @@
     <h1 class="articles-title">Le numérique en Nouvelle-Aquitaine</h1>
 
     <div class="articles-grid">
-      <% @articles.reverse.each do |article| %>
+      <% @articles.each do |article| %>
         <article class="article-card">
           <%= link_to article_path(article), class: "article-media" do %>
             <% if article.images.attached? %>
               <%= image_tag url_for(article.images.first), alt: article.title %>
+            <% elsif article.media_images.any? %>
+              <%= image_tag url_for(article.media_images.first), alt: article.title %>
             <% elsif article.video_embed_url.present? %>
               <iframe
                 src="<%= article.video_embed_url %>"
@@ -29,7 +31,8 @@
             <%= link_to article.title, article_path(article) %>
           </h2>
           <p class="article-card__meta"><%= article.date&.strftime("%d %B %Y") %></p>
-          <p class="article-card__excerpt"><%= truncate(strip_tags(article.content), length: 280) %></p>
+          <% content_text = article.rich_content.present? ? article.rich_content.to_s : article.content.to_s %>
+          <p class="article-card__excerpt"><%= truncate(strip_tags(content_text), length: 280) %></p>
 
           <div class="article-card__share">
             <span>Partager l’article</span>
