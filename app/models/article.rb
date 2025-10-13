@@ -27,7 +27,7 @@ class Article < ApplicationRecord
   def media_types_ok
     media.each do |file|
       ct = file.content_type.to_s
-      unless ct.start_with?("image/") || ct.start_with?("video/") || ct.start_with?("image/gif")
+      unless ct.start_with?("image/") || ct.start_with?("video/")
         errors.add(:media, "must be an image, video, or GIF (got #{ct.presence || 'unknown'})")
       end
     end
