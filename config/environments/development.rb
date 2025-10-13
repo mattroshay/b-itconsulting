@@ -1,7 +1,11 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  config.action_mailer.default_url_options = { host: "http://localhost:3000" }
+  config.x.app_host = "localhost"
+  config.x.app_protocol = "http"
+  config.x.app_port = 3000
+
+  config.action_mailer.default_url_options = { host: config.x.app_host, port: config.x.app_port, protocol: config.x.app_protocol }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
@@ -76,8 +80,6 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
   config.action_mailer.delivery_method = :smtp
-
-
   config.action_mailer.smtp_settings = {
     address:              ENV.fetch("SMTP_ADDRESS"),
     port:                 ENV.fetch("SMTP_PORT", "465").to_i,
@@ -91,6 +93,16 @@ Rails.application.configure do
 
   # This helps with testing mail in development
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  config.after_initialize do
+    default_url_options = {
+      host: Rails.application.config.x.app_host,
+      port: Rails.application.config.x.app_port,
+      protocol: Rails.application.config.x.app_protocol
+    }
+    Rails.application.routes.default_url_options.merge!(default_url_options)
+    config.action_controller.default_url_options = default_url_options
+    ActiveStorage::Current.url_options = default_url_options
+  end
 
 end

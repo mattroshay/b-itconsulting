@@ -1,0 +1,82 @@
+<div class="article-form-page">
+  <%= simple_form_for(@article, html: { multipart: true, class: "article-form" }) do |f| %>
+    <div class="flexbox2">
+      <div></div>
+      <div class="article-form-content">
+        <h1 class="mb-4"><%= @article.persisted? ? "Modifier l'article" : "Nouvel article" %></h1>
+
+        <%= f.error_notification %>
+        <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+        <div class="form-group mb-4">
+          <%= f.input :title,
+                      label: "Titre",
+                      placeholder: "Titre de l'article",
+                      input_html: { class: "form-control" },
+                      wrapper_html: { class: "mb-3" } %>
+        </div>
+
+        <div class="form-group mb-4">
+          <%= f.input :date,
+                      label: "Date de publication",
+                      as: :date,
+                      html5: true,
+                      input_html: { class: "form-control", value: @article.date || Date.today },
+                      wrapper_html: { class: "mb-3" } %>
+        </div>
+
+        <div class="form-group mb-4 rich-text-field">
+          <%= f.label :rich_content, "Contenu de l'article", class: "form-label" %>
+          <%= f.rich_text_area :rich_content %>
+          <small class="form-text text-muted d-block mt-2">
+            Utilisez la barre d'outils pour formater votre texte (gras, italique, listes, etc.).
+            Vous pouvez également insérer des images directement dans le contenu.
+          </small>
+        </div>
+
+        <div class="form-group mb-4">
+          <%= f.label :media, "Médias supplémentaires (Images, Vidéos, GIFs)", class: "form-label" %>
+          <%= f.input :media,
+                      as: :file,
+                      label: false,
+                      input_html: {
+                        multiple: true,
+                        accept: "image/*,video/*",
+                        class: "form-control"
+                      },
+                      wrapper_html: { class: "mb-2" } %>
+          <small class="form-text text-muted d-block">
+            Vous pouvez sélectionner plusieurs fichiers (images, vidéos, GIFs).
+          </small>
+
+          <% if @article.persisted? && @article.media.attached? %>
+            <div class="mt-3">
+              <h6>Fichiers attachés:</h6>
+              <div class="d-flex flex-wrap" style="gap: 10px;">
+                <% @article.media.each do |file| %>
+                  <div class="position-relative" style="width: 100px; height: 100px;">
+                    <% if file.content_type.start_with?("image/") %>
+                      <%= image_tag file, class: "img-thumbnail", style: "width: 100%; height: 100%; object-fit: cover;" %>
+                    <% elsif file.content_type.start_with?("video/") %>
+                      <video class="img-thumbnail" style="width: 100%; height: 100%; object-fit: cover;">
+                        <source src="<%= url_for(file) %>" type="<%= file.content_type %>">
+                      </video>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="form-actions d-flex justify-content-between align-items-center mt-5 pt-3">
+          <%= link_to "Annuler", articles_path, class: "btn btn-outline-secondary" %>
+          <%= f.button :submit,
+                      @article.persisted? ? "Mettre à jour l'article" : "Créer l'article",
+                      class: "button border-radius" %>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  <% end %>
+</div>

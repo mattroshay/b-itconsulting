@@ -1,6 +1,15 @@
 <%
-  summary = truncate(strip_tags(@article.content.to_s).squish, length: 160)
-  image_url_for_meta = @article.images.attached? ? url_for(@article.images.first) : nil
+  content_for_summary = @article.rich_content.present? ? @article.rich_content.to_s : @article.content.to_s
+  summary = truncate(strip_tags(content_for_summary).squish, length: 160)
+
+  # Prioritize old 'images' attachment, then new 'media' attachment
+  if @article.images.attached?
+    image_url_for_meta = url_for(@article.images.first)
+  elsif @article.media_images.any?
+    image_url_for_meta = url_for(@article.media_images.first)
+  else
+    image_url_for_meta = nil
+  end
 
   set_meta_tags(
     title: "#{@article.title} | Blog IT B-IT Consulting",
@@ -41,6 +50,19 @@
 <div class="article-show-page top-margin">
   <nav class="article-breadcrumb">
     <%= link_to "← Retour au blog", articles_path, class: "back-link" %>
+
+    <% if user_signed_in? %>
+      <div class="article-admin-actions">
+        <%= link_to edit_article_path(@article), class: "btn btn-outline-primary btn-sm" do %>
+          <i class="fa-solid fa-pen-to-square"></i> Modifier
+        <% end %>
+        <%= link_to article_path(@article),
+                    data: { turbo_method: :delete, turbo_confirm: "Êtes-vous sûr de vouloir supprimer cet article ?" },
+                    class: "btn btn-outline-danger btn-sm" do %>
+          <i class="fa-solid fa-trash"></i> Supprimer
+        <% end %>
+      </div>
+    <% end %>
   </nav>
 
   <header class="article-hero">
@@ -102,6 +124,66 @@
           <%= image_tag url_for(@article.images.first), alt: @article.title, class: "article-image" %>
         </div>
       <% end %>
+    <% elsif @article.media_images.any? %>
+      <% if @article.media_images.many? %>
+        <div class="article-cover article-carousel" data-controller="article-carousel">
+          <div class="article-carousel__viewport" aria-live="polite">
+            <% @article.media_images.each_with_index do |img, idx| %>
+              <figure
+                class="article-carousel__slide"
+                data-article-carousel-target="slide"
+                <%= "hidden" unless idx.zero? %>
+              >
+                <%= image_tag url_for(img), alt: "#{@article.title} – image #{idx + 1}", class: "article-image" %>
+              </figure>
+            <% end %>
+          </div>
+
+          <button
+            type="button"
+            class="article-carousel__control article-carousel__control--prev"
+            aria-label="Image précédente"
+            data-action="article-carousel#prev"
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            class="article-carousel__control article-carousel__control--next"
+            aria-label="Image suivante"
+            data-action="article-carousel#next"
+          >
+            ›
+          </button>
+
+          <div class="article-carousel__indicators">
+            <% @article.media_images.each_with_index do |_, idx| %>
+              <button
+                type="button"
+                class="article-carousel__indicator <%= 'is-active' if idx.zero? %>"
+                aria-label="Voir l'image <%= idx + 1 %>"
+                aria-current="<%= idx.zero? ? 'true' : 'false' %>"
+                data-action="article-carousel#go"
+                data-article-carousel-target="indicator"
+                data-index="<%= idx %>"
+              ></button>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div class="article-cover">
+          <%= image_tag url_for(@article.media_images.first), alt: @article.title, class: "article-image" %>
+        </div>
+      <% end %>
+    <% elsif @article.media_videos.any? %>
+      <% primary_video = @article.media_videos.first %>
+      <div class="article-cover">
+        <video controls playsinline preload="metadata">
+          <source src="<%= url_for(primary_video) %>" type="<%= primary_video.content_type %>">
+          Votre navigateur ne supporte pas les vidéos HTML5.
+        </video>
+      </div>
     <% elsif @article.video_embed_url.present? %>
       <div class="article-cover video-wrapper">
         <iframe
@@ -114,13 +196,11 @@
   </header>
 
   <article class="article-body prose">
-    <%= simple_format(@article.content) %>
+    <% if @article.rich_content.present? %>
+      <%= @article.rich_content %>
+    <% elsif @article.content.present? %>
+      <%= simple_format(@article.content) %>
+    <% end %>
   </article>
 
-  <%# Optional: download button if you later use file_url %>
-  <% if @article.file_url.present? %>
-    <div class="article-download mt-4">
-      <%= link_to "Télécharger la pièce jointe", @article.file_url, class: "btn btn-primary", download: true %>
-    </div>
-  <% end %>
 </div>

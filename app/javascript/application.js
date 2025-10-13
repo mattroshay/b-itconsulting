@@ -4,6 +4,9 @@ import "controllers"
 import "@popperjs/core"
 import "bootstrap"
 
+import * as ActiveStorage from "@rails/activestorage"
+
+ActiveStorage.start()
 
 import { observeGauges } from "./gauge";
 import { initCookieConsent } from "./cookie_consent";
@@ -12,3 +15,6 @@ document.addEventListener("turbo:load", () => {
   observeGauges();
   initCookieConsent();
 });
+
+import "trix"
+import "@rails/actiontext"

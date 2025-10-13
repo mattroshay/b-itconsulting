@@ -1,7 +1,20 @@
 require "active_support/core_ext/integer/time"
+require "uri"
 
 Rails.application.configure do
-  config.action_mailer.default_url_options = { host: "https://b-itconsulting-cfdb3efa88f5.herokuapp.com" }
+  raw_app_host = ENV.fetch("APP_HOST", "b-itconsulting-cfdb3efa88f5.herokuapp.com")
+  raw_app_protocol = ENV.fetch("APP_PROTOCOL", "https")
+  uri = raw_app_host.include?("://") ? URI.parse(raw_app_host) : URI::Generic.build(scheme: raw_app_protocol, host: raw_app_host)
+
+  config.x.app_host = uri.host
+  config.x.app_protocol = uri.scheme || raw_app_protocol
+  config.x.app_port = uri.port if uri.port && ![80, 443].include?(uri.port)
+
+  config.action_mailer.default_url_options = {
+    host: config.x.app_host,
+    protocol: config.x.app_protocol
+  }
+  config.action_mailer.default_url_options[:port] = config.x.app_port if config.x.app_port
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -108,4 +121,18 @@ Rails.application.configure do
     ssl: true,
     enable_starttls_auto: false
   }
+
+  config.after_initialize do
+    default_url_options = {
+      host: Rails.application.config.x.app_host,
+      protocol: Rails.application.config.x.app_protocol
+    }
+    if (port = Rails.application.config.x.app_port)
+      default_url_options[:port] = port
+    end
+
+    Rails.application.routes.default_url_options.merge!(default_url_options)
+    config.action_controller.default_url_options = default_url_options
+    ActiveStorage::Current.url_options = default_url_options
+  end
 end
