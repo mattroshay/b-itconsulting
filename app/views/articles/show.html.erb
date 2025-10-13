@@ -163,7 +163,7 @@
                 type="button"
                 class="article-carousel__indicator <%= 'is-active' if idx.zero? %>"
                 aria-label="Voir l'image <%= idx + 1 %>"
-                aria-current="<%= idx.zero? %>"
+                aria-current="<%= idx.zero? ? 'true' : 'false' %>"
                 data-action="article-carousel#go"
                 data-article-carousel-target="indicator"
                 data-index="<%= idx %>"
