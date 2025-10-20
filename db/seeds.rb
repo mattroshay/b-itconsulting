@@ -175,7 +175,7 @@ end
 user = User.find_or_create_by!(email: "admin@example.com") do |u|
   u.password = "password"
   u.first_name = "Admin"  # Add this
-  u.last_name = "User"    # Add this
+  u.last_name = "User"
 end
 
 ARTICLES = [
