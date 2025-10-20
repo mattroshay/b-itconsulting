@@ -76,3 +76,5 @@ end
 
 gem "cloudinary"
 # gem "activestorage-cloudinary-service"
+
+gem 'mini_racer'
