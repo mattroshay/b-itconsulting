@@ -170,12 +170,77 @@ ensure
   Cloudinary.config.folder = previous_folder
 end
 
+puts "Creating admin users..."
 
-# Ensure a seed user exists (adjust email/password if needed)
-user = User.find_or_create_by!(email: "admin@example.com") do |u|
-  u.password = "password"
-  u.first_name = "Admin"  # Add this
-  u.last_name = "User"
+# Helper to create admin user from ENV variables with given prefix
+def create_admin_user(prefix, default_first_name: 'Admin', default_last_name: nil)
+  email = ENV["#{prefix}_EMAIL"]
+  password = ENV["#{prefix}_PASSWORD"]
+  first_name = ENV.fetch("#{prefix}_FIRST_NAME", default_first_name)
+  last_name = ENV.fetch("#{prefix}_LAST_NAME", default_last_name || prefix.titleize)
+
+  if email.present? && password.present?
+    user = User.find_or_initialize_by(email: email)
+    if user.new_record?
+      user.first_name = first_name
+      user.last_name = last_name
+      user.password = password
+      user.password_confirmation = password
+      user.save!
+      puts "→ Created user: #{user.email}"
+    else
+      puts "→ User already exists: #{user.email} (password unchanged)"
+    end
+    user
+  else
+    puts "⚠️  Skipping #{prefix}: #{prefix}_EMAIL and #{prefix}_PASSWORD not set"
+    nil
+  end
+end
+
+# Admin User 1
+user1 = create_admin_user('ADMIN1', default_last_name: 'User1')
+
+# Admin User 2
+user2 = create_admin_user('ADMIN2', default_last_name: 'User2')
+# Admin User 2
+if ENV['ADMIN2_EMAIL'].present? && ENV['ADMIN2_PASSWORD'].present?
+  admin2_email = ENV.fetch('ADMIN2_EMAIL')
+  admin2_password = ENV.fetch('ADMIN2_PASSWORD')
+  admin2_first_name = ENV.fetch('ADMIN2_FIRST_NAME', 'Admin')
+  admin2_last_name = ENV.fetch('ADMIN2_LAST_NAME', 'User2')
+
+  user2 = User.find_or_initialize_by(email: admin2_email)
+
+  # Only set password if this is a new record (never saved before)
+  if user2.new_record?
+    user2.first_name = admin2_first_name
+    user2.last_name = admin2_last_name
+    user2.password = admin2_password
+    user2.password_confirmation = admin2_password
+    user2.save!
+    puts "→ Created user: #{user2.email}"
+  else
+    puts "→ User already exists: #{user2.email} (password unchanged)"
+  end
+else
+  puts "⚠️  Skipping ADMIN2: ADMIN2_EMAIL and ADMIN2_PASSWORD not set"
+  user2 = nil
+end
+
+# Use the first admin user for article associations, or find/create a fallback
+user = user1 || user2 || User.first
+
+if user.nil?
+  warn "⚠️  WARNING: No users exist in database and no admin users were created from environment variables."
+  warn "⚠️  Creating a default user for article associations..."
+  user = User.create!(
+    email: "default@example.com",
+    password: SecureRandom.hex(16),
+    first_name: "Default",
+    last_name: "User"
+  )
+  puts "→ Created fallback user: #{user.email} (password is randomly generated)"
 end
 
 ARTICLES = [
