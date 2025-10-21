@@ -170,9 +170,72 @@ ensure
   Cloudinary.config.folder = previous_folder
 end
 
+puts "Creating admin users..."
 
-# Ensure a seed user exists (adjust email/password if needed)
-user = User.find_or_create_by!(email: "admin@example.com") { |u| u.password = "password" }
+# Admin User 1
+if ENV['ADMIN1_EMAIL'].present? && ENV['ADMIN1_PASSWORD'].present?
+  admin1_email = ENV.fetch('ADMIN1_EMAIL')
+  admin1_password = ENV.fetch('ADMIN1_PASSWORD')
+  admin1_first_name = ENV.fetch('ADMIN1_FIRST_NAME', 'Admin')
+  admin1_last_name = ENV.fetch('ADMIN1_LAST_NAME', 'User1')
+
+  user1 = User.find_or_initialize_by(email: admin1_email)
+
+  # Only set password if this is a new record (never saved before)
+  if user1.new_record?
+    user1.first_name = admin1_first_name
+    user1.last_name = admin1_last_name
+    user1.password = admin1_password
+    user1.password_confirmation = admin1_password
+    user1.save!
+    puts "→ Created user: #{user1.email}"
+  else
+    puts "→ User already exists: #{user1.email} (password unchanged)"
+  end
+else
+  puts "⚠️  Skipping ADMIN1: ADMIN1_EMAIL and ADMIN1_PASSWORD not set"
+  user1 = nil
+end
+
+# Admin User 2
+if ENV['ADMIN2_EMAIL'].present? && ENV['ADMIN2_PASSWORD'].present?
+  admin2_email = ENV.fetch('ADMIN2_EMAIL')
+  admin2_password = ENV.fetch('ADMIN2_PASSWORD')
+  admin2_first_name = ENV.fetch('ADMIN2_FIRST_NAME', 'Admin')
+  admin2_last_name = ENV.fetch('ADMIN2_LAST_NAME', 'User2')
+
+  user2 = User.find_or_initialize_by(email: admin2_email)
+
+  # Only set password if this is a new record (never saved before)
+  if user2.new_record?
+    user2.first_name = admin2_first_name
+    user2.last_name = admin2_last_name
+    user2.password = admin2_password
+    user2.password_confirmation = admin2_password
+    user2.save!
+    puts "→ Created user: #{user2.email}"
+  else
+    puts "→ User already exists: #{user2.email} (password unchanged)"
+  end
+else
+  puts "⚠️  Skipping ADMIN2: ADMIN2_EMAIL and ADMIN2_PASSWORD not set"
+  user2 = nil
+end
+
+# Use the first admin user for article associations, or find/create a fallback
+user = user1 || user2 || User.first
+
+if user.nil?
+  warn "⚠️  WARNING: No users exist in database and no admin users were created from environment variables."
+  warn "⚠️  Creating a default user for article associations..."
+  user = User.create!(
+    email: "default@example.com",
+    password: SecureRandom.hex(16),
+    first_name: "Default",
+    last_name: "User"
+  )
+  puts "→ Created fallback user: #{user.email} (password is randomly generated)"
+end
 
 ARTICLES = [
   {
