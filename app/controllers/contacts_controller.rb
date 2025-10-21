@@ -17,7 +17,7 @@ class ContactsController < ApplicationController
         flash.now[:alert] = "Erreur lors de l'envoi du message. Veuillez réessayer plus tard."
         render :new, status: :unprocessable_entity
       rescue Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, Errno::ETIMEDOUT => e
-        Rails.logger.error "SMTP Connection Error: #{e.class} - #{e.message}\nSMTP Settings: #{Rails.configuration.action_mailer.smtp_settings.except(:password).inspect}"
+        Rails.logger.error "SMTP Connection Error: #{e.class} - #{e.message}"
         flash.now[:alert] = "Impossible de se connecter au serveur d'email. Veuillez réessayer plus tard."
         render :new, status: :unprocessable_entity
       rescue StandardError => e
