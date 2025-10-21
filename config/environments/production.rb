@@ -111,15 +111,21 @@ Rails.application.configure do
   #
   config.action_mailer.delivery_method = :smtp
 
+  # SMTP settings with timeout configuration
+  smtp_port = ENV.fetch("SMTP_PORT", "465").to_i
   config.action_mailer.smtp_settings = {
     address: ENV["SMTP_ADDRESS"],
-    port: ENV.fetch("SMTP_PORT", "465").to_i,
+    port: smtp_port,
     domain: ENV["SMTP_DOMAIN"],
     user_name: ENV["SMTP_USERNAME"],
     password: ENV["SMTP_PASSWORD"],
     authentication: :plain,
-    ssl: true,
-    enable_starttls_auto: false
+    # Port 465 uses implicit SSL/TLS, port 587 uses STARTTLS
+    tls: (smtp_port == 465),
+    ssl: (smtp_port == 465),
+    enable_starttls_auto: (smtp_port == 587),
+    open_timeout: 15,
+    read_timeout: 15
   }
 
   config.after_initialize do
