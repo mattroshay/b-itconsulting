@@ -172,31 +172,37 @@ end
 
 puts "Creating admin users..."
 
-# Admin User 1
-if ENV['ADMIN1_EMAIL'].present? && ENV['ADMIN1_PASSWORD'].present?
-  admin1_email = ENV.fetch('ADMIN1_EMAIL')
-  admin1_password = ENV.fetch('ADMIN1_PASSWORD')
-  admin1_first_name = ENV.fetch('ADMIN1_FIRST_NAME', 'Admin')
-  admin1_last_name = ENV.fetch('ADMIN1_LAST_NAME', 'User1')
+# Helper to create admin user from ENV variables with given prefix
+def create_admin_user(prefix, default_first_name: 'Admin', default_last_name: nil)
+  email = ENV["#{prefix}_EMAIL"]
+  password = ENV["#{prefix}_PASSWORD"]
+  first_name = ENV.fetch("#{prefix}_FIRST_NAME", default_first_name)
+  last_name = ENV.fetch("#{prefix}_LAST_NAME", default_last_name || prefix.titleize)
 
-  user1 = User.find_or_initialize_by(email: admin1_email)
-
-  # Only set password if this is a new record (never saved before)
-  if user1.new_record?
-    user1.first_name = admin1_first_name
-    user1.last_name = admin1_last_name
-    user1.password = admin1_password
-    user1.password_confirmation = admin1_password
-    user1.save!
-    puts "→ Created user: #{user1.email}"
+  if email.present? && password.present?
+    user = User.find_or_initialize_by(email: email)
+    if user.new_record?
+      user.first_name = first_name
+      user.last_name = last_name
+      user.password = password
+      user.password_confirmation = password
+      user.save!
+      puts "→ Created user: #{user.email}"
+    else
+      puts "→ User already exists: #{user.email} (password unchanged)"
+    end
+    user
   else
-    puts "→ User already exists: #{user1.email} (password unchanged)"
+    puts "⚠️  Skipping #{prefix}: #{prefix}_EMAIL and #{prefix}_PASSWORD not set"
+    nil
   end
-else
-  puts "⚠️  Skipping ADMIN1: ADMIN1_EMAIL and ADMIN1_PASSWORD not set"
-  user1 = nil
 end
 
+# Admin User 1
+user1 = create_admin_user('ADMIN1', default_last_name: 'User1')
+
+# Admin User 2
+user2 = create_admin_user('ADMIN2', default_last_name: 'User2')
 # Admin User 2
 if ENV['ADMIN2_EMAIL'].present? && ENV['ADMIN2_PASSWORD'].present?
   admin2_email = ENV.fetch('ADMIN2_EMAIL')
