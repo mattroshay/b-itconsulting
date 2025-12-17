@@ -8,6 +8,21 @@ require "uri"
 module LinkedinTasks
   module_function
 
+  # List of exact sensitive key suffixes to avoid false positives
+  # These are common patterns for credentials that should be protected
+  SENSITIVE_SUFFIXES = %w[
+    SECRET
+    SECRETS
+    TOKEN
+    TOKENS
+    PASSWORD
+    PASSWORDS
+    KEY
+    KEYS
+    CREDENTIAL
+    CREDENTIALS
+  ].freeze
+
   def require_env!(key)
     value = ENV[key]
     cleaned = value.to_s.strip
@@ -22,9 +37,11 @@ module LinkedinTasks
   end
 
   def sensitive_key?(key)
-    # Match common sensitive credential patterns in environment variable names
-    # Uses word boundaries with underscores or start/end of string
-    key.to_s.match?(/(^|_)(SECRET|TOKEN|PASSWORD|KEY|CREDENTIAL)S?($|_)/i)
+    key_str = key.to_s.upcase
+    SENSITIVE_SUFFIXES.any? do |suffix|
+      # Match only if key equals suffix or ends with _SUFFIX to avoid false positives
+      key_str == suffix || key_str.end_with?("_#{suffix}")
+    end
   end
 
   def https_request(uri, request)
