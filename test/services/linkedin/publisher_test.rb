@@ -264,11 +264,25 @@ module Linkedin
       assert_not_requested :post, "https://api.linkedin.com/rest/posts"
     end
 
-    test "handles network timeouts" do
+    test "handles connection timeout" do
       stub_request(:post, "https://api.linkedin.com/rest/posts")
         .to_timeout
 
-      assert_raises(Net::OpenTimeout, Net::ReadTimeout) do
+      # WebMock's .to_timeout raises Net::OpenTimeout for connection timeouts
+      assert_raises(Net::OpenTimeout) do
+        @publisher.publish!(
+          title: "Test Article",
+          article_url: "https://example.com/article",
+          commentary: "Check out this article!"
+        )
+      end
+    end
+
+    test "handles read timeout" do
+      stub_request(:post, "https://api.linkedin.com/rest/posts")
+        .to_raise(Net::ReadTimeout)
+
+      assert_raises(Net::ReadTimeout) do
         @publisher.publish!(
           title: "Test Article",
           article_url: "https://example.com/article",
