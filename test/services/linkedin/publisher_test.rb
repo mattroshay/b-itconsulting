@@ -104,7 +104,7 @@ module Linkedin
       assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
         req.headers["Authorization"] == "Bearer test_token" &&
           req.headers["Content-Type"] == "application/json" &&
-          req.headers["Linkedin-Version"] == "202411" &&
+          req.headers["Linkedin-Version"] == ENV.fetch("LINKEDIN_API_VERSION", "202411") &&
           req.headers["X-Restli-Protocol-Version"] == "2.0.0"
       end
     end
