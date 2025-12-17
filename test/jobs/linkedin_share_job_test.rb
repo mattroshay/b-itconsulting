@@ -85,7 +85,7 @@ class LinkedinShareJobTest < ActiveJob::TestCase
     assert article.reload.shared_on_linkedin?
   end
 
-  test "skips if linkedin integration disabled" do
+  test "skips if LinkedIn integration disabled" do
     @linkedin_config.enabled = false
     article = create_article!
 
