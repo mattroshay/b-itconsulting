@@ -120,7 +120,7 @@ namespace :linkedin do
         LinkedinTasks.print_json(response)
         puts
         puts "Ensure your token has the w_member_social scope (or w_organization_social for company posts)."
-        next
+        return
       end
 
       data = JSON.parse(response.body)
