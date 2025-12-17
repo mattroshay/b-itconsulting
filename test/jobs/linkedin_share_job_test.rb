@@ -36,7 +36,7 @@ class LinkedinShareJobTest < ActiveJob::TestCase
     assert_requested :post, "https://api.linkedin.com/rest/posts"
   end
 
-  test "swallows linkedin errors but logs them" do
+  test "swallows LinkedIn errors but logs them" do
     article = create_article!
 
     stub_linkedin_api_error(code: 400, body: "Bad Request")
