@@ -29,7 +29,7 @@ class LinkedinShareJob < ApplicationJob
     publisher.publish!(
       title: article.title,
       article_url: article_url,
-      commentary: build_commentary(article, article_url),
+      commentary: build_commentary(article, article_url, snippet),
       description: snippet || article.title
     )
 
@@ -45,9 +45,7 @@ class LinkedinShareJob < ApplicationJob
 
   private
 
-  def build_commentary(article, article_url)
-    snippet = extract_snippet(article)
-
+  def build_commentary(article, article_url, snippet)
     [article.title, snippet.presence, article_url].compact.join("\n\n")
   end
 
