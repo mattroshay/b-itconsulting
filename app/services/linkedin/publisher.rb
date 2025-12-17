@@ -83,14 +83,27 @@ module Linkedin
       }
     end
 
+    def validate_access_token!(token)
+      if token.nil? || token.empty?
+        raise Linkedin::Error, "LinkedIn access token is missing"
+      end
+
+      if token.match?(/[\x00-\x1F\x7F]/)
+        raise Linkedin::Error, "LinkedIn access token contains invalid characters"
+      end
+    end
+
     def perform_request(payload)
+      access_token = @config.access_token.to_s
+      validate_access_token!(access_token)
+
       http = Net::HTTP.new(API_ENDPOINT.host, API_ENDPOINT.port)
       http.use_ssl = true
       http.open_timeout = DEFAULT_TIMEOUT
       http.read_timeout = DEFAULT_TIMEOUT
 
       request = Net::HTTP::Post.new(API_ENDPOINT)
-      request["Authorization"] = "Bearer #{@config.access_token}"
+      request["Authorization"] = "Bearer #{access_token}"
       request["Content-Type"] = "application/json"
       request["LinkedIn-Version"] = API_VERSION
       request["X-Restli-Protocol-Version"] = RESTLI_VERSION
