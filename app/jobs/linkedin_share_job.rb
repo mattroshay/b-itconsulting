@@ -71,7 +71,7 @@ class LinkedinShareJob < ApplicationJob
     if fallback_host.blank?
       if Rails.env.production?
         Rails.logger.error("APP_HOST environment variable is not set; cannot generate public article URL for LinkedIn sharing in production")
-        raise "APP_HOST environment variable must be configured in production"
+        raise StandardError, "APP_HOST environment variable must be configured in production"
       else
         Rails.logger.warn("APP_HOST environment variable is not set; defaulting to example.com for non-production article URL generation")
         fallback_host = "example.com"
