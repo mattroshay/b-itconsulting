@@ -21,12 +21,6 @@ module LinkedinTasks
     KEYS
     CREDENTIAL
     CREDENTIALS
-    CLIENT_SECRET
-    ACCESS_TOKEN
-    REFRESH_TOKEN
-    API_KEY
-    PRIVATE_KEY
-    AUTH_TOKEN
   ].freeze
 
   def require_env!(key)
