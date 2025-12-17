@@ -22,9 +22,32 @@ module LinkedinTasks
   end
 
   def sensitive_key?(key)
-    # Match common sensitive credential patterns in environment variable names
-    # Uses word boundaries with underscores or start/end of string
-    key.to_s.match?(/(^|_)(SECRET|TOKEN|PASSWORD|KEY|CREDENTIAL)S?($|_)/i)
+    # List of exact sensitive key suffixes to avoid false positives
+    # These are common patterns for credentials that should be protected
+    sensitive_suffixes = %w[
+      SECRET
+      SECRETS
+      TOKEN
+      TOKENS
+      PASSWORD
+      PASSWORDS
+      KEY
+      KEYS
+      CREDENTIAL
+      CREDENTIALS
+      CLIENT_SECRET
+      ACCESS_TOKEN
+      REFRESH_TOKEN
+      API_KEY
+      PRIVATE_KEY
+      AUTH_TOKEN
+    ]
+    
+    key_str = key.to_s.upcase
+    sensitive_suffixes.any? do |suffix|
+      # Match if the key ends with the suffix, or has the suffix followed by underscore
+      key_str.end_with?(suffix) || key_str.match?(/_#{suffix}(_|$)/)
+    end
   end
 
   def https_request(uri, request)
