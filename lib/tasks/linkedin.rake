@@ -22,7 +22,9 @@ module LinkedinTasks
   end
 
   def sensitive_key?(key)
-    key.to_s.match?(/(SECRET|TOKEN|PASSWORD|KEY|CREDENTIAL)/i)
+    # Match common sensitive credential patterns in environment variable names
+    # Uses word boundaries with underscores or start/end of string
+    key.to_s.match?(/(^|_)(SECRET|TOKEN|PASSWORD|KEY|CREDENTIAL)S?($|_)/i)
   end
 
   def https_request(uri, request)
