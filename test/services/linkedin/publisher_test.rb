@@ -232,6 +232,38 @@ module Linkedin
       assert_not_requested :post, "https://api.linkedin.com/rest/posts"
     end
 
+    test "raises Error when visibility parameter is invalid" do
+      stub_linkedin_api_success
+
+      error = assert_raises(Linkedin::Error) do
+        @publisher.publish!(
+          title: "Test Article",
+          article_url: "https://example.com/article",
+          commentary: "Check out this article!",
+          visibility: "INVALID"
+        )
+      end
+
+      assert_equal "Invalid visibility 'INVALID'. Must be one of: PUBLIC, CONNECTIONS", error.message
+      assert_not_requested :post, "https://api.linkedin.com/rest/posts"
+    end
+
+    test "raises Error when configured visibility is invalid" do
+      @linkedin_config.visibility = "INVALID_CONFIG"
+      publisher = Linkedin::Publisher.new
+
+      error = assert_raises(Linkedin::Error) do
+        publisher.publish!(
+          title: "Test Article",
+          article_url: "https://example.com/article",
+          commentary: "Check out this article!"
+        )
+      end
+
+      assert_equal "Invalid visibility 'INVALID_CONFIG'. Must be one of: PUBLIC, CONNECTIONS", error.message
+      assert_not_requested :post, "https://api.linkedin.com/rest/posts"
+    end
+
     test "handles network timeouts" do
       stub_request(:post, "https://api.linkedin.com/rest/posts")
         .to_timeout
