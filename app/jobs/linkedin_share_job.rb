@@ -68,7 +68,16 @@ class LinkedinShareJob < ApplicationJob
     helpers = Rails.application.routes.url_helpers
     default_options = (Rails.application.routes.default_url_options || {}).dup.symbolize_keys
 
-    fallback_host = ENV["APP_HOST"] || "example.com"
+    fallback_host = ENV["APP_HOST"]
+    if fallback_host.blank?
+      if Rails.env.production?
+        Rails.logger.error("APP_HOST environment variable is not set; cannot generate public article URL for LinkedIn sharing in production")
+        raise "APP_HOST environment variable must be configured in production"
+      else
+        Rails.logger.warn("APP_HOST environment variable is not set; defaulting to example.com for non-production article URL generation")
+        fallback_host = "example.com"
+      end
+    end
     fallback_protocol = ENV["APP_PROTOCOL"] || "https"
     fallback_port = ENV["APP_PORT"]
 
