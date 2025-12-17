@@ -1,0 +1,77 @@
+# frozen_string_literal: true
+
+require "net/http"
+require_relative "../services/linkedin/publisher"
+
+class LinkedinShareJob < ApplicationJob
+  queue_as :default
+
+  discard_on ActiveRecord::RecordNotFound
+  retry_on Net::OpenTimeout, Net::ReadTimeout, Timeout::Error, Errno::ECONNRESET, wait: 10.seconds, attempts: 3
+
+  def perform(article_id)
+    config = Rails.application.config.x.linkedin
+    return unless config.enabled
+
+    article = Article.find(article_id)
+
+    # Skip if already shared to LinkedIn
+    if article.shared_on_linkedin?
+      Rails.logger.info("Article ##{article.id} already shared to LinkedIn at #{article.linkedin_shared_at}")
+      return
+    end
+
+    article_url = article_url_for(article)
+    publisher = Linkedin::Publisher.new(config: config)
+
+    snippet = extract_snippet(article)
+
+    publisher.publish!(
+      title: article.title,
+      article_url: article_url,
+      commentary: build_commentary(article, article_url),
+      description: snippet || article.title
+    )
+
+    # Mark as shared on success
+    article.mark_shared_on_linkedin!
+    Rails.logger.info("Article ##{article.id} successfully shared to LinkedIn")
+  rescue Linkedin::Error => e
+    Rails.logger.warn("LinkedIn publish failed for article ##{article_id}: #{e.message}")
+  rescue StandardError => e
+    Rails.logger.error("LinkedIn publish error for article ##{article_id}: #{e.class}: #{e.message}")
+    raise
+  end
+
+  private
+
+  def build_commentary(article, article_url)
+    snippet = extract_snippet(article)
+
+    [article.title, snippet.presence, article_url].compact.join("\n\n")
+  end
+
+  def extract_snippet(article)
+    text = article.rich_content&.to_plain_text.to_s
+    cleaned = text.gsub(/\s+/, " ").strip
+    return nil if cleaned.blank?
+
+    limit = 300
+    cleaned.length > limit ? "#{cleaned[0, limit].rstrip}…" : cleaned
+  end
+
+  def article_url_for(article)
+    helpers = Rails.application.routes.url_helpers
+    default_options = (Rails.application.routes.default_url_options || {}).dup.symbolize_keys
+
+    fallback_host = ENV["APP_HOST"] || "example.com"
+    fallback_protocol = ENV["APP_PROTOCOL"] || "https"
+    fallback_port = ENV["APP_PORT"]
+
+    default_options[:host] ||= fallback_host
+    default_options[:protocol] ||= fallback_protocol
+    default_options[:port] = fallback_port.to_i if fallback_port.present? && fallback_port.to_i > 0
+
+    helpers.article_url(article, **default_options)
+  end
+end
