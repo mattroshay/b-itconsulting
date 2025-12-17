@@ -14,6 +14,7 @@ module Linkedin
     API_VERSION = ENV.fetch("LINKEDIN_API_VERSION", "202411").freeze
     RESTLI_VERSION = "2.0.0"
     DEFAULT_TIMEOUT = 10
+    VALID_VISIBILITIES = %w[PUBLIC CONNECTIONS].freeze
 
     def initialize(config: Rails.application.config.x.linkedin)
       @config = config
@@ -26,11 +27,14 @@ module Linkedin
     def publish!(title:, article_url:, commentary:, visibility: nil, description: nil)
       raise Linkedin::Error, "LinkedIn integration disabled" unless enabled?
 
+      final_visibility = visibility || @config.visibility
+      validate_visibility!(final_visibility)
+
       payload = build_payload(
         title: title,
         article_url: article_url,
         commentary: commentary,
-        visibility: visibility || @config.visibility,
+        visibility: final_visibility,
         description: description
       )
 
@@ -49,6 +53,13 @@ module Linkedin
     end
 
     private
+
+    def validate_visibility!(visibility)
+      return if VALID_VISIBILITIES.include?(visibility)
+
+      raise Linkedin::Error,
+            "Invalid visibility '#{visibility}'. Must be one of: #{VALID_VISIBILITIES.join(', ')}"
+    end
 
     def build_payload(title:, article_url:, commentary:, visibility:, description: nil)
       {
