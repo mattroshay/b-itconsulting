@@ -36,6 +36,10 @@ class LinkedinShareJob < ApplicationJob
     # Mark as shared on success
     article.mark_shared_on_linkedin!
     Rails.logger.info("Article ##{article.id} successfully shared to LinkedIn")
+  rescue Linkedin::RateLimitError => e
+    # We intentionally do not retry rate limit errors here to avoid breaching LinkedIn API quotas.
+    # Monitoring for this log message should be used to tune job volume and scheduling if needed.
+    Rails.logger.warn("LinkedIn rate limit reached for article ##{article_id}: #{e.message} (no retry)")
   rescue Linkedin::Error => e
     Rails.logger.warn("LinkedIn publish failed for article ##{article_id}: #{e.message}")
   rescue StandardError => e
