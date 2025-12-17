@@ -246,7 +246,7 @@ Add the environment variables through your platform's configuration UI or deploy
 
 ## Rate Limits
 
-LinkedIn API rate limits (as of 2024):
+LinkedIn API rate limits (at the time of writing):
 - **Posts**: ~100 per day per person
 - **API calls**: Varies by endpoint and app status
 
