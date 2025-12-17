@@ -41,7 +41,8 @@ class LinkedinShareJob < ApplicationJob
     # Monitoring for this log message should be used to tune job volume and scheduling if needed.
     Rails.logger.warn("LinkedIn rate limit reached for article ##{article_id}: #{e.message} (no retry)")
   rescue Linkedin::Error => e
-    Rails.logger.warn("LinkedIn publish failed for article ##{article_id}: #{e.message}")
+    Rails.logger.error("LinkedIn publish failed for article ##{article_id}: #{e.class}: #{e.message}")
+    raise
   rescue StandardError => e
     Rails.logger.error("LinkedIn publish error for article ##{article_id}: #{e.class}: #{e.message}")
     raise
