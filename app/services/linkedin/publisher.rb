@@ -44,7 +44,7 @@ module Linkedin
       when 429
         raise Linkedin::RateLimitError, "LinkedIn API rate limit exceeded"
       else
-        raise Linkedin::Error, "LinkedIn API #{response.code}: #{response.body&.first(500)}"
+        raise Linkedin::Error, "LinkedIn API #{response.code}: #{response.body.to_s[0, 500]}"
       end
     end
 
