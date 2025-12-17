@@ -89,7 +89,7 @@ namespace :linkedin do
       response = LinkedinTasks.https_request(uri, request)
       LinkedinTasks.print_json(response)
 
-      next unless response.code.to_i == 200
+      return unless response.code.to_i == 200
 
       data = JSON.parse(response.body)
       puts
