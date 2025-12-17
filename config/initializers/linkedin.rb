@@ -14,6 +14,4 @@ unless allowed_visibilities.include?(configured_visibility)
   Rails.logger.warn("LinkedIn visibility '#{configured_visibility}' is invalid, defaulting to PUBLIC")
 end
 
-ActiveSupport::Notifications.instrument("linkedin.config.initialized") do
-  Rails.logger.info("LinkedIn publishing enabled") if linkedin_config.enabled
-end
+Rails.logger.info("LinkedIn publishing enabled") if linkedin_config.enabled
