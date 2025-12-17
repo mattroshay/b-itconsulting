@@ -13,7 +13,16 @@ module LinkedinTasks
     cleaned = value.to_s.strip
     return cleaned unless cleaned.empty?
 
-    abort("ENV['#{key}'] is missing. Please set it in .env or your shell.")
+    # Sanitize error message for sensitive credentials to prevent credential name exposure in logs
+    if sensitive_key?(key)
+      abort("A required LinkedIn credential is missing. Please check your environment configuration.")
+    else
+      abort("ENV['#{key}'] is missing. Please set it in .env or your shell.")
+    end
+  end
+
+  def sensitive_key?(key)
+    key.to_s.match?(/(SECRET|TOKEN|PASSWORD|KEY|CREDENTIAL)/i)
   end
 
   def https_request(uri, request)
