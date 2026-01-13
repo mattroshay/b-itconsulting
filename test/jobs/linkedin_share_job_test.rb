@@ -54,8 +54,9 @@ class LinkedinShareJobTest < ActiveJob::TestCase
 
     stub_linkedin_api_error(code: 401, body: "Unauthorized")
 
-    assert_nothing_raised { LinkedinShareJob.perform_now(article.id) }
-    assert_not article.reload.shared_on_linkedin?
+    assert_raises(Linkedin::TokenExpiredError) do
+      LinkedinShareJob.perform_now(article.id)
+    end
   end
 
   test "retries on transient network errors" do
