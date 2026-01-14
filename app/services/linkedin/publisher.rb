@@ -84,12 +84,15 @@ module Linkedin
     end
 
     def validate_access_token!(token)
-      if token.nil? || token.empty?
-        raise Linkedin::Error, "LinkedIn access token is missing"
+      token = token.to_s
+
+      if token.length < 20
+        raise Linkedin::Error, "LinkedIn access token appears to be malformed or too short"
       end
 
-      if token.match?(/[\x00-\x1F\x7F]/)
-        raise Linkedin::Error, "LinkedIn access token contains invalid characters"
+      # Require only visible, non-whitespace ASCII characters (no spaces or control chars)
+      unless token.match?(/\A[[:graph:]]+\z/)
+        raise Linkedin::Error, "LinkedIn access token contains invalid characters or whitespace"
       end
     end
 
