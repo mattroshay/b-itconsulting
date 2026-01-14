@@ -22,6 +22,15 @@ class Article < ApplicationRecord
     media.select { |m| m.content_type&.start_with?("video/") }
   end
 
+  # LinkedIn sharing status
+  def shared_on_linkedin?
+    linkedin_shared_at.present?
+  end
+
+  def mark_shared_on_linkedin!
+    update_column(:linkedin_shared_at, Time.current)
+  end
+
   private
 
   def media_types_ok
