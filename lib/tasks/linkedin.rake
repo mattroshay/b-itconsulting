@@ -77,7 +77,7 @@ namespace :linkedin do
       redirect_uri = LinkedinTasks.require_env!("LINKEDIN_REDIRECT_URI")
 
       scopes = args[:scopes].to_s.strip
-      scopes = "w_member_social r_liteprofile" if scopes.empty?
+      scopes = "w_member_social profile" if scopes.empty?
 
       state = SecureRandom.hex(12)
       query = URI.encode_www_form(
