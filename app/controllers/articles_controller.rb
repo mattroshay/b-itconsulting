@@ -10,6 +10,8 @@ class ArticlesController < ApplicationController
     @article = current_user.articles.build(article_params)
 
     if @article.save
+      # Queue LinkedIn sharing if enabled
+      LinkedinShareJob.perform_later(@article.id) if Rails.application.config.x.linkedin.enabled
       redirect_to @article, notice: "Article créé avec succès."
     else
       render :new, status: :unprocessable_entity
