@@ -275,11 +275,10 @@ class LinkedinShareJobTest < ActiveJob::TestCase
   def assert_valid_url_format(url)
     # Check for the specific ":{}" pattern that occurs with nil port interpolation
     assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
-    # Pattern breakdown: ://[^/]+ matches from protocol separator through host and port
-    # (stopping at the first slash), then : matches a port separator that would come after,
-    # then [^0-9] matches any non-digit (catching malformed ports like :/, :{, :a, etc.)
-    # This correctly allows valid URLs like https://host:3000/path while catching
-    # malformed ones like https://host:/path or https://host:{}/path
+    # The regex matches: ://[^/]+ (protocol separator + everything up to first slash, including host and port)
+    # followed by : (a colon within that section) followed by [^0-9] (a non-digit character)
+    # This catches malformed ports like :/, :{, :a while allowing valid ports like :3000
+    # Examples: ✅ catches "://host:/" and "://host:{", ❌ allows "://host:3000"
     assert_not url.match?(%r{://[^/]+:[^0-9]}), "URL should not contain malformed port after host: #{url}"
   end
 end
