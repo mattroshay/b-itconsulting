@@ -113,6 +113,136 @@ class LinkedinShareJobTest < ActiveJob::TestCase
     end
   end
 
+  test "generates valid URL when APP_PORT is nil" do
+    article = create_article!
+
+    # Set APP_PORT to nil
+    original_port = ENV["APP_PORT"]
+    ENV["APP_PORT"] = nil
+
+    stub_linkedin_api_success
+
+    LinkedinShareJob.perform_now(article.id)
+
+    # Verify the URL in the request doesn't contain invalid port syntax like "host:{}/path"
+    assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
+      body = JSON.parse(req.body)
+      url = body["content"]["article"]["source"]
+      # URL should not contain :{} or :/ patterns that indicate malformed port
+      assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
+      assert_not url.match?(/:[^\/\d]|:\//), "URL should not contain malformed port: #{url}"
+      true
+    end
+  ensure
+    ENV["APP_PORT"] = original_port
+  end
+
+  test "generates valid URL when APP_PORT is empty string" do
+    article = create_article!
+
+    # Set APP_PORT to empty string
+    original_port = ENV["APP_PORT"]
+    ENV["APP_PORT"] = ""
+
+    stub_linkedin_api_success
+
+    LinkedinShareJob.perform_now(article.id)
+
+    # Verify the URL in the request doesn't contain invalid port syntax
+    assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
+      body = JSON.parse(req.body)
+      url = body["content"]["article"]["source"]
+      # URL should not contain :{} or :/ patterns that indicate malformed port
+      assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
+      assert_not url.match?(/:[^\/\d]|:\//), "URL should not contain malformed port: #{url}"
+      true
+    end
+  ensure
+    ENV["APP_PORT"] = original_port
+  end
+
+  test "generates valid URL when default_url_options has nil port" do
+    article = create_article!
+
+    # Store original default_url_options
+    original_options = Rails.application.routes.default_url_options.dup
+
+    # Set default_url_options with nil port
+    Rails.application.routes.default_url_options = {
+      host: "test.example.com",
+      protocol: "https",
+      port: nil
+    }
+
+    stub_linkedin_api_success
+
+    LinkedinShareJob.perform_now(article.id)
+
+    # Verify the URL in the request doesn't contain invalid port syntax
+    assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
+      body = JSON.parse(req.body)
+      url = body["content"]["article"]["source"]
+      # URL should not contain :{} or :/ patterns that indicate malformed port
+      assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
+      assert_not url.match?(/:[^\/\d]|:\//), "URL should not contain malformed port: #{url}"
+      true
+    end
+  ensure
+    Rails.application.routes.default_url_options = original_options
+  end
+
+  test "generates valid URL when default_url_options has empty string port" do
+    article = create_article!
+
+    # Store original default_url_options
+    original_options = Rails.application.routes.default_url_options.dup
+
+    # Set default_url_options with empty string port
+    Rails.application.routes.default_url_options = {
+      host: "test.example.com",
+      protocol: "https",
+      port: ""
+    }
+
+    stub_linkedin_api_success
+
+    LinkedinShareJob.perform_now(article.id)
+
+    # Verify the URL in the request doesn't contain invalid port syntax
+    assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
+      body = JSON.parse(req.body)
+      url = body["content"]["article"]["source"]
+      # URL should not contain :{} or :/ patterns that indicate malformed port
+      assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
+      assert_not url.match?(/:[^\/\d]|:\//), "URL should not contain malformed port: #{url}"
+      true
+    end
+  ensure
+    Rails.application.routes.default_url_options = original_options
+  end
+
+  test "includes valid port in URL when APP_PORT is a positive integer" do
+    article = create_article!
+
+    # Set APP_PORT to a valid port
+    original_port = ENV["APP_PORT"]
+    ENV["APP_PORT"] = "3000"
+
+    stub_linkedin_api_success
+
+    LinkedinShareJob.perform_now(article.id)
+
+    # Verify the URL in the request includes the port
+    assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
+      body = JSON.parse(req.body)
+      url = body["content"]["article"]["source"]
+      assert url.include?(":3000"), "URL should contain port 3000: #{url}"
+      true
+    end
+  ensure
+    ENV["APP_PORT"] = original_port
+  end
+
   private
 
   def create_article!
