@@ -267,12 +267,15 @@ class LinkedinShareJobTest < ActiveJob::TestCase
   end
 
   # Validates that a URL doesn't contain malformed port syntax
-  # Checks for patterns like:
-  # - ":{}" - empty port placeholder from string interpolation
-  # - ":/" - port separator followed immediately by path separator
-  # - ":[non-digit]" - port separator followed by non-numeric characters
+  # Specifically checks the host:port portion of the URL for issues like:
+  # - ":{}" - empty port placeholder from string interpolation (e.g., "host:{}/path")
+  # - ":/" - missing port number (e.g., "host:/path" instead of "host/path")
+  # The pattern looks for a colon after the host that isn't followed by valid port digits
   def assert_valid_url_format(url)
+    # Check for the specific ":{}" pattern that occurs with nil port interpolation
     assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
-    assert_not url.match?(/:[^\/\d]|:\//), "URL should not contain malformed port: #{url}"
+    # Check for colon-slash pattern in the host portion (not the protocol)
+    # This regex matches cases where a colon appears after .com, .org, etc. and is not followed by digits
+    assert_not url.match?(%r{://[^/]+:[^0-9]}), "URL should not contain malformed port after host: #{url}"
   end
 end
