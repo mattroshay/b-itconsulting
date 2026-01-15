@@ -102,9 +102,9 @@ module Linkedin
       )
 
       assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
-        req.headers["Authorization"] == "Bearer test_token" &&
+        req.headers["Authorization"] == "Bearer test_token_1234567890abc" &&
           req.headers["Content-Type"] == "application/json" &&
-          req.headers["LinkedIn-Version"] == ENV.fetch("LINKEDIN_API_VERSION", "202411") &&
+          req.headers["Linkedin-Version"] == ENV.fetch("LINKEDIN_API_VERSION", "202501") &&
           req.headers["X-Restli-Protocol-Version"] == "2.0.0"
       end
     end
@@ -294,7 +294,7 @@ module Linkedin
     private
 
     def enable_linkedin_config!
-      @linkedin_config.access_token = "test_token"
+      @linkedin_config.access_token = "test_token_1234567890abc"
       @linkedin_config.author_urn = "urn:li:person:123456"
       @linkedin_config.visibility = "PUBLIC"
       @linkedin_config.enabled = true

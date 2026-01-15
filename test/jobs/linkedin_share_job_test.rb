@@ -38,12 +38,12 @@ class LinkedinShareJobTest < ActiveJob::TestCase
     assert_requested :post, "https://api.linkedin.com/rest/posts"
   end
 
-  test "swallows LinkedIn errors but logs them" do
+  test "raises LinkedIn errors after logging them" do
     article = create_article!
 
     stub_linkedin_api_error(code: 400, body: "Bad Request")
 
-    assert_nothing_raised { LinkedinShareJob.perform_now(article.id) }
+    assert_raises(Linkedin::Error) { LinkedinShareJob.perform_now(article.id) }
 
     # Article should not be marked as shared if error occurred
     assert_not article.reload.shared_on_linkedin?
@@ -128,7 +128,7 @@ class LinkedinShareJobTest < ActiveJob::TestCase
   end
 
   def enable_linkedin_config!
-    @linkedin_config.access_token = "test_token"
+    @linkedin_config.access_token = "test_token_1234567890abc"
     @linkedin_config.author_urn = "urn:li:person:123456"
     @linkedin_config.visibility = "PUBLIC"
     @linkedin_config.enabled = true
