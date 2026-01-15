@@ -113,6 +113,128 @@ class LinkedinShareJobTest < ActiveJob::TestCase
     end
   end
 
+  test "generates valid URL when APP_PORT is nil" do
+    article = create_article!
+
+    # Set APP_PORT to nil
+    original_port = ENV["APP_PORT"]
+    ENV["APP_PORT"] = nil
+
+    stub_linkedin_api_success
+
+    LinkedinShareJob.perform_now(article.id)
+
+    # Verify the URL in the request doesn't contain invalid port syntax like "host:{}/path"
+    assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
+      body = JSON.parse(req.body)
+      url = body["content"]["article"]["source"]
+      assert_valid_url_format(url)
+      true
+    end
+  ensure
+    ENV["APP_PORT"] = original_port
+  end
+
+  test "generates valid URL when APP_PORT is empty string" do
+    article = create_article!
+
+    # Set APP_PORT to empty string
+    original_port = ENV["APP_PORT"]
+    ENV["APP_PORT"] = ""
+
+    stub_linkedin_api_success
+
+    LinkedinShareJob.perform_now(article.id)
+
+    # Verify the URL in the request doesn't contain invalid port syntax
+    assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
+      body = JSON.parse(req.body)
+      url = body["content"]["article"]["source"]
+      assert_valid_url_format(url)
+      true
+    end
+  ensure
+    ENV["APP_PORT"] = original_port
+  end
+
+  test "generates valid URL when default_url_options has nil port" do
+    article = create_article!
+
+    # Store original default_url_options
+    original_options = Rails.application.routes.default_url_options.dup
+
+    # Set default_url_options with nil port
+    Rails.application.routes.default_url_options = {
+      host: "test.example.com",
+      protocol: "https",
+      port: nil
+    }
+
+    stub_linkedin_api_success
+
+    LinkedinShareJob.perform_now(article.id)
+
+    # Verify the URL in the request doesn't contain invalid port syntax
+    assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
+      body = JSON.parse(req.body)
+      url = body["content"]["article"]["source"]
+      assert_valid_url_format(url)
+      true
+    end
+  ensure
+    Rails.application.routes.default_url_options = original_options
+  end
+
+  test "generates valid URL when default_url_options has empty string port" do
+    article = create_article!
+
+    # Store original default_url_options
+    original_options = Rails.application.routes.default_url_options.dup
+
+    # Set default_url_options with empty string port
+    Rails.application.routes.default_url_options = {
+      host: "test.example.com",
+      protocol: "https",
+      port: ""
+    }
+
+    stub_linkedin_api_success
+
+    LinkedinShareJob.perform_now(article.id)
+
+    # Verify the URL in the request doesn't contain invalid port syntax
+    assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
+      body = JSON.parse(req.body)
+      url = body["content"]["article"]["source"]
+      assert_valid_url_format(url)
+      true
+    end
+  ensure
+    Rails.application.routes.default_url_options = original_options
+  end
+
+  test "includes valid port in URL when APP_PORT is a positive integer" do
+    article = create_article!
+
+    # Set APP_PORT to a valid port
+    original_port = ENV["APP_PORT"]
+    ENV["APP_PORT"] = "3000"
+
+    stub_linkedin_api_success
+
+    LinkedinShareJob.perform_now(article.id)
+
+    # Verify the URL in the request includes the port
+    assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
+      body = JSON.parse(req.body)
+      url = body["content"]["article"]["source"]
+      assert url.include?(":3000"), "URL should contain port 3000: #{url}"
+      true
+    end
+  ensure
+    ENV["APP_PORT"] = original_port
+  end
+
   private
 
   def create_article!
@@ -142,5 +264,21 @@ class LinkedinShareJobTest < ActiveJob::TestCase
   def stub_linkedin_api_error(code:, body:)
     stub_request(:post, "https://api.linkedin.com/rest/posts")
       .to_return(status: code, body: body)
+  end
+
+  # Validates that a URL doesn't contain malformed port syntax
+  # Specifically checks for edge cases that can occur with nil or empty port values:
+  # - ":{}" - empty port placeholder from string interpolation (e.g., "https://host:{}/path")
+  # - ":/" - colon followed immediately by slash, missing port number (e.g., "https://host:/path")
+  # The pattern checks if there's a colon in the authority portion (protocol://host:port)
+  # that isn't followed by a valid port number
+  def assert_valid_url_format(url)
+    # Check for the specific ":{}" pattern that occurs with nil port interpolation
+    assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
+    # The regex matches: ://[^/]+ (protocol separator + everything up to first slash, including host and port)
+    # followed by : (a colon within that section) followed by [^0-9] (a non-digit character)
+    # This catches malformed ports like :/, :{, :a while allowing valid ports like :3000
+    # Examples: ✅ catches "://host:/" and "://host:{", ❌ allows "://host:3000"
+    assert_not url.match?(%r{://[^/]+:[^0-9]}), "URL should not contain malformed port after host: #{url}"
   end
 end
