@@ -270,14 +270,16 @@ class LinkedinShareJobTest < ActiveJob::TestCase
   # Specifically checks for edge cases that can occur with nil or empty port values:
   # - ":{}" - empty port placeholder from string interpolation (e.g., "https://host:{}/path")
   # - ":/" - colon followed immediately by slash, missing port number (e.g., "https://host:/path")
-  # The pattern checks if there's a colon after the host that isn't part of the protocol
-  # and isn't followed by a valid port number (digits)
+  # The pattern checks if there's a colon in the authority portion (protocol://host:port)
+  # that isn't followed by a valid port number
   def assert_valid_url_format(url)
     # Check for the specific ":{}" pattern that occurs with nil port interpolation
     assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
-    # Check for a colon in the host portion that isn't followed by digits (valid port)
-    # Pattern: ://[^/]+ matches protocol and host, then : matches port separator, 
-    # then [^0-9] matches any non-digit character (catching :/, :{, :a, etc.)
+    # Pattern breakdown: ://[^/]+ matches from protocol separator through host and port
+    # (stopping at the first slash), then : matches a port separator that would come after,
+    # then [^0-9] matches any non-digit (catching malformed ports like :/, :{, :a, etc.)
+    # This correctly allows valid URLs like https://host:3000/path while catching
+    # malformed ones like https://host:/path or https://host:{}/path
     assert_not url.match?(%r{://[^/]+:[^0-9]}), "URL should not contain malformed port after host: #{url}"
   end
 end
