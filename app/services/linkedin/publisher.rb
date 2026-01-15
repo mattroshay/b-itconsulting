@@ -11,7 +11,7 @@ module Linkedin
 
   class Publisher
     API_ENDPOINT = URI("https://api.linkedin.com/rest/posts")
-    API_VERSION = ENV.fetch("LINKEDIN_API_VERSION", "202411").freeze
+    API_VERSION = ENV.fetch("LINKEDIN_API_VERSION", "202501").freeze
     RESTLI_VERSION = "2.0.0"
     DEFAULT_TIMEOUT = 10
     VALID_VISIBILITIES = %w[PUBLIC CONNECTIONS].freeze

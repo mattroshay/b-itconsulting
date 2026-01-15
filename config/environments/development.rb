@@ -1,11 +1,10 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  config.x.app_host = "localhost"
-  config.x.app_protocol = "http"
-  config.x.app_port = 3000
+  config.x.app_host = ENV.fetch("APP_HOST", "localhost")
+  config.x.app_protocol = ENV.fetch("APP_PROTOCOL", "http")
 
-  config.action_mailer.default_url_options = { host: config.x.app_host, port: config.x.app_port, protocol: config.x.app_protocol }
+  config.action_mailer.default_url_options = { host: config.x.app_host, protocol: config.x.app_protocol }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
@@ -97,7 +96,6 @@ Rails.application.configure do
   config.after_initialize do
     default_url_options = {
       host: Rails.application.config.x.app_host,
-      port: Rails.application.config.x.app_port,
       protocol: Rails.application.config.x.app_protocol
     }
     Rails.application.routes.default_url_options.merge!(default_url_options)

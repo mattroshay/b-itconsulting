@@ -137,7 +137,7 @@ namespace :linkedin do
       uri = URI("https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)")
       request = Net::HTTP::Get.new(uri)
       request["Authorization"] = "Bearer #{token}"
-      api_version = ENV["LINKEDIN_API_VERSION"] || "202411"
+      api_version = ENV["LINKEDIN_API_VERSION"] || "202501"
       request["LinkedIn-Version"] = api_version
       request["X-Restli-Protocol-Version"] = "2.0.0"
 
