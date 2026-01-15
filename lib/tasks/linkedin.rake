@@ -117,7 +117,7 @@ namespace :linkedin do
       response = LinkedinTasks.https_request(uri, request)
       LinkedinTasks.print_json(response)
 
-      return unless response.code.to_i == 200
+      next unless response.code.to_i == 200
 
       data = JSON.parse(response.body)
       puts
@@ -148,7 +148,7 @@ namespace :linkedin do
         LinkedinTasks.print_json(response)
         puts
         puts "Ensure your token has the w_member_social scope (or w_organization_social for company posts)."
-        return
+        next
       end
 
       data = JSON.parse(response.body)
