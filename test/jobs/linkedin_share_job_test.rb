@@ -128,9 +128,7 @@ class LinkedinShareJobTest < ActiveJob::TestCase
     assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
       body = JSON.parse(req.body)
       url = body["content"]["article"]["source"]
-      # URL should not contain :{} or :/ patterns that indicate malformed port
-      assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
-      assert_not url.match?(/:[^\/\d]|:\//), "URL should not contain malformed port: #{url}"
+      assert_valid_url_format(url)
       true
     end
   ensure
@@ -152,9 +150,7 @@ class LinkedinShareJobTest < ActiveJob::TestCase
     assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
       body = JSON.parse(req.body)
       url = body["content"]["article"]["source"]
-      # URL should not contain :{} or :/ patterns that indicate malformed port
-      assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
-      assert_not url.match?(/:[^\/\d]|:\//), "URL should not contain malformed port: #{url}"
+      assert_valid_url_format(url)
       true
     end
   ensure
@@ -182,9 +178,7 @@ class LinkedinShareJobTest < ActiveJob::TestCase
     assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
       body = JSON.parse(req.body)
       url = body["content"]["article"]["source"]
-      # URL should not contain :{} or :/ patterns that indicate malformed port
-      assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
-      assert_not url.match?(/:[^\/\d]|:\//), "URL should not contain malformed port: #{url}"
+      assert_valid_url_format(url)
       true
     end
   ensure
@@ -212,9 +206,7 @@ class LinkedinShareJobTest < ActiveJob::TestCase
     assert_requested :post, "https://api.linkedin.com/rest/posts" do |req|
       body = JSON.parse(req.body)
       url = body["content"]["article"]["source"]
-      # URL should not contain :{} or :/ patterns that indicate malformed port
-      assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
-      assert_not url.match?(/:[^\/\d]|:\//), "URL should not contain malformed port: #{url}"
+      assert_valid_url_format(url)
       true
     end
   ensure
@@ -272,5 +264,15 @@ class LinkedinShareJobTest < ActiveJob::TestCase
   def stub_linkedin_api_error(code:, body:)
     stub_request(:post, "https://api.linkedin.com/rest/posts")
       .to_return(status: code, body: body)
+  end
+
+  # Validates that a URL doesn't contain malformed port syntax
+  # Checks for patterns like:
+  # - ":{}" - empty port placeholder from string interpolation
+  # - ":/" - port separator followed immediately by path separator
+  # - ":[non-digit]" - port separator followed by non-numeric characters
+  def assert_valid_url_format(url)
+    assert_not url.include?(":{}"), "URL should not contain invalid port placeholder: #{url}"
+    assert_not url.match?(/:[^\/\d]|:\//), "URL should not contain malformed port: #{url}"
   end
 end
