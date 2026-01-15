@@ -82,6 +82,8 @@ class LinkedinShareJob < ApplicationJob
 
     default_options[:host] ||= fallback_host
     default_options[:protocol] ||= fallback_protocol
+    # Remove any nil/empty port to avoid invalid URLs like "host:{}/path"
+    default_options.delete(:port)
     default_options[:port] = fallback_port.to_i if fallback_port.present? && fallback_port.to_i > 0
 
     helpers.article_url(article, **default_options)
