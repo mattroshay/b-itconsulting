@@ -25,12 +25,14 @@ class LinkedinShareJob < ApplicationJob
     publisher = Linkedin::Publisher.new(config: config)
 
     snippet = extract_snippet(article)
+    image_url = article_image_url(article)
 
     publisher.publish!(
       title: article.title,
       article_url: article_url,
       commentary: build_commentary(article, article_url, snippet),
-      description: snippet || article.title
+      description: snippet || article.title,
+      image_url: image_url
     )
 
     # Mark as shared on success
@@ -88,5 +90,41 @@ class LinkedinShareJob < ApplicationJob
     url_options[:port] = fallback_port.to_i if fallback_port.present? && fallback_port.to_i > 0
 
     helpers.article_url(article, **url_options)
+  end
+
+  def article_image_url(article)
+    # Try to get the first media item (image or video)
+    first_media = article.media.first
+    return nil unless first_media
+
+    # Check if it's a video - if so, generate a preview image
+    if first_media.content_type&.start_with?("video/")
+      return video_thumbnail_url(first_media)
+    end
+
+    # For images (including GIFs), return the direct URL
+    if first_media.content_type&.start_with?("image/")
+      return Rails.application.routes.url_helpers.url_for(first_media)
+    end
+
+    nil
+  rescue StandardError => e
+    Rails.logger.warn("Failed to generate image URL for article ##{article.id}: #{e.message}")
+    nil
+  end
+
+  def video_thumbnail_url(video_attachment)
+    # Active Storage can generate video previews automatically if ffmpeg is installed
+    # The preview method extracts a frame from the video
+    if video_attachment.previewable?
+      preview = video_attachment.preview(resize_to_limit: [1200, 627])
+      Rails.application.routes.url_helpers.url_for(preview)
+    else
+      Rails.logger.warn("Video #{video_attachment.id} is not previewable - ffmpeg may not be installed")
+      nil
+    end
+  rescue StandardError => e
+    Rails.logger.warn("Failed to generate video thumbnail: #{e.message}")
+    nil
   end
 end
