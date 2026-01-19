@@ -65,7 +65,6 @@ class LinkedinShareJob < ApplicationJob
 
   def article_url_for(article)
     helpers = Rails.application.routes.url_helpers
-    default_options = (Rails.application.routes.default_url_options || {}).dup.symbolize_keys
 
     fallback_host = ENV["APP_HOST"]
     if fallback_host.blank?
@@ -80,12 +79,14 @@ class LinkedinShareJob < ApplicationJob
     fallback_protocol = ENV["APP_PROTOCOL"] || "https"
     fallback_port = ENV["APP_PORT"]
 
-    default_options[:host] ||= fallback_host
-    default_options[:protocol] ||= fallback_protocol
-    # Remove any nil/empty port to avoid invalid URLs like "host:{}/path"
-    default_options.delete(:port)
-    default_options[:port] = fallback_port.to_i if fallback_port.present? && fallback_port.to_i > 0
+    # Build options explicitly to avoid inheriting problematic :port from global defaults
+    url_options = {
+      host: fallback_host,
+      protocol: fallback_protocol
+    }
+    # Only add port if explicitly set and non-standard
+    url_options[:port] = fallback_port.to_i if fallback_port.present? && fallback_port.to_i > 0
 
-    helpers.article_url(article, **default_options)
+    helpers.article_url(article, **url_options)
   end
 end
