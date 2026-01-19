@@ -8,7 +8,8 @@ Rails.application.configure do
 
   config.x.app_host = uri.host
   config.x.app_protocol = uri.scheme || raw_app_protocol
-  config.x.app_port = uri.port if uri.port && ![80, 443].include?(uri.port)
+  # Only set app_port if it's a non-standard port; otherwise leave it nil
+  config.x.app_port = (uri.port && ![80, 443].include?(uri.port)) ? uri.port : nil
 
   config.action_mailer.default_url_options = {
     host: config.x.app_host,
