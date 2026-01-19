@@ -178,20 +178,39 @@ module Linkedin
       data["value"]
     end
 
-    def download_image(image_url)
-      uri = URI(image_url)
+    def download_image(image_url, limit: 5)
+      raise Linkedin::Error, "Too many redirects while downloading image: #{image_url}" if limit <= 0
+
+      uri = URI.parse(image_url)
+
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = (uri.scheme == "https")
       http.open_timeout = DEFAULT_TIMEOUT
       http.read_timeout = DEFAULT_TIMEOUT
 
-      response = http.get(uri.request_uri)
+      request = Net::HTTP::Get.new(uri.request_uri)
+      request["User-Agent"] = "B-ITConsultingBot/1.0"
+      request["Accept"] = "image/*,*/*"
 
-      unless response.code.to_i == 200
-        raise Linkedin::Error, "Failed to download image from #{image_url}: #{response.code}"
+      response = http.request(request)
+      code = response.code.to_i
+
+      case code
+      when 200
+        response.body
+      when 301, 302, 303, 307, 308
+        location = response["location"]
+        raise Linkedin::Error, "Redirect without Location header while downloading image: #{uri} (#{code})" if location.nil? || location.empty?
+
+        next_uri = URI.parse(location)
+        next_uri = uri + location if next_uri.relative? # handle relative redirects
+
+        Rails.logger.info("[LinkedIn] Image download redirect: #{uri} -> #{next_uri} (#{code})")
+
+        download_image(next_uri.to_s, limit: limit - 1)
+      else
+        raise Linkedin::Error, "Failed to download image from #{uri}: #{code}"
       end
-
-      response.body
     end
 
     def upload_image_data(upload_url, image_data)
