@@ -77,7 +77,7 @@ namespace :linkedin do
       redirect_uri = LinkedinTasks.require_env!("LINKEDIN_REDIRECT_URI")
 
       scopes = args[:scopes].to_s.strip
-      scopes = "w_member_social r_liteprofile" if scopes.empty?
+      scopes = "openid profile w_member_social" if scopes.empty?
 
       state = SecureRandom.hex(12)
       query = URI.encode_www_form(
@@ -130,16 +130,14 @@ namespace :linkedin do
   end
 
   namespace :token do
-    desc "Call /v2/me to verify the configured token and print the proper LINKEDIN_AUTHOR_URN"
+    desc "Call /v2/userinfo to verify the configured token and print the proper LINKEDIN_AUTHOR_URN"
     task inspect: :environment do
       token = LinkedinTasks.require_env!("LINKEDIN_ACCESS_TOKEN")
 
-      uri = URI("https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)")
+      # Use the OpenID Connect userinfo endpoint (replaces deprecated /v2/me with r_liteprofile)
+      uri = URI("https://api.linkedin.com/v2/userinfo")
       request = Net::HTTP::Get.new(uri)
       request["Authorization"] = "Bearer #{token}"
-      api_version = ENV["LINKEDIN_API_VERSION"] || "202501"
-      request["LinkedIn-Version"] = api_version
-      request["X-Restli-Protocol-Version"] = "2.0.0"
 
       response = LinkedinTasks.https_request(uri, request)
 
@@ -147,17 +145,18 @@ namespace :linkedin do
         puts "LinkedIn rejected the token. Response:"
         LinkedinTasks.print_json(response)
         puts
-        puts "Ensure your token has the w_member_social scope (or w_organization_social for company posts)."
+        puts "Ensure your token has the 'openid profile' scopes (and w_member_social for posting)."
         next
       end
 
       data = JSON.parse(response.body)
-      person_id = data["id"]
-      first_name = data["localizedFirstName"]
-      last_name = data["localizedLastName"]
+      # OIDC userinfo returns 'sub' as the user identifier
+      person_id = data["sub"]
+      first_name = data["given_name"]
+      last_name = data["family_name"]
 
       puts "LinkedIn token valid ✅"
-      puts "Profile: #{first_name} #{last_name} (id: #{person_id})"
+      puts "Profile: #{first_name} #{last_name} (sub: #{person_id})"
       puts
       puts "Set your LINKEDIN_AUTHOR_URN to:"
       puts "  urn:li:person:#{person_id}"
