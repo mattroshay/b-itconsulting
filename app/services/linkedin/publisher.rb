@@ -142,7 +142,7 @@ module Linkedin
       upload_info["image"]
     rescue StandardError => e
       Rails.logger.error("Failed to upload image to LinkedIn: #{e.message}")
-      raise Linkedin::Error, "Image upload failed: #{e.message}"
+      raise Linkedin::Error, "Image upload failed"
     end
 
     def initialize_image_upload
