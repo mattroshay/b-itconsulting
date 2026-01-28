@@ -202,6 +202,8 @@ GEM
     mini_racer (0.19.1)
       libv8-node (~> 24.1.0.0)
     minitest (5.25.5)
+    mocha (3.0.1)
+      ruby2_keywords (>= 0.0.5)
     msgpack (1.8.0)
     multipart-post (2.4.1)
     mutex_m (0.3.0)
@@ -293,6 +295,7 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
+    recaptcha (5.21.1)
     regexp_parser (2.11.3)
     reline (0.6.2)
       io-console (~> 0.5)
@@ -303,6 +306,7 @@ GEM
     ruby-vips (2.2.5)
       ffi (~> 1.12)
       logger
+    ruby2_keywords (0.0.5)
     rubyzip (3.1.1)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -385,9 +389,11 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   mini_racer
+  mocha
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.1.5, >= 7.1.5.1)
+  recaptcha
   sassc-rails
   selenium-webdriver
   simple_form!

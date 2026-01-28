@@ -1,11 +1,17 @@
 class ContactsController < ApplicationController
   skip_before_action :authenticate_user!, only: [ :new, :create ]
+
   def new
     @form = ContactForm.new
   end
 
   def create
     @form = ContactForm.new(contact_form_params)
+
+    unless verify_recaptcha
+      flash.now[:alert] = "Veuillez confirmer que vous n'êtes pas un robot."
+      return render :new, status: :unprocessable_entity
+    end
 
     if @form.valid?
       begin

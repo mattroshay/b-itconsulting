@@ -30,6 +30,9 @@
             placeholder:"Écrivez le corps de votre message.
 5000 caractères maximum.",
             input_html: {rows: 8} %>
+          <div class="mb-3">
+            <%= recaptcha_tags %>
+          </div>
           <%= f.button :submit, "Envoyer", class:"border-radius button btn-no-hover" %>
         <% end %>
       </div>
