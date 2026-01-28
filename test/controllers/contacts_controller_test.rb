@@ -42,4 +42,44 @@ class ContactsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to contact_path
   end
+
+  test "should reject submission with valid recaptcha but missing required fields" do
+    # Stub reCAPTCHA verification to succeed
+    ContactsController.any_instance.stubs(:verify_recaptcha).returns(true)
+
+    assert_no_emails do
+      post contacts_path, params: {
+        contact_form: {
+          first_name: "Test",
+          last_name: "", # Missing required field
+          email: "test@example.com",
+          subject: "Test Subject",
+          message: ""    # Missing required field
+        }
+      }
+    end
+
+    assert_response :unprocessable_entity
+    assert_template :new
+  end
+
+  test "should reject submission with valid recaptcha but invalid email format" do
+    # Stub reCAPTCHA verification to succeed
+    ContactsController.any_instance.stubs(:verify_recaptcha).returns(true)
+
+    assert_no_emails do
+      post contacts_path, params: {
+        contact_form: {
+          first_name: "Test",
+          last_name: "User",
+          email: "invalid-email-format", # Invalid email format
+          subject: "Test Subject",
+          message: "Test message content"
+        }
+      }
+    end
+
+    assert_response :unprocessable_entity
+    assert_template :new
+  end
 end
