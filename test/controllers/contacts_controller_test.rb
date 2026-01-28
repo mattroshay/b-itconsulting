@@ -21,6 +21,7 @@ class ContactsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_response :unprocessable_entity
+    assert_equal "Veuillez confirmer que vous n'êtes pas un robot.", flash[:alert]
   end
 
   test "should send email with valid recaptcha" do
