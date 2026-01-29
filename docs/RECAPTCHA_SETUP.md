@@ -105,11 +105,15 @@ bin/rails server
 
 #### Test reCAPTCHA Verification
 
-```ruby
-# In Rails console (bin/rails console)
-# Test with a valid token (you'll need to capture one from a real submission)
-controller = ContactsController.new
-controller.verify_recaptcha
+`verify_recaptcha` relies on the current HTTP request and its parameters, so it cannot be reliably tested in isolation from the Rails console.
+
+To test verification:
+
+1. Use your browser as described above in **In Development** (submit the contact form with and without completing the reCAPTCHA).
+2. Or run the automated test suite for the contact form controller:
+
+```bash
+bin/rails test test/controllers/contacts_controller_test.rb
 ```
 
 ## How It Works
