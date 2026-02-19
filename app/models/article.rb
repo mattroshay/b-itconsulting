@@ -31,6 +31,17 @@ class Article < ApplicationRecord
     update_column(:linkedin_shared_at, Time.current)
   end
 
+  # Instagram sharing status
+  def shared_on_instagram?
+    instagram_shared_at.present?
+  end
+
+  def mark_shared_on_instagram!(media_id: nil)
+    updates = { instagram_shared_at: Time.current }
+    updates[:instagram_media_id] = media_id if media_id.present?
+    update_columns(updates)
+  end
+
   private
 
   def media_types_ok
