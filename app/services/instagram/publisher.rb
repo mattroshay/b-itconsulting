@@ -14,8 +14,6 @@ module Instagram
     GRAPH_BASE_URL = ENV.fetch("INSTAGRAM_GRAPH_BASE_URL", "https://graph.facebook.com").freeze
     GRAPH_VERSION = ENV.fetch("INSTAGRAM_GRAPH_API_VERSION", "v20.0").freeze
     DEFAULT_TIMEOUT = 10
-    CONTAINER_MAX_ATTEMPTS = 10
-    CONTAINER_POLL_INTERVAL = 2
 
     def initialize(config: Rails.application.config.x.instagram)
       @config = config
@@ -25,13 +23,23 @@ module Instagram
       @config.enabled
     end
 
-    def publish!(caption:, image_url: nil, video_url: nil)
+    def create_container!(caption:, image_url: nil, video_url: nil)
       raise Instagram::Error, "Instagram integration disabled" unless enabled?
       validate_inputs!(caption: caption, image_url: image_url, video_url: video_url)
+      create_media_container(caption: caption, image_url: image_url, video_url: video_url)
+    end
 
-      container_id = create_media_container(caption: caption, image_url: image_url, video_url: video_url)
-      wait_for_container(container_id)
-      publish_container(container_id)
+    def container_status(container_id)
+      response = get("/#{container_id}", "fields" => "status_code")
+      body = parse_response!(response)
+      body["status_code"]
+    end
+
+    def publish_container!(container_id)
+      params = base_params.merge("creation_id" => container_id)
+      response = post("/#{@config.ig_user_id}/media_publish", params)
+      body = parse_response!(response)
+      body["id"]
     end
 
     private
@@ -57,35 +65,6 @@ module Instagram
       response = post("/#{@config.ig_user_id}/media", params)
       body = parse_response!(response)
       body.fetch("id")
-    end
-
-    def wait_for_container(container_id)
-      CONTAINER_MAX_ATTEMPTS.times do
-        status = fetch_container_status(container_id)
-        case status
-        when "FINISHED"
-          return true
-        when "ERROR"
-          raise Instagram::Error, "Instagram media processing failed for container #{container_id}"
-        else
-          sleep CONTAINER_POLL_INTERVAL
-        end
-      end
-
-      raise Instagram::Error, "Instagram media processing timed out for container #{container_id}"
-    end
-
-    def fetch_container_status(container_id)
-      response = get("/#{container_id}", "fields" => "status_code")
-      body = parse_response!(response)
-      body["status_code"]
-    end
-
-    def publish_container(container_id)
-      params = base_params.merge("creation_id" => container_id)
-      response = post("/#{@config.ig_user_id}/media_publish", params)
-      body = parse_response!(response)
-      body["id"]
     end
 
     def base_params

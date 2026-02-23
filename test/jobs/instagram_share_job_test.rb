@@ -34,7 +34,9 @@ class InstagramShareJobTest < ActiveJob::TestCase
     article = create_article_with_media!
     stub_instagram_graph_success
 
-    InstagramShareJob.perform_now(article.id)
+    perform_enqueued_jobs do
+      InstagramShareJob.perform_now(article.id)
+    end
 
     assert article.reload.shared_on_instagram?, "Article should be marked as shared"
     assert_equal "media_456", article.instagram_media_id

@@ -30,14 +30,14 @@ class InstagramShareJob < ApplicationJob
     caption = build_caption(article)
     publisher = Instagram::Publisher.new(config: config)
 
-    media_id = publisher.publish!(
+    container_id = publisher.create_container!(
       caption: caption,
       image_url: media_payload[:image_url],
       video_url: media_payload[:video_url]
     )
 
-    article.mark_shared_on_instagram!(media_id: media_id)
-    Rails.logger.info("Article ##{article.id} successfully shared to Instagram (media #{media_id})")
+    InstagramPollContainerJob.perform_later(article.id, container_id)
+    Rails.logger.info("Article ##{article.id}: container #{container_id} created, polling enqueued")
   rescue Instagram::RateLimitError => e
     Rails.logger.warn("Instagram rate limit reached for article ##{article_id}: #{e.message} (no retry)")
   rescue Instagram::TokenExpiredError => e
