@@ -18,7 +18,8 @@ module ShareableArticleUrl
   end
 
   def build_app_url_options
-    host = ENV["APP_HOST"]
+    cfg = Rails.application.config.x
+    host = cfg.app_host
     if host.blank?
       if Rails.env.production?
         Rails.logger.error(
@@ -35,8 +36,8 @@ module ShareableArticleUrl
       end
     end
 
-    protocol = ENV["APP_PROTOCOL"] || "https"
-    port = ENV["APP_PORT"]
+    protocol = cfg.app_protocol || "https"
+    port = cfg.app_port
 
     options = { host: host, protocol: protocol }
     options[:port] = port.to_i if port.present? && port.to_i.positive?

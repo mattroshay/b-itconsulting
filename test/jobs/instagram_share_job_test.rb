@@ -16,15 +16,15 @@ class InstagramShareJobTest < ActiveJob::TestCase
 
     enable_instagram_config!
     WebMock.enable!
-    @original_app_host = ENV["APP_HOST"]
-    ENV["APP_HOST"] = "example.com"
+    @original_app_host = Rails.application.config.x.app_host
+    Rails.application.config.x.app_host = "example.com"
   end
 
   teardown do
     @original_instagram_settings.each do |attr, value|
       @instagram_config.public_send("#{attr}=", value)
     end
-    ENV["APP_HOST"] = @original_app_host
+    Rails.application.config.x.app_host = @original_app_host
     clear_enqueued_jobs
     clear_performed_jobs
     WebMock.disable!
