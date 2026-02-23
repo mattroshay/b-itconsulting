@@ -93,7 +93,9 @@ class InstagramShareJobTest < ActiveJob::TestCase
     article = create_article_with_media!(content_type: "video/mp4", filename: "sample.mp4")
     stub_instagram_graph_success
 
-    InstagramShareJob.perform_now(article.id)
+    perform_enqueued_jobs do
+      InstagramShareJob.perform_now(article.id)
+    end
 
     assert article.reload.shared_on_instagram?
     assert_requested(:post, "https://graph.facebook.com/v20.0/#{@instagram_config.ig_user_id}/media") do |req|
