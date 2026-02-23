@@ -64,7 +64,7 @@ class InstagramShareJobTest < ActiveJob::TestCase
 
     stub_instagram_container_error
 
-    assert_raises(Instagram::TokenExpiredError) do
+    assert_raises(Instagram::ValidationError) do
       InstagramShareJob.perform_now(article.id)
     end
     assert_not article.reload.shared_on_instagram?

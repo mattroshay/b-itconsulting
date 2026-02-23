@@ -8,6 +8,7 @@ module Instagram
   class Error < StandardError; end
   class TokenExpiredError < Error; end
   class RateLimitError < Error; end
+  class ValidationError < Error; end
 
   class Publisher
     GRAPH_BASE_URL = ENV.fetch("INSTAGRAM_GRAPH_BASE_URL", "https://graph.facebook.com").freeze
@@ -128,7 +129,10 @@ module Instagram
       case code
       when 200, 201
         body || {}
-      when 400, 401, 403
+      when 400
+        error_message = body&.dig("error", "message") || response.body
+        raise Instagram::ValidationError, error_message
+      when 401, 403
         error_message = body&.dig("error", "message") || response.body
         raise Instagram::TokenExpiredError, error_message
       when 429
