@@ -145,7 +145,7 @@ class InstagramShareJobTest < ActiveJob::TestCase
     stub_request(:post, "https://graph.facebook.com/v20.0/#{@instagram_config.ig_user_id}/media")
       .to_return(status: 200, body: { id: "container_123" }.to_json, headers: { "Content-Type" => "application/json" })
     stub_request(:get, "https://graph.facebook.com/v20.0/container_123")
-      .with(query: hash_including("fields" => "status_code"))
+      .with(query: hash_including("fields" => "status_code", "access_token" => @instagram_config.access_token))
       .to_return(status: 200, body: { status_code: "IN_PROGRESS" }.to_json, headers: { "Content-Type" => "application/json" })
     Instagram::Publisher.any_instance.stubs(:sleep)
 
@@ -188,7 +188,7 @@ class InstagramShareJobTest < ActiveJob::TestCase
       .to_return(status: 200, body: { id: "container_123" }.to_json, headers: { "Content-Type" => "application/json" })
 
     stub_request(:get, "https://graph.facebook.com/v20.0/container_123")
-      .with(query: hash_including("fields" => "status_code"))
+      .with(query: hash_including("fields" => "status_code", "access_token" => @instagram_config.access_token))
       .to_return(status: 200, body: { status_code: "FINISHED" }.to_json, headers: { "Content-Type" => "application/json" })
 
     stub_request(:post, "https://graph.facebook.com/v20.0/#{@instagram_config.ig_user_id}/media_publish")

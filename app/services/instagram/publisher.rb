@@ -30,7 +30,10 @@ module Instagram
     end
 
     def container_status(container_id)
-      response = get("/#{container_id}", "fields" => "status_code")
+      raise Instagram::Error, "Instagram integration disabled" unless enabled?
+      raise Instagram::Error, "Instagram access token missing" if @config.access_token.blank?
+
+      response = get("/#{container_id}", base_params.merge("fields" => "status_code"))
       body = parse_response!(response)
       body["status_code"]
     end

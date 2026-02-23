@@ -78,7 +78,7 @@ class InstagramPollContainerJobTest < ActiveJob::TestCase
 
   def stub_status(status_code)
     stub_request(:get, "https://graph.facebook.com/v20.0/#{CONTAINER_ID}")
-      .with(query: hash_including("fields" => "status_code"))
+      .with(query: hash_including("fields" => "status_code", "access_token" => @instagram_config.access_token))
       .to_return(
         status: 200,
         body: { status_code: status_code }.to_json,
