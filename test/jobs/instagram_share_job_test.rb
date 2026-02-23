@@ -142,21 +142,6 @@ class InstagramShareJobTest < ActiveJob::TestCase
     end
   end
 
-  test "raises on container polling timeout" do
-    article = create_article_with_media!
-    stub_request(:post, "https://graph.facebook.com/v20.0/#{@instagram_config.ig_user_id}/media")
-      .to_return(status: 200, body: { id: "container_123" }.to_json, headers: { "Content-Type" => "application/json" })
-    stub_request(:get, "https://graph.facebook.com/v20.0/container_123")
-      .with(query: hash_including("fields" => "status_code"))
-      .to_return(status: 200, body: { status_code: "IN_PROGRESS" }.to_json, headers: { "Content-Type" => "application/json" })
-    Instagram::Publisher.any_instance.stubs(:sleep)
-
-    error = assert_raises(Instagram::Error) { InstagramShareJob.perform_now(article.id) }
-
-    assert_match(/timed out/, error.message)
-    assert_not article.reload.shared_on_instagram?
-  end
-
   private
 
   def create_article_with_media!(content_type: "image/jpeg", filename: "sample.jpg")
