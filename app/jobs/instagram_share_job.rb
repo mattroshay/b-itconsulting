@@ -4,6 +4,8 @@ require "net/http"
 require_relative "../services/instagram/publisher"
 
 class InstagramShareJob < ApplicationJob
+  include ShareableArticleUrl
+
   queue_as :default
 
   discard_on ActiveRecord::RecordNotFound
@@ -90,35 +92,7 @@ class InstagramShareJob < ApplicationJob
     nil
   end
 
-  def article_url_for(article)
-    url_helpers.article_url(article, **default_url_options)
-  end
-
   def blob_url_for(attachment)
-    url_helpers.rails_blob_url(attachment, **default_url_options)
-  end
-
-  def url_helpers
-    Rails.application.routes.url_helpers
-  end
-
-  def default_url_options
-    host = ENV["APP_HOST"]
-    if host.blank?
-      if Rails.env.production?
-        Rails.logger.error("APP_HOST environment variable is not set; cannot generate public article URL for Instagram sharing in production")
-        raise StandardError, "APP_HOST environment variable must be configured in production"
-      else
-        Rails.logger.warn("APP_HOST environment variable is not set; defaulting to example.com for non-production Instagram sharing")
-        host = "example.com"
-      end
-    end
-
-    protocol = ENV["APP_PROTOCOL"] || "https"
-    port = ENV["APP_PORT"]
-
-    options = { host: host, protocol: protocol }
-    options[:port] = port.to_i if port.present? && port.to_i.positive?
-    options
+    url_helpers.rails_blob_url(attachment, **app_url_options)
   end
 end
