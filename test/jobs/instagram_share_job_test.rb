@@ -70,9 +70,92 @@ class InstagramShareJobTest < ActiveJob::TestCase
     assert_not article.reload.shared_on_instagram?
   end
 
+  test "skips article without media attachment" do
+    article = Article.create!(
+      title: "No media article",
+      user: User.create!(
+        first_name: "IG",
+        last_name: "Tester",
+        email: "ig-no-media-#{SecureRandom.hex(4)}@example.com",
+        password: "password123"
+      )
+    )
+
+    InstagramShareJob.perform_now(article.id)
+
+    assert_not article.reload.shared_on_instagram?
+    assert_requested :post, %r{graph\.facebook\.com}, times: 0
+  end
+
+  test "shares video attachment via video_url parameter" do
+    article = create_article_with_media!(content_type: "video/mp4", filename: "sample.mp4")
+    stub_instagram_graph_success
+
+    InstagramShareJob.perform_now(article.id)
+
+    assert article.reload.shared_on_instagram?
+    assert_requested(:post, "https://graph.facebook.com/v20.0/#{@instagram_config.ig_user_id}/media") do |req|
+      params = URI.decode_www_form(req.body).to_h
+      params["media_type"] == "VIDEO" && params.key?("video_url") && !params.key?("image_url")
+    end
+  end
+
+  test "caption includes title, article URL, and hashtags" do
+    article = create_article_with_media!
+    stub_instagram_graph_success
+
+    InstagramShareJob.perform_now(article.id)
+
+    assert_requested(:post, "https://graph.facebook.com/v20.0/#{@instagram_config.ig_user_id}/media") do |req|
+      params = URI.decode_www_form(req.body).to_h
+      caption = params["caption"].to_s
+      caption.include?(article.title) && caption.match?(%r{https://example\.com/}) && caption.include?("#test")
+    end
+  end
+
+  test "silently handles rate limit error without raising" do
+    article = create_article_with_media!
+    stub_request(:post, "https://graph.facebook.com/v20.0/#{@instagram_config.ig_user_id}/media")
+      .to_return(
+        status: 429,
+        body: { error: { message: "API rate limit exceeded" } }.to_json,
+        headers: { "Content-Type" => "application/json" }
+      )
+
+    assert_nothing_raised { InstagramShareJob.perform_now(article.id) }
+    assert_not article.reload.shared_on_instagram?
+  end
+
+  test "sends media URL containing APP_HOST for image attachment" do
+    article = create_article_with_media!
+    stub_instagram_graph_success
+
+    InstagramShareJob.perform_now(article.id)
+
+    assert_requested(:post, "https://graph.facebook.com/v20.0/#{@instagram_config.ig_user_id}/media") do |req|
+      params = URI.decode_www_form(req.body).to_h
+      params["image_url"].to_s.match?(%r{\Ahttps://example\.com/})
+    end
+  end
+
+  test "raises on container polling timeout" do
+    article = create_article_with_media!
+    stub_request(:post, "https://graph.facebook.com/v20.0/#{@instagram_config.ig_user_id}/media")
+      .to_return(status: 200, body: { id: "container_123" }.to_json, headers: { "Content-Type" => "application/json" })
+    stub_request(:get, "https://graph.facebook.com/v20.0/container_123")
+      .with(query: hash_including("fields" => "status_code"))
+      .to_return(status: 200, body: { status_code: "IN_PROGRESS" }.to_json, headers: { "Content-Type" => "application/json" })
+    Instagram::Publisher.any_instance.stubs(:sleep)
+
+    error = assert_raises(Instagram::Error) { InstagramShareJob.perform_now(article.id) }
+
+    assert_match(/timed out/, error.message)
+    assert_not article.reload.shared_on_instagram?
+  end
+
   private
 
-  def create_article_with_media!
+  def create_article_with_media!(content_type: "image/jpeg", filename: "sample.jpg")
     article = Article.create!(
       title: "Instagram test post",
       user: User.create!(
@@ -85,8 +168,8 @@ class InstagramShareJobTest < ActiveJob::TestCase
 
     article.media.attach(
       io: File.open(file_fixture("sample.jpg")),
-      filename: "sample.jpg",
-      content_type: "image/jpeg"
+      filename: filename,
+      content_type: content_type
     )
     article
   end
