@@ -5,7 +5,9 @@ require "webmock/minitest"
 
 module Instagram
   class PublisherTest < ActiveSupport::TestCase
-    GRAPH_BASE = "https://graph.facebook.com/v20.0".freeze
+    GRAPH_BASE_URL = ENV.fetch("INSTAGRAM_GRAPH_BASE_URL", "https://graph.facebook.com").freeze
+    GRAPH_VERSION  = ENV.fetch("INSTAGRAM_GRAPH_API_VERSION", "v20.0").freeze
+    GRAPH_BASE     = "#{GRAPH_BASE_URL}/#{GRAPH_VERSION}".freeze
 
     setup do
       @instagram_config = Rails.application.config.x.instagram
