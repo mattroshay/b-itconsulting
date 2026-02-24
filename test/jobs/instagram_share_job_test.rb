@@ -16,15 +16,15 @@ class InstagramShareJobTest < ActiveJob::TestCase
 
     enable_instagram_config!
     WebMock.enable!
-    @original_app_host = ENV["APP_HOST"]
-    ENV["APP_HOST"] = "example.com"
+    @original_app_host = Rails.application.config.x.app_host
+    Rails.application.config.x.app_host = "example.com"
   end
 
   teardown do
     @original_instagram_settings.each do |attr, value|
       @instagram_config.public_send("#{attr}=", value)
     end
-    ENV["APP_HOST"] = @original_app_host
+    Rails.application.config.x.app_host = @original_app_host
     clear_enqueued_jobs
     clear_performed_jobs
     WebMock.disable!
@@ -93,7 +93,9 @@ class InstagramShareJobTest < ActiveJob::TestCase
     article = create_article_with_media!(content_type: "video/mp4", filename: "sample.mp4")
     stub_instagram_graph_success
 
-    InstagramShareJob.perform_now(article.id)
+    perform_enqueued_jobs do
+      InstagramShareJob.perform_now(article.id)
+    end
 
     assert article.reload.shared_on_instagram?
     assert_requested(:post, "https://graph.facebook.com/v20.0/#{@instagram_config.ig_user_id}/media") do |req|
