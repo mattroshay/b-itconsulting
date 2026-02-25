@@ -124,7 +124,11 @@ module Instagram
         raise Instagram::Error, "Instagram API #{code}: #{response.body}"
       end
     rescue JSON::ParserError
-      raise Instagram::Error, "Instagram API #{response.code}: invalid JSON response"
+      if response.code.to_i == 429
+        raise Instagram::RateLimitError, "Instagram API rate limit exceeded"
+      else
+        raise Instagram::Error, "Instagram API #{response.code}: invalid JSON response"
+      end
     end
   end
 end
