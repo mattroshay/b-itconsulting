@@ -174,6 +174,37 @@ module Instagram
       assert_equal "post_789", post_id
     end
 
+    test "publish_container! raises Error when integration is disabled" do
+      @instagram_config.enabled = false
+      publisher = Instagram::Publisher.new
+
+      error = assert_raises(Instagram::Error) do
+        publisher.publish_container!("container_123")
+      end
+
+      assert_equal "Instagram integration disabled", error.message
+    end
+
+    test "publish_container! raises Error when access_token is missing" do
+      @instagram_config.access_token = nil
+
+      error = assert_raises(Instagram::Error) do
+        @publisher.publish_container!("container_123")
+      end
+
+      assert_equal "Instagram access token missing", error.message
+    end
+
+    test "publish_container! raises Error when ig_user_id is missing" do
+      @instagram_config.ig_user_id = nil
+
+      error = assert_raises(Instagram::Error) do
+        @publisher.publish_container!("container_123")
+      end
+
+      assert_equal "Instagram user id missing", error.message
+    end
+
     # Test error handling in parse_response!
     test "raises ValidationError on 400 response" do
       stub_create_container_error(400, { "error" => { "message" => "Invalid parameter" } }.to_json)
