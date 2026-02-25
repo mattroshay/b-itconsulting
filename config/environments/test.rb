@@ -7,7 +7,7 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   config.x.app_host = ENV.fetch("APP_HOST", "localhost")
-  config.x.app_protocol = ENV.fetch("APP_PROTOCOL", "http")
+  config.x.app_protocol = ENV.fetch("APP_PROTOCOL", "https")
   config.x.app_port = nil
 
   # Settings specified here will take precedence over those in config/application.rb.
