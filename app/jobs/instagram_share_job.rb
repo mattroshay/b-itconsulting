@@ -4,7 +4,7 @@ require "net/http"
 require_relative "../services/instagram/publisher"
 
 class InstagramShareJob < ApplicationJob
-  include ShareableArticleUrl
+  include Concerns::ShareableArticleUrl
 
   queue_as :default
 
