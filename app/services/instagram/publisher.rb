@@ -39,6 +39,10 @@ module Instagram
     end
 
     def publish_container!(container_id)
+      raise Instagram::Error, "Instagram integration disabled" unless enabled?
+      raise Instagram::Error, "Instagram access token missing" if @config.access_token.blank?
+      raise Instagram::Error, "Instagram user id missing" if @config.ig_user_id.blank?
+
       params = base_params.merge("creation_id" => container_id)
       response = post("/#{@config.ig_user_id}/media_publish", params)
       body = parse_response!(response)
