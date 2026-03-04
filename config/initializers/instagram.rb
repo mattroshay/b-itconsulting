@@ -14,7 +14,7 @@ instagram_config.default_hashtags =
     .reject(&:blank?)
 instagram_config.enabled =
   instagram_config.access_token.present? &&
-  instagram_config.ig_user_id.present?
+  instagram_config.ig_user_id.present??
 
 unless instagram_config.enabled
   Rails.logger.info("Instagram publishing disabled (missing credentials)")
