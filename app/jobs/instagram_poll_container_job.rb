@@ -13,6 +13,9 @@ class InstagramPollContainerJob < ApplicationJob
   retry_on Net::OpenTimeout, Net::ReadTimeout, Timeout::Error, Errno::ECONNRESET, wait: 10.seconds, attempts: 3
 
   def perform(article_id, container_id)
+    article = Article.find(article_id)
+    return Rails.logger.info("Article ##{article_id} already shared on Instagram, skipping") if article.shared_on_instagram?
+
     config = Rails.application.config.x.instagram
     publisher = Instagram::Publisher.new(config: config)
 
@@ -20,7 +23,6 @@ class InstagramPollContainerJob < ApplicationJob
 
     case status
     when "FINISHED"
-      article = Article.find(article_id)
       media_id = publisher.publish_container!(container_id)
       article.mark_shared_on_instagram!(media_id: media_id)
       Rails.logger.info("Article ##{article_id} successfully shared to Instagram (media #{media_id})")

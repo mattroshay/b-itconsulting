@@ -6,7 +6,6 @@ require "securerandom"
 
 class InstagramPollContainerJobTest < ActiveJob::TestCase
   CONTAINER_ID = "container_123"
-  ARTICLE_ID   = 42
 
   setup do
     @instagram_config = Rails.application.config.x.instagram
@@ -38,28 +37,38 @@ class InstagramPollContainerJobTest < ActiveJob::TestCase
   end
 
   test "raises ContainerPendingError when container is still IN_PROGRESS" do
+    article = create_article!
     stub_status("IN_PROGRESS")
 
     assert_raises(InstagramPollContainerJob::ContainerPendingError) do
-      InstagramPollContainerJob.perform_now(ARTICLE_ID, CONTAINER_ID)
+      InstagramPollContainerJob.perform_now(article.id, CONTAINER_ID)
     end
   end
 
   test "raises Instagram::Error when container reports ERROR status" do
+    article = create_article!
     stub_status("ERROR")
 
     assert_raises(Instagram::Error) do
-      InstagramPollContainerJob.perform_now(ARTICLE_ID, CONTAINER_ID)
+      InstagramPollContainerJob.perform_now(article.id, CONTAINER_ID)
     end
   end
 
   test "discards job when article is not found" do
-    stub_status("FINISHED")
-    stub_publish
-
     assert_nothing_raised do
       InstagramPollContainerJob.perform_now(0, CONTAINER_ID)
     end
+    assert_not_requested :get, /graph\.facebook\.com/
+  end
+
+  test "skips API call and does not re-publish when article is already shared" do
+    article = create_article!
+    article.mark_shared_on_instagram!(media_id: "existing_media")
+
+    InstagramPollContainerJob.perform_now(article.id, CONTAINER_ID)
+
+    assert_not_requested :get, /graph\.facebook\.com/
+    assert_equal "existing_media", article.reload.instagram_media_id
   end
 
   private
