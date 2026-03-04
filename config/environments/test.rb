@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+require "uri"
 
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
@@ -6,9 +7,13 @@ require "active_support/core_ext/integer/time"
 # and recreated between test runs. Don't rely on the data there!
 
 Rails.application.configure do
-  config.x.app_host = ENV.fetch("APP_HOST", "localhost")
-  config.x.app_protocol = ENV.fetch("APP_PROTOCOL", "https")
-  config.x.app_port = nil
+  raw_app_host = ENV.fetch("APP_HOST", "localhost")
+  raw_app_protocol = ENV.fetch("APP_PROTOCOL", "https")
+  uri = raw_app_host.include?("://") ? URI.parse(raw_app_host) : URI.parse("#{raw_app_protocol}://#{raw_app_host}")
+
+  config.x.app_host = uri.host
+  config.x.app_protocol = uri.scheme || raw_app_protocol
+  config.x.app_port = (uri.port && ![80, 443].include?(uri.port)) ? uri.port : nil
 
   # Settings specified here will take precedence over those in config/application.rb.
 

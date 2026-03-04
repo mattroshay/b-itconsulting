@@ -1,8 +1,14 @@
 require "active_support/core_ext/integer/time"
+require "uri"
 
 Rails.application.configure do
-  config.x.app_host = ENV.fetch("APP_HOST", "localhost")
-  config.x.app_protocol = ENV.fetch("APP_PROTOCOL", "http")
+  raw_app_host = ENV.fetch("APP_HOST", "localhost")
+  raw_app_protocol = ENV.fetch("APP_PROTOCOL", "http")
+  uri = URI.parse(raw_app_host.include?("://") ? raw_app_host : "#{raw_app_protocol}://#{raw_app_host}")
+
+  config.x.app_host = uri.host
+  config.x.app_protocol = uri.scheme || raw_app_protocol
+  config.x.app_port = (uri.port && ![80, 443].include?(uri.port)) ? uri.port : nil
 
   config.action_mailer.default_url_options = { host: config.x.app_host, protocol: config.x.app_protocol }
   # Settings specified here will take precedence over those in config/application.rb.
