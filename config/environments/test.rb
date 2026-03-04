@@ -9,7 +9,7 @@ require "uri"
 Rails.application.configure do
   raw_app_host = ENV.fetch("APP_HOST", "localhost")
   raw_app_protocol = ENV.fetch("APP_PROTOCOL", "https")
-  uri = raw_app_host.include?("://") ? URI.parse(raw_app_host) : URI::Generic.build(scheme: raw_app_protocol, host: raw_app_host)
+  uri = raw_app_host.include?("://") ? URI.parse(raw_app_host) : URI.parse("#{raw_app_protocol}://#{raw_app_host}")
 
   config.x.app_host = uri.host
   config.x.app_protocol = uri.scheme || raw_app_protocol
