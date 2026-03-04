@@ -12,6 +12,7 @@ class ArticlesController < ApplicationController
     if @article.save
       # Queue LinkedIn sharing if enabled
       LinkedinShareJob.perform_later(@article.id) if Rails.application.config.x.linkedin.enabled
+      InstagramShareJob.perform_later(@article.id) if Rails.application.config.x.instagram.enabled
       redirect_to article_path(@article), notice: "Article créé avec succès."
     else
       render :new, status: :unprocessable_entity

@@ -4,6 +4,8 @@ require "net/http"
 require_relative "../services/linkedin/publisher"
 
 class LinkedinShareJob < ApplicationJob
+  include Concerns::ShareableArticleUrl
+
   queue_as :default
 
   discard_on ActiveRecord::RecordNotFound
@@ -63,33 +65,6 @@ class LinkedinShareJob < ApplicationJob
 
     limit = 300
     cleaned.length > limit ? "#{cleaned[0, limit].rstrip}…" : cleaned
-  end
-
-  def article_url_for(article)
-    helpers = Rails.application.routes.url_helpers
-
-    fallback_host = ENV["APP_HOST"]
-    if fallback_host.blank?
-      if Rails.env.production?
-        Rails.logger.error("APP_HOST environment variable is not set; cannot generate public article URL for LinkedIn sharing in production")
-        raise StandardError, "APP_HOST environment variable must be configured in production"
-      else
-        Rails.logger.warn("APP_HOST environment variable is not set; defaulting to example.com for non-production article URL generation")
-        fallback_host = "example.com"
-      end
-    end
-    fallback_protocol = ENV["APP_PROTOCOL"] || "https"
-    fallback_port = ENV["APP_PORT"]
-
-    # Build options explicitly to avoid inheriting problematic :port from global defaults
-    url_options = {
-      host: fallback_host,
-      protocol: fallback_protocol
-    }
-    # Only add port if explicitly set and non-standard
-    url_options[:port] = fallback_port.to_i if fallback_port.present? && fallback_port.to_i > 0
-
-    helpers.article_url(article, **url_options)
   end
 
   def article_image_url(article)
