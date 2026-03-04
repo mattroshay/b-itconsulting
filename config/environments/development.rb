@@ -10,7 +10,9 @@ Rails.application.configure do
   config.x.app_protocol = uri.scheme || raw_app_protocol
   config.x.app_port = (uri.port && ![80, 443].include?(uri.port)) ? uri.port : nil
 
-  config.action_mailer.default_url_options = { host: config.x.app_host, protocol: config.x.app_protocol }
+  url_options = { host: config.x.app_host, protocol: config.x.app_protocol }
+  url_options[:port] = config.x.app_port if config.x.app_port
+  config.action_mailer.default_url_options = url_options
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
